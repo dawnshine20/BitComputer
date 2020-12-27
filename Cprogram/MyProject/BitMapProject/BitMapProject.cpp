@@ -147,6 +147,8 @@ int main()
     // 세로 크기만큼 반복
     for (int y = 0; y < prevHeight; y++)
     {
+        if (y % 2 != 0)
+            continue;
         // 가로 크기만큼 반복
         for (int x = 0; x < prevWidth; x++)
         {
@@ -155,9 +157,6 @@ int main()
             // (y * (세로 크기 * 픽셀 크기))는 픽셀이 몇 번째 줄인지 계산
             // 남는 공간 * y는 줄별로 누적된 남는 공간
             
-            if (y % 2 != 0)
-                continue;
-
             if (x % 2 != 0)
                 continue;
 
