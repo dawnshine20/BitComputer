@@ -88,7 +88,7 @@ int main()
 
 	//// 3
 		//f3(new int[10], 10); // <<<<<<<<<<< 
-		//delete[] f3(new int[10], 10); << 보편적으로 해제시키는 방안1
+		//delete[] f3(new int[10], 10); << 보편적으로 해제시키는 방안1(f3함수 return 주소 반환)
 		//f4(new int, 10); // <<<<<<<<<<< 
 		//delete f3(new int[10], 10); << 보편적으로 해제시키는 방안2
 #pragma endregion
@@ -194,7 +194,7 @@ int main()
 		//z->s05[1].s01.c = new int;
 		//*z->s05[1].s01.c >> 값
 		//z->s05[1].s01.c >> 주소*/
-		////↓↓↓↓↓
+		////↓↓↓↓↓ 문제 풀이
 		//z = new ST03;
 		//for (int i = 0; i < 3; i++)
 		//{
@@ -221,11 +221,6 @@ int main()
 		//	delete[] z->s05[i].s01.c;
 		//}
 		//
-
-	////모두다 포인터
-		///*z = new >> z->s06 = new >> z->s06->s03 = new >> z->s06->s03->c = new
-		//*z->s06->s03-> c
-		//*z->s06[0].s03-> c*/
 #pragma endregion
 #pragma region struct3
 
@@ -259,6 +254,7 @@ int main()
 
 ////*z입장 <-> *c입장
 ////   1			1
+////----------------------
 ////   1			n
 ////z = new STRU;
 ////z->c = new int[5];
@@ -302,8 +298,8 @@ int main()
 //{
 //	printf("%p %d\n", &z[1].c[i], z[1].c[i]);
 //}
-//delete z[0].c;
-//delete[] z[0].c;
+//delete[] z[1].c;	//
+//delete z[0].c;	//
 //delete[] z;
 
 
@@ -460,7 +456,7 @@ printf("%d %p\n",
 //	//
 //	//
 //	int* p = NULL;
-//
+//// 중간에 코드 들어감
 //	if (p == NULL) { // 방어적인 프로그램
 //		p = new int;
 //	}
@@ -492,11 +488,11 @@ printf("%d %p\n",
 
 //for (int i = 0; i < 2; i++)
 //{
-//	p[i] = new int* [3];
+//	p[i] = new int* [3]; // 행 단위 갯수 선언
 //}
-//for (int i = 0; i < 2; i++)
+//for (int i = 0; i < 2; i++) // 면
 //{
-//	for (int j = 0; j < 3; j++)
+//	for (int j = 0; j < 3; j++) //행
 //	{
 //		p[i][j] = new int[4]; // i는 면, j는 행 -> new를 통해서 열 4개씩 생성
 //	}
@@ -548,9 +544,9 @@ printf("%d %p\n",
 //	**pp = 100;
 //}
 //void f2(int** pp, int s) {
-//	*pp = new int[10];
+//	*pp = new int[s];
 //}
-//int * f3(){
+//int* f3(){
 //int* pp = new int[10];
 //return pp;
 //}
@@ -558,15 +554,15 @@ printf("%d %p\n",
 //{
 //	int* p = f3();
 //	delete[] p;
-//
+///////////////////
 //	int* p;
 //	f1(&p);
 //	printf("%d\n", *p); // 확보된 메모리 사용
 //	delete p; // 확보된 메모리 해제 담당
-//
+///////////////////
 //	int* tt;
 //	f2(&tt, 10);
-//	//tt[0-9]
+//	//tt[0-9] 만들어짐
 //	delete[] tt;
 //}
 #pragma endregion
@@ -574,11 +570,13 @@ printf("%d %p\n",
 //int* a;
 //int** b;
 //a = 주소; //              &a(현재 알고있음), a(x), *a(x)
-//b = 주소; // &b(알고있음,  b(o),               *b,   **b
+
 //*b = 주소;
-//b = &a;
+//b = &a; //
+//b = 주소; // &b(알고있음,  b(o),             *b(x),**b(x)
+
 //a = new int;
-//*b = new int;// a = new int;
+//*b = new int;// a = new int; 한것 과 같음 (&a와 b는 공유되고있기 때문)
 //*a = 100;// **b = 100;
 //printf("%d\n", *a);
 //printf("%p %p\n", a, *b);
@@ -667,7 +665,7 @@ printf("%d %p\n",
 
 //int* p1, * p2, * p3;
 ////↓ height는 알고 있는데 width를 모르는 경우
-//int* br[3];
+//int* br[3];// 포인터 배열
 //int d = 100;
 //br[0] = &d;
 //br[1] = new int;
@@ -734,29 +732,10 @@ printf("%d %p\n",
 //앞과 뒤의 숫자를 순차적으로 합한 결과를
 //출력하세요.
 //*/
-//int input; //12
-//scanf_s("%d", &input);
-//int* data = new int[input];
-//int randomData[] = { 0, };
 
 //// 랜덤한 숫자를 초기화시키고
 //// 앞과 뒤를 더한 결과 출력.
-//for (int i = 0; i < input; i++)
-//{
-//	randomData[i] = rand() % 10;
-//	printf("%d ", randomData[i]);
-//}printf("\n");
 
-//for (int i = 0; i < input; i++)
-//{
-//	if ((input - i) < i	)
-//		break;
-
-//	int result = randomData[i] + randomData[input - i];
-//	printf("%d\t", result);
-//}printf("\n");
-//delete[] data;
-///////////////////////
 ////상태변경 함수 + 결과(그리기,움직임) 함수로 나누는게 좋은 코드
 ////mvc패턴 중요 => member <-> view <-> control
 //int input;
