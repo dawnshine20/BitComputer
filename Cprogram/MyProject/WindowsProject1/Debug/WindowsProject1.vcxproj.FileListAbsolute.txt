@@ -1,0 +1,2 @@
+D:\HB\BITComputerLecture\BitComputer\Cprogram\MyProject\WindowsProject1\Debug\WindowsProject1.exe
+D:\HB\BITComputerLecture\BitComputer\Cprogram\MyProject\WindowsProject1\Debug\WindowsProject1.pdb
