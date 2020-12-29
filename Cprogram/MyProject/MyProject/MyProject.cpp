@@ -4,12 +4,234 @@
 #include <windows.h>
 #include <string.h>
 #include <time.h>
+
+// 1월달부터 12월 달까지 출력 (배열 ㅇ)
+//4. 2021년 달력 출력(1월 1일은 금요일)
+// 일 월 화 수 목 금 토
+//                1  2
+// 3  4  5  6  7  8  9
+// 10 11 12 13 14 15 16
+// 17 18 19 20 21 22 23
+// 24 25 26 27 28 29 30
+// 31
+
+
+
+#define STARTVALUE 100
 int main()
 {
 	//↓↑
 	srand((signed)time(NULL));
-
+	
 }
+
+#pragma region 12/29 Problem 1번
+//1.
+/* 배열 사용 (x) 10명이  0점부터 100점 랜덤하게 받아서 아래처럼 출력*/
+//95 * * * * * * * * *    수
+//90 * * * * * * * *      우
+//48 * * * *              가
+//65 * * * * * *          양
+//23 * *                  가
+//33 * * *                가
+//30 * * *                가
+//-------------------------------------
+//srand((signed)time(NULL));
+//int numberOfPeople = 0;
+//printf("사람 수를 입력하세요 : ");
+//scanf_s("%d", &numberOfPeople);
+//
+//for (int i = 0; i < numberOfPeople; i++)
+//{
+//	int* score = new int;
+//	*score = rand() % 101;
+//	printf("%d ", *score);
+//
+//	int numberOfGraphicScore = 0;
+//	numberOfGraphicScore = *score / 10;
+//
+//	for (int i = 0; i < numberOfGraphicScore; i++)
+//	{
+//		printf("* ");
+//	}
+//
+//	for (int i = 0; i < 10 - numberOfGraphicScore; i++)
+//	{
+//		printf("  ");
+//	}
+//
+//	if (numberOfGraphicScore == 0)
+//	{
+//		printf(" ");
+//	}
+//
+//	switch (numberOfGraphicScore)
+//	{
+//	case 9:
+//	{
+//		printf(" 수");
+//	}break;
+//	case 8:
+//	{
+//		printf(" 우");
+//	}break;
+//	case 7:
+//	{
+//		printf(" 미");
+//	}break;
+//	case 6:
+//	{
+//		printf(" 양");
+//	}break;
+//	default:
+//	{
+//		printf(" 가");
+//	}break;
+//
+//	}printf("\n");
+//
+//	delete score;
+//}
+#pragma endregion
+#pragma region 12/29 Problem 2번
+//2.
+/* 배열 사용 (x)*/
+// num = 5일때 결과.(단, num은 무조건 짝수 아님)
+//      *
+//    * * *
+//  * * * * *
+//    * * *
+//      *
+//-------------------------------------------------
+//int lineNumber = 0;
+//printf("(짝수만 입력) 라인 줄 수 : ");
+//scanf_s("%d", &lineNumber);
+//if (lineNumber % 2 != 1) // 홀수가 아니라면
+//return 0;
+//
+//
+//for (int i = 0; i < lineNumber; i++)
+//{
+//	for (int j = 0; j < lineNumber; j++)
+//	{
+//		if (i + j > 3 * (lineNumber / 2))
+//			printf("  ");
+//		else if ((i + j >= lineNumber / 2) && (j - i <= lineNumber / 2) && (i - j <= lineNumber / 2))
+//			printf("* ");
+//		else
+//			printf("  ");
+//	}printf("\n");
+//}
+#pragma endregion
+#pragma region 12/29 Problem 3번
+	//3. 배열 (x) 랜덤하게 o 와 x를 출력한 결과.
+	// o o o x x o o x o o >> 총 10 //// x o o o o o o x x x >> 총 10
+	// o : 3                          // o : 6개
+	// x : 2                          // x : 3개
+//---------------------------------------------------------
+//srand((signed)time(NULL));
+//int* saveO;
+//int* saveX;
+//int currentValue;
+//int countO = 0;
+//int countX = 0;
+//int prevValue = 0;
+//
+//int countAddressO = 0;
+//int countAddressX = 0;
+//
+//int number;
+//printf("총 출력 갯수 입력 : ");
+//scanf_s("%d", &number);
+//
+//saveO = new int[number / 2];
+//saveX = new int[number / 2];
+//
+//for (int i = 0; i < number; i++)
+//{
+//	currentValue = rand() % 2;
+//
+//	if (currentValue == 0)
+//	{
+//		countX++;
+//		printf("X ");
+//		if (prevValue != currentValue)
+//		{
+//			countAddressO++;
+//			*(saveO + countAddressO) = countO;
+//			countO = 0;
+//		}
+//	}
+//	else
+//	{
+//		countO++;
+//		printf("O ");
+//		if (prevValue != currentValue)
+//		{
+//			countAddressX++;
+//			*(saveX + countAddressX) = countX;
+//			countX = 0;
+//		}
+//	}
+//	prevValue = currentValue;
+//}printf("\n");
+//
+//if (currentValue == 0)
+//*(saveX + (++countAddressX)) = countX;
+//else
+//*(saveO + (++countAddressO)) = countO;
+//
+//
+//int result = 0;
+//for (int i = 1; i <= countAddressO; i++)
+//{
+//	if (result < *(saveO + i))
+//		result = *(saveO + i);
+//}printf("O : %d \n", result);
+//
+//result = 0;
+//for (int i = 1; i <= countAddressX; i++)
+//{
+//	if (result < *(saveX + i))
+//		result = *(saveX + i);
+//}printf("X : %d \n", result);
+//
+//
+//delete[] saveO;
+//delete[] saveX;
+//
+//return 0;
+#pragma endregion
+#pragma region 12/29 Problem 5번
+//5. 배열 사용 x
+//int a = 랜덤;(0-9)          // 3     3
+//int b = 랜덤;(0-9)          // 5     3
+//int c = 랜덤;(0-9)          // 9     6
+// 세개의 중간 수를 출력하시오     5     3
+//-----------------------------------------
+//srand((signed)time(NULL));
+//int a;
+//int b;
+//int c;
+//int middleNumber;
+//a = rand() % 10;
+//b = rand() % 10;
+//c = rand() % 10;
+//printf("%d\n", a);
+//printf("%d\n", b);
+//printf("%d\n", c);
+//if ((a > b && a < c) || (a < b && a > c))
+//	middleNumber = a;
+//else if ((a < b && b < c) || (a > b && b > c))
+//middleNumber = b;
+//else
+//middleNumber = c;
+//printf("중간 수는 %d 입니다.", middleNumber);
+#pragma endregion
+
+
+
+
 #pragma region Function2
 //void f5(int* p, int s)
 //{
