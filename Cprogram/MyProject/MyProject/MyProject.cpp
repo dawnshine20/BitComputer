@@ -4,25 +4,58 @@
 #include <windows.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
-// 1월달부터 12월 달까지 출력 (배열 ㅇ)
-//4. 2021년 달력 출력(1월 1일은 금요일)
-// 일 월 화 수 목 금 토
-//                1  2
-// 3  4  5  6  7  8  9
-// 10 11 12 13 14 15 16
-// 17 18 19 20 21 22 23
-// 24 25 26 27 28 29 30
-// 31
+int days[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+const char* wname[7] = { "일","월","화","수","목","금","토" };
 
-
-
-#define STARTVALUE 100
+int DrawMonth(int month, int start)
+{
+	int i = 0;
+	printf(" << %d 월>>\n", month + 1);//달
+	printf("=====================================================\n");
+	for (i = 0; i < 7; i++)//요일
+	{
+		printf("%7s", wname[i]);//폭 설정
+	}
+	printf("\n");
+	printf("-----------------------------------------------------\n");
+	for (i = 0; i < start; i++)//첫 주 시작일까지 공백 출력
+	{
+		printf("%7s", " ");//폭을 7로 설정
+	}
+	for (i = 0; i < days[month]; i++)//일 출력
+	{
+		printf("%7d", i + 1);//폭을 7로 설정
+		start++;
+		if (start == 7)//요일이 7이면
+		{
+			start = 0;//0으로 변경
+			printf("\n");//개행 출력
+		}
+	}
+	printf("\n");//개행 출력
+	printf("=====================================================\n");
+	return start;//다음 달 시작 요일 반환
+}
 int main()
 {
 	//↓↑
 	srand((signed)time(NULL));
+	int year = 2021;
+	int start = 5;
+	int i = 0;
+	if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))//윤년 판단
+	{
+		days[1] = 29;//2월달 29일
+	}
+	printf("[ %d년 ]\n", year);
+	for (int i = 0; i < 12; i++)
+	{
+		start = DrawMonth(i, start);
+	}
 	
+	return 0;
 }
 
 #pragma region 12/29 Problem 1번
@@ -106,17 +139,18 @@ int main()
 //int lineNumber = 0;
 //printf("(짝수만 입력) 라인 줄 수 : ");
 //scanf_s("%d", &lineNumber);
+//
 //if (lineNumber % 2 != 1) // 홀수가 아니라면
 //return 0;
 //
-//
+//int halfLineNumber = lineNumber / 2;
 //for (int i = 0; i < lineNumber; i++)
 //{
 //	for (int j = 0; j < lineNumber; j++)
 //	{
-//		if (i + j > 3 * (lineNumber / 2))
+//		if (i + j > 3 * (halfLineNumber))
 //			printf("  ");
-//		else if ((i + j >= lineNumber / 2) && (j - i <= lineNumber / 2) && (i - j <= lineNumber / 2))
+//		else if ((i + j >= halfLineNumber) && (j - i <= halfLineNumber) && (i - j <= halfLineNumber))
 //			printf("* ");
 //		else
 //			printf("  ");
@@ -202,6 +236,17 @@ int main()
 //
 //return 0;
 #pragma endregion
+#pragma region 12/29 Problem 4번
+// 1월달부터 12월 달까지 출력 (배열 ㅇ)
+//4. 2021년 달력 출력(1월 1일은 금요일)
+// 일 월 화 수 목 금 토
+//                1  2
+// 3  4  5  6  7  8  9
+// 10 11 12 13 14 15 16
+// 17 18 19 20 21 22 23
+// 24 25 26 27 28 29 30
+// 31
+#pragma endregion
 #pragma region 12/29 Problem 5번
 //5. 배열 사용 x
 //int a = 랜덤;(0-9)          // 3     3
@@ -209,17 +254,16 @@ int main()
 //int c = 랜덤;(0-9)          // 9     6
 // 세개의 중간 수를 출력하시오     5     3
 //-----------------------------------------
+// 가독성에 문제가 되기 때문에 좋은 코드가 아님
+// 가독성을 추가시키기 위해서는 주석이 필요하다.(if else 케이스에 대한 주석이 필수적으로 필요하다.)
 //srand((signed)time(NULL));
-//int a;
-//int b;
-//int c;
+//int a; int b; int c;
 //int middleNumber;
-//a = rand() % 10;
-//b = rand() % 10;
-//c = rand() % 10;
+//a = rand() % 10; b = rand() % 10; c = rand() % 10;
 //printf("%d\n", a);
 //printf("%d\n", b);
 //printf("%d\n", c);
+//
 //if ((a > b && a < c) || (a < b && a > c))
 //	middleNumber = a;
 //else if ((a < b && b < c) || (a > b && b > c))
@@ -229,8 +273,444 @@ int main()
 //printf("중간 수는 %d 입니다.", middleNumber);
 #pragma endregion
 
+#pragma region review 김선일 1번
+//int num = 0;
+//for (int a = 0; a < 10; a++)
+//{
+//	int num = ((rand() % 100) + 1);
+//	int result = num / 10;
+//	printf("%2d", num);
+//
+//	for (int b = 0; b < result; b++)
+//	{
+//		printf("*");
+//	}
+//	for (int b = 0; b < 10 - result; b++)
+//	{
+//		printf(" ");
+//	}
+//	switch (result)
+//	{
+//	case 10:
+//		printf("수");
+//		break;
+//	case 9:
+//		printf("우");
+//		break;
+//	case 8:
+//		printf("미");
+//		break;
+//	case 7:
+//		printf("양");
+//		break;
+//	default:
+//		printf("가");
+//		break;
+//	}printf("\n");
+//}
+#pragma endregion
 
+#pragma region review 정세연 2번
+//int inputData;
+//printf("숫자를 입력하세요(홀수만 가능): ");
+//scanf_s("%d", &inputData);
+//int halfInputData = inputData / 2 + 1;
+//if (inputData % 2 == 0) {
+//	printf("홀수만 가능합니다.");
+//	return 0;
+//}
+//
+//for (int i = 1; i <= inputData; i++) {
+//	for (int j = 1; j <= inputData; j++) {
+//		if (i <= halfInputData)
+//		{
+//			if ((j > halfInputData - i) && (j < halfInputData + i)) printf("* ");
+//			else printf("  ");
+//		}
+//		else
+//		{
+//			if ((j > i - halfInputData) && (j <= inputData - (i - halfInputData))) printf("* ");
+//			else printf("  ");
+//		}
+//	} printf("\n");
+//}
+#pragma endregion
+#pragma region review 이현 2번
+//int num;
+//int i, j;
+//int n = 1;
+//printf("num : ");
+//scanf_s("%d", &num);
+//int b = num / 2;
+//int s = num / 2;
+//for (i = 0; i < num; i++)
+//{
+//	if (i == num / 2)
+//	{
+//		n = n * -1;
+//	}
+//	for (j = 0; j < b; j++)
+//	{
+//		printf(" ");
+//	}
+//	for (j = 0; j < num - (2 * s); j++)
+//	{
+//		printf("*");
+//	}
+//	printf("\n");
+//	b = b - n;
+//	s -= n;
+//}
+#pragma endregion
+#pragma region review 이민혁 2번
+//int i, j;
+//int num = 9;
+//int count = num / 2 + 1; //마름모의 가운데 좌표
+////피라미드 그리기
+//for (i = 0; i < count; i++)
+//{
+//	//오른쪽 삼각형
+//	for (j = 0; j < count - i - 1; j++)
+//		printf(" ");
+//	for (j = 0; j <= i; j++)
+//		printf("*");
+//	//왼쪽 삼각형
+//	for (j = 1; j <= i; j++)
+//	{
+//		printf("*");
+//	}
+//	printf("\n");
+//}
+//////역 피라미드 그리기
+//for (i = 0; i < count - 1; i++)
+//{
+//	//역삼각형
+//	for (j = count; j >= count - i; j--)
+//	{
+//		printf(" ");
+//	}
+//	for (j = 1; j < count - i - 1; j++)
+//	{
+//		printf("*");
+//	}
+//	//왼쪽 역삼각형
+//	for (j = 0; j < count - i - 1; j++)
+//		printf("*");
+//	for (j = 0; j <= i; j++)
+//		printf(" ");
+//	printf("\n");
+//}
+#pragma endregion
+#pragma region review sample 2번(best)
+//int n = 5;
+//const int start = (n / 2) * -1;
+//const int end = (n / 2);
+//
+//for (int i = start; i <= end; i++)
+//{
+//	for (int j = start; j <= end; j++)
+//	{
+//		int result = abs(i) + abs(j);
+//		if (result <= 2)
+//			printf("*");
+//		else
+//			printf(" ");
+//	}printf("\n");
+//}
+#pragma endregion
 
+#pragma region review 홍석우 3번
+//int SameCharacterO(int* OX, int number, int order)
+//{
+//	int Ocount = 1;
+//	for (int i = order; i < number; i++)
+//	{
+//		if (OX[i] == OX[i + 1] && OX[i] == 1)
+//			Ocount++;
+//		else
+//			return Ocount;
+//	}
+//}
+//int SameCharacterX(int* OX, int number, int order)
+//{
+//	int Xcount = 1;
+//	for (int i = order; i < number; i++)
+//	{
+//		if (OX[i] == OX[i + 1] && OX[i] == 0)
+//			Xcount++;
+//		else
+//			return Xcount;
+//	}
+//}
+//int FindLongest(int* OX, int number, int wh)
+//{
+//	int* characterO;
+//	int* characterX;
+//	int longestO = 0;
+//	int longestX = 0;
+//	characterO = new int[number];
+//	characterX = new int[number];
+//	for (int i = 0; i < number; i++)
+//	{
+//		switch (OX[i])
+//		{
+//		case 1:
+//			characterO[i] = SameCharacterO(OX, number, i);
+//			break;
+//		case 0:
+//			characterX[i] = SameCharacterX(OX, number, i);
+//			break;
+//		}
+//	}
+//	switch (wh)
+//	{
+//	case 1:
+//	{
+//		for (int j = 0; j < number; j++)
+//		{
+//			(characterO[j] >= longestO) ? longestO = characterO[j] : longestO += 0;
+//		}
+//		delete[] characterO, characterX;
+//		return longestO;
+//		break;
+//	}
+//	case 0:
+//	{
+//		for (int j = 0; j < number; j++)
+//		{
+//			(characterX[j] >= longestX) ? longestX = characterX[j] : longestX += 0;
+//		}
+//		delete[] characterO, characterX;
+//		return longestX;
+//		break;
+//	}
+//	}
+//}
+//int main()
+//{
+//	srand((unsigned int)time(NULL));
+//	int number;							// O, X의 총 개수
+//	int* OX;							// O, X 포인터 변수
+//	int OO = 0;
+//	int XX = 0;
+//	printf("O, X의 총 개수를 입력하시오. : ");
+//	scanf_s("%d", &number);
+//	OX = new int[number];
+//	for (int i = 0; i < number; i++)  // OX변수에 O or X 대입
+//	{
+//		OX[i] = rand() % 2;
+//		/*(OX[i] == 1) ? OO++ : XX++;*/
+//	}
+//	for (int i = 0; i < number; i++)  // 1 이면 'O', 0 이면 'X' 출력
+//	{
+//		(OX[i] == 1) ? printf("O ") : printf("X ");
+//	}
+//	printf("\n");
+//	OO = FindLongest(OX, number, 1);
+//	XX = FindLongest(OX, number, 0);
+//	delete[] OX;
+//	printf("O : %d\n", OO);
+//	printf("X : %d\n", XX);
+//}
+#pragma endregion
+#pragma region review 이민혁 3번
+//srand((unsigned)time(NULL));
+//int Ocount = 0;
+//int Xcount = 0;
+//int maxo = 0;
+//int maxx = 0;
+//for (int i = 0; i < 10; i++)
+//{
+//	int random = rand();
+//	//짝수면 O 홀수면 X를 출력
+//	printf("%c ", random % 2 == 0 ? 'O' : 'X');
+//	//연속된 문자 갯수 카운팅 연속성이 끝나면 최대횟수인지 비교 후 다시 카운팅
+//	if (random % 2 == 0)
+//	{
+//		Xcount = 0; // 다른 변수는 재 초기화
+//		Ocount++;
+//		if (maxx < Xcount)
+//			maxx = Xcount;
+//		/*maxx = maxx > Xcount ?
+//			maxx : Xcount;*/
+//
+//	}
+//	else
+//	{
+//		Ocount = 0;
+//		Xcount++;
+//		if (maxo < Ocount)
+//			maxo = Ocount;
+//	}
+//	//마지막에 최대횟수가 나올 경우를 대비해서 한번더 비교
+//	/*maxx = maxx > Xcount ? maxx : Xcount;
+//	maxo = maxo > Ocount ? maxo : Ocount;*/
+//}printf("\n");
+//printf("O의 연속된 최대횟수는 %d\n", maxo);
+//printf("X의 연속된 최대횟수는 %d\n", maxx);
+#pragma endregion
+#pragma region 신민영 3번
+//srand((unsigned)time(NULL));
+//int rn;
+//int oCnt = 0, xCnt = 0;
+//int oMax = 0, xMax = 0;
+//for (int i = 0; i < 10; i++) {
+//	rn = rand() % 2;
+//	rn == 1 ? printf("O ") : printf("X ");
+//	rn == 1 ? oCnt++ : oCnt = 0;
+//	if (oMax < oCnt) oMax = oCnt;
+//	rn == 0 ? xCnt++ : xCnt = 0;
+//	if (xMax < xCnt) xMax = xCnt;
+//}
+//printf("\n");
+//printf("O : %d\n", oMax);
+//printf("X : %d\n", xMax);
+#pragma endregion
+#pragma region sample 3번
+//int rn;
+//int oCnt = 0, xCnt = 0;
+//int oMax = 0, xMax = 0;
+//for (int i = 0; i < 10; i++)
+//{
+//	rn = rand() % 2;
+//	rn == 1 ? printf("O ") : printf("X ");
+//	if (rn == 1) {
+//		xCnt = 0;
+//		oCnt++;
+//
+//		if (oCnt > oMax) {
+//			oMax = oCnt;
+//		}
+//	}
+//	else
+//	{
+//		xCnt = 0;
+//		oCnt++;
+//
+//		if (xCnt > xMax) {
+//			xMax = xCnt;
+//		}
+//	}
+//	printf("\n");
+//	printf("o의 최대 갯수 : %d");
+//	printf("x의 최대 갯수 : %d");
+//}
+#pragma endregion
+
+#pragma region 조인희 4번(best)
+//int days[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+//const char* wname[7] = { "일","월","화","수","목","금","토" };
+//
+//int DrawMonth(int month, int start)
+//{
+//	int i = 0;
+//	printf(" << %d 월>>\n", month + 1);//달
+//	printf("=====================================================\n");
+//	for (i = 0; i < 7; i++)//요일
+//	{
+//		printf("%7s", wname[i]);//폭 설정
+//	}
+//	printf("\n");
+//	printf("-----------------------------------------------------\n");
+//	for (i = 0; i < start; i++)//첫 주 시작일까지 공백 출력
+//	{
+//		printf("%7s", " ");//폭을 7로 설정
+//	}
+//	for (i = 0; i < days[month]; i++)//일 출력
+//	{
+//		printf("%7d", i + 1);//폭을 7로 설정
+//		start++;
+//		if (start == 7)//요일이 7이면
+//		{
+//			start = 0;//0으로 변경
+//			printf("\n");//개행 출력
+//		}
+//	}
+//	printf("\n");//개행 출력
+//	printf("=====================================================\n");
+//	return start;//다음 달 시작 요일 반환
+//}
+//
+//int main()
+//{
+//	//↓↑
+//	//srand((signed)time(NULL));
+//	int year = 2021;
+//	int start = 5;
+//	int i = 0;
+//	if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))//윤년 판단
+//	{
+//		days[1] = 29;//2월달 29일
+//	}
+//	printf("[ %d년 ]\n", year);
+//	for (int i = 0; i < 12; i++)
+//	{
+//		start = DrawMonth(i, start);
+//	}
+//	return 0;
+//}
+// 2021년 
+// 0001년 1월 1일 >> 무슨 요일인가? 월요일
+// 400년 마다 반복해서 똑같은 규칙 나옴(윤년)
+
+// 1372년 7월8일 ....요일은....
+//양력개념...음력...식이 없다.... 과거 데이터가 존재해야한다.(음력은 공식이 없다.)
+#pragma endregion
+#pragma region sample(java) 4번
+//for (int a = 0; a < 12; a++)
+//{
+//	System.out.println(a + 1 + "월달 달력");
+//	// 일(0) 월(1) 화(2) 수(3) 목(4) 금(5) 토(6)
+//	System.out.println("일    월    화    수    목    금    토");
+//	for (int b = 0; b < InitDay; b++)
+//		System.out.print("   "); // 스페이스 3개
+//	for (int b = 0; b < Month[a]; b++)
+//	{
+//		System.out.printf("%2d ", b + 1);
+//		if ((InitDay + b) % 7 == 6)
+//		{
+//			System.out.println();
+//		}
+//	}
+//	InitDay = (InitDay + Month[a]) % 7;
+//	System.out.println("\n");
+//}
+#pragma endregion
+
+#pragma region sample 5번
+//코드가 좀 더 길어져도 가독성을 좀 더 좋게 만들어야한다.
+// 코드 늘린것과 최적화와는 별개이기 때문에 가독성 + 최적화를 중시해야함
+//for (int i = 0; i < 20; i++)
+//{
+//	int a, b, c, m;
+//	a = 1; b = 2; c = 3; m = 0;
+//	//a = 1; b = 3; c = 2; m = 0;
+//	//a = 2; b = 1; c = 3; m = 0;
+//	//a = 2; b = 3; c = 1; m = 0;
+//	//a = 3; b = 1; c = 2; m = 0;
+//	//a = 3; b = 2; c = 1; m = 0;
+//	if (a > b) { // a는 최대 아니면 중간 : 왜냐하면 a가 최소가 아니니까.
+//		if (a > c) { // a는 최대
+//				//m = (b > c) ? b : c;
+//			m = Math.max(b, c);
+//		}
+//		else { // 중간
+//			m = a;
+//		}
+//	} // 64 64 4
+//	else {// (a<b) a는 최소 아니면 중간
+//		if (a < c) { // a는 최소
+//				//m = (b > c) ? c : b;
+//			m = Math.min(b, c);
+//		}
+//		else {
+//			m = a;
+//		}
+//	}
+//}
+//		}
+// }
+#pragma endregion
 
 #pragma region Function2
 //void f5(int* p, int s)

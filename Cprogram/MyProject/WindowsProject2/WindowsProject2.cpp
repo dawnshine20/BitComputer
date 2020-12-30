@@ -29,10 +29,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_WINDOWSPROJECT2, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+    MyRegisterClass(hInstance); // 큰틀을 잡아주는것
 
     // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))
+    if (!InitInstance (hInstance, nCmdShow)) // 세세하게 잡아주는 것
     {
         return FALSE;
     }
@@ -44,7 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 기본 메시지 루프입니다:
     // GetMessage >> blocking 함수
     // non-blocking 함수
-    while (GetMessage(&msg, nullptr, 0, 0)) // 메세지큐에서 메세지 꺼냄
+    while (GetMessage(&msg, nullptr, 0, 0)) // 메세지큐에서 메세지 꺼내질 때마다 true 반환
     {
         // 큐에 메세지가 존재하지 않으면 대기상태에 들어감
         /*WCHAR str[32] = { 0, };

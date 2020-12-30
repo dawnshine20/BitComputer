@@ -57,7 +57,7 @@ int main()
     BITMAPFILEHEADER fileHeader;    // 비트맵 파일 헤더 구조체 변수
     BITMAPINFOHEADER infoHeader;    // 비트맵 정보 헤더 구조체 변수
 
-    UCHAR* image;    // 픽셀 데이터 포인터
+    unsigned char* image;    // 픽셀 데이터 포인터
     int size;                // 픽셀 데이터 크기
     int prevWidth, prevHeight;       // 비트맵 이미지의 가로, 세로 크기
     int padding;             // 픽셀 데이터의 가로 크기가 4의 배수가 아닐 때 남는 공간의 크기
