@@ -6,56 +6,11 @@
 #include <time.h>
 #include <math.h>
 
-int days[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-const char* wname[7] = { "일","월","화","수","목","금","토" };
 
-int DrawMonth(int month, int start)
-{
-	int i = 0;
-	printf(" << %d 월>>\n", month + 1);//달
-	printf("=====================================================\n");
-	for (i = 0; i < 7; i++)//요일
-	{
-		printf("%7s", wname[i]);//폭 설정
-	}
-	printf("\n");
-	printf("-----------------------------------------------------\n");
-	for (i = 0; i < start; i++)//첫 주 시작일까지 공백 출력
-	{
-		printf("%7s", " ");//폭을 7로 설정
-	}
-	for (i = 0; i < days[month]; i++)//일 출력
-	{
-		printf("%7d", i + 1);//폭을 7로 설정
-		start++;
-		if (start == 7)//요일이 7이면
-		{
-			start = 0;//0으로 변경
-			printf("\n");//개행 출력
-		}
-	}
-	printf("\n");//개행 출력
-	printf("=====================================================\n");
-	return start;//다음 달 시작 요일 반환
-}
 int main()
 {
 	//↓↑
-	srand((signed)time(NULL));
-	int year = 2021;
-	int start = 5;
-	int i = 0;
-	if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))//윤년 판단
-	{
-		days[1] = 29;//2월달 29일
-	}
-	printf("[ %d년 ]\n", year);
-	for (int i = 0; i < 12; i++)
-	{
-		start = DrawMonth(i, start);
-	}
 	
-	return 0;
 }
 
 #pragma region 12/29 Problem 1번
@@ -638,7 +593,11 @@ int main()
 //	int year = 2021;
 //	int start = 5;
 //	int i = 0;
-//	if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))//윤년 판단
+//  윤년 규칙
+//	1) 4년으로 나누어지는 해는 윤달(2월 29일)이 있다.
+//	2) 그러나 100년으로 나누어지는 해는 윤달이 없다. 
+//	3) 그러나 400년으로 나누어지는 해는 윤달이 있다.
+//	if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))
 //	{
 //		days[1] = 29;//2월달 29일
 //	}
