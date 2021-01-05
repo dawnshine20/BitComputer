@@ -138,6 +138,11 @@ typedef struct
     //도형의 가로, 세로크기
     int width;
     int height;
+
+    int leftside;
+    int rightside;
+    int topside;
+    int bottomside;
 }RECTPOINT;
 
 RECTPOINT* point;
@@ -148,21 +153,27 @@ void ChangeRectPoint(HWND hWnd,RECTPOINT* point)
 { 
     RECT rc;
     GetClientRect(hWnd, &rc);
+    point->leftside = point->px - (point->right - point->left) / 2;
+    point->rightside = point->px + (point->right - point->left) / 2;
 
-    if (point->px - (point->right - point->left) / 2 == 0)
-        pxFlag = 1; // 우측으로 px 좌표 움직이도록 플래그 비트 설정
+    if (point->leftside == 0)
+        pxFlag |= 0x00000001; // 우측으로 px 좌표 움직이도록 플래그 비트 설정
 
-    if (point->px + (point->right - point->left) / 2 == rc.right)
-        pxFlag = 0; // 좌측으로 px 좌표 움직이도록 플래그 비트 설정
+    if (point->rightside == rc.right)
+        pxFlag &= 0x00000000; // 좌측으로 px 좌표 움직이도록 플래그 비트 설정
 
 
-    //사각형 py (중점) 이동시 >> 그에 맞게 top,bottom 위치 반환하는 함수 작성
+    //사각형 py (중점) 이동시 >> 그에 맞게 top,bottom 위치 대입
     //top : 100, bottom : 200 <- 총 가로 길이 100
-    if (point->py - (point->bottom - point->top) / 2 == 0)
-        pyFlag = 1;
+    point->topside = point->py - (point->bottom - point->top) / 2;
+    point->bottomside = point->py + (point->bottom - point->top) / 2;
 
-    if (point->py + (point->bottom - point->top) / 2 == rc.bottom)
-        pyFlag = 0;
+    if (point->topside == 0)
+        pyFlag |= 0x00000001;
+
+    if (point->bottomside == rc.bottom)
+        pyFlag &= 0x00000000;
+
 
 
     if (pxFlag == 0)
@@ -213,7 +224,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         wsprintf(Str, TEXT("%d %d"), wParam, lParam);
         MessageBox(hWnd, Str, TEXT("캡션"), MB_OK);
     }break;*/
-
+    
     //case WM_LBUTTONDOWN:
     //{
     //    //프로그래머가 직접 메세지를 만들고 발생 시킬 때 사용
@@ -223,9 +234,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_TIMER:
     {
-        /*WCHAR Str[32];
-        wsprintf(Str, TEXT("%d %d"), wParam, lParam);
-        MessageBox(hWnd, Str, TEXT("캡션"), MB_OK);*/
         switch (wParam)
         {
         case TIMERID:
@@ -249,60 +257,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         PAINTSTRUCT ps;
         hdc = BeginPaint(hWnd, &ps);
-#pragma region 비트맵 예제
-        //MemDC = CreateCompatibleDC(hdc);
-        //
-        //    // 처음부터 .exe실행파일이 전부 관리하기 때문에 메모리 손해를 많이보며 그림 지울 수 없음
-        //    //MyBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
-        //    //이미지를 별도로 관리하기 때문에 위의 방법보다 훨씬 좋음
-        //    MyBitmap = (HBITMAP)LoadImage(NULL, TEXT("joy.bmp"),
-        //        IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-        //    {
-        //        BITMAP bitmap;
-        //        GetObject(MyBitmap, sizeof(BITMAP), &bitmap);
-        //        int m_width = bitmap.bmHeight;
-        //        int m_height = bitmap.bmWidth;
 
-        //        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-        //        OldBitmap = (HBITMAP)SelectObject(MemDC, MyBitmap);
-
-        //        BitBlt(hdc,
-        //            100, 50, // 시작 좌표
-        //            600, 600,//가로길이 - 세로길이
-        //            MemDC, 0, 0,
-        //            SRCCOPY);
-        //        //StretchBlt(hdc,
-        //        //    100, 50, // 시작 좌표
-        //        //    600, 600,//가로길이 - 세로길이
-        //        //    MemDC, 50, 100,
-        //        //    100, 200, SRCCOPY);
-
-
-        //        SelectObject(MemDC, OldBitmap);
-        //    }
-        //    DeleteObject(MyBitmap);
-        //}
-        //DeleteDC(MemDC);
-#pragma endregion
-
-#pragma region pen, brush 예제
-        //{
-        //    HPEN hNewPen = CreatePen(PS_SOLID, 1, RGB(0xff, 0x00, 0x00));
-        //    HPEN hOldPen = (HPEN)SelectObject(hdc, hNewPen);// 새로운 펜 설정하고 옛날 펜 반환한다.
-
-        //    HBRUSH hNewBrush = CreateSolidBrush(RGB(0x00, 0x00, 0xff));
-        //    HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hNewBrush);// 새로운 브러쉬 설정하고 옛날 브러쉬 반환한다.
-
-        //    Rectangle(hdc, 100, 100, 200, 200);
-        //    Ellipse(hdc, 300, 300, 500, 400);
-
-        //    SelectObject(hdc, hOldPen); // 과거정보 다시 불러 온다.(복구) 후에 가장 최근펜을 반환한다.
-        //    SelectObject(hdc, hOldBrush); // 과거정보 다시 불러 온다.(복구) 후에 가장 최근브러쉬를 반환한다.
-
-        //    DeleteObject(hNewPen); // 다 사용했기 때문에 메모리 해제한다.
-        //    DeleteObject(hNewBrush); // 다 사용했기 때문에 메모리 해제한다.
-        //}
-#pragma endregion
             
         HPEN hNewPen = CreatePen(PS_SOLID, 1, RGB(0xff, 0x00, 0x00));
         HPEN hOldPen = (HPEN)SelectObject(hdc, hNewPen);// 새로운 펜 설정하고 옛날 펜 반환한다.
@@ -338,6 +293,59 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
+#pragma region 비트맵 예제(paint)
+//MemDC = CreateCompatibleDC(hdc);
+//
+//    // 처음부터 .exe실행파일이 전부 관리하기 때문에 메모리 손해를 많이보며 그림 지울 수 없음
+//    //MyBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
+//    //이미지를 별도로 관리하기 때문에 위의 방법보다 훨씬 좋음
+//    MyBitmap = (HBITMAP)LoadImage(NULL, TEXT("joy.bmp"),
+//        IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+//    {
+//        BITMAP bitmap;
+//        GetObject(MyBitmap, sizeof(BITMAP), &bitmap);
+//        int m_width = bitmap.bmHeight;
+//        int m_height = bitmap.bmWidth;
+
+//        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+//        OldBitmap = (HBITMAP)SelectObject(MemDC, MyBitmap);
+
+//        BitBlt(hdc,
+//            100, 50, // 시작 좌표
+//            600, 600,//가로길이 - 세로길이
+//            MemDC, 0, 0,
+//            SRCCOPY);
+//        //StretchBlt(hdc,
+//        //    100, 50, // 시작 좌표
+//        //    600, 600,//가로길이 - 세로길이
+//        //    MemDC, 50, 100,
+//        //    100, 200, SRCCOPY);
+
+
+//        SelectObject(MemDC, OldBitmap);
+//    }
+//    DeleteObject(MyBitmap);
+//}
+//DeleteDC(MemDC);
+#pragma endregion
+#pragma region pen, brush 예제(paint)
+        //{
+        //    HPEN hNewPen = CreatePen(PS_SOLID, 1, RGB(0xff, 0x00, 0x00));
+        //    HPEN hOldPen = (HPEN)SelectObject(hdc, hNewPen);// 새로운 펜 설정하고 옛날 펜 반환한다.
+
+        //    HBRUSH hNewBrush = CreateSolidBrush(RGB(0x00, 0x00, 0xff));
+        //    HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hNewBrush);// 새로운 브러쉬 설정하고 옛날 브러쉬 반환한다.
+
+        //    Rectangle(hdc, 100, 100, 200, 200);
+        //    Ellipse(hdc, 300, 300, 500, 400);
+
+        //    SelectObject(hdc, hOldPen); // 과거정보 다시 불러 온다.(복구) 후에 가장 최근펜을 반환한다.
+        //    SelectObject(hdc, hOldBrush); // 과거정보 다시 불러 온다.(복구) 후에 가장 최근브러쉬를 반환한다.
+
+        //    DeleteObject(hNewPen); // 다 사용했기 때문에 메모리 해제한다.
+        //    DeleteObject(hNewBrush); // 다 사용했기 때문에 메모리 해제한다.
+        //}
+#pragma endregion
 // 정보 대화 상자의 메시지 처리기입니다.
 //INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 //{

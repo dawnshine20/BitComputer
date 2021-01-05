@@ -1,5 +1,5 @@
 ﻿  WindowsProject6.cpp
-C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(249,17): warning C4101: 'MyBitmap' :참조되지 않은 지역 변수입니다.
-C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(248,18): warning C4101: 'MemDC' :참조되지 않은 지역 변수입니다.
-C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(249,27): warning C4101: 'OldBitmap' :참조되지 않은 지역 변수입니다.
+C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(256,17): warning C4101: 'MyBitmap' :참조되지 않은 지역 변수입니다.
+C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(255,18): warning C4101: 'MemDC' :참조되지 않은 지역 변수입니다.
+C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(256,27): warning C4101: 'OldBitmap' :참조되지 않은 지역 변수입니다.
   WindowsProject6.vcxproj -> C:\git\BitComputer\Cprogram\MyProject\Debug\WindowsProject6.exe

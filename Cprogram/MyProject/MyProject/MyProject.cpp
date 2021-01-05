@@ -10,7 +10,7 @@
 int main()
 {
 	//↓↑
-	
+	//시스템 프로그램
 }
 
 #pragma region 12/29 Problem 1번
