@@ -52,7 +52,7 @@ typedef struct _RGBTRIPLE            // 24비트 비트맵 이미지의 픽셀 �
 
 int main()
 {
-    FILE* fpBmp;                    // 비트맵 파일 포인터
+    FILE* originalFpBmp;                    // 비트맵 파일 포인터
     FILE* changedFpBmp;             // 텍스트 파일 포인터
     BITMAPFILEHEADER fileHeader;    // 비트맵 파일 헤더 구조체 변수
     BITMAPINFOHEADER infoHeader;    // 비트맵 정보 헤더 구조체 변수
@@ -62,14 +62,14 @@ int main()
     int prevWidth, prevHeight;       // 비트맵 이미지의 가로, 세로 크기
     int padding;             // 픽셀 데이터의 가로 크기가 4의 배수가 아닐 때 남는 공간의 크기
 
-    fpBmp = fopen("sample.bmp", "rb");    // 비트맵 파일을 바이너리 모드로 열기
-    if (fpBmp == NULL)    // 파일 열기에 실패하면
+    originalFpBmp = fopen("sample.bmp", "rb");    // 비트맵 파일을 바이너리 모드로 열기
+    if (originalFpBmp == NULL)    // 파일 열기에 실패하면
         return 0;         // 프로그램 종료
 
     // 비트맵 파일 헤더 읽기. 읽기에 실패하면 파일 포인터를 닫고 프로그램 종료
-    if (fread(&fileHeader, sizeof(BITMAPFILEHEADER), 1, fpBmp) < 1)
+    if (fread(&fileHeader, sizeof(BITMAPFILEHEADER), 1, originalFpBmp) < 1)
     {
-        fclose(fpBmp);
+        fclose(originalFpBmp);
         return 0;
     }
 
@@ -77,21 +77,21 @@ int main()
     // 매직 넘버가 맞지 않으면 프로그램 종료
     if (fileHeader.bfType != 'MB')
     {
-        fclose(fpBmp);
+        fclose(originalFpBmp);
         return 0;
     }
 
     // 비트맵 정보 헤더 읽기. 읽기에 실패하면 파일 포인터를 닫고 프로그램 종료
-    if (fread(&infoHeader, sizeof(BITMAPINFOHEADER), 1, fpBmp) < 1)
+    if (fread(&infoHeader, sizeof(BITMAPINFOHEADER), 1, originalFpBmp) < 1)
     {
-        fclose(fpBmp);
+        fclose(originalFpBmp);
         return 0;
     }
 
     // 24비트 비트맵이 아니면 프로그램 종료
     if (infoHeader.biBitCount != 24)
     {
-        fclose(fpBmp);
+        fclose(originalFpBmp);
         return 0;
     }
 
@@ -114,21 +114,21 @@ int main()
     image = (unsigned char*)malloc(size);    // 픽셀 데이터의 크기만큼 동적 메모리 할당
 
     // 파일 포인터를 픽셀 데이터의 시작 위치로 이동
-    fseek(fpBmp, fileHeader.bfOffBits, SEEK_SET);
+    fseek(originalFpBmp, fileHeader.bfOffBits, SEEK_SET);
 
     // 파일에서 픽셀 데이터 크기만큼 읽음. 읽기에 실패하면 파일 포인터를 닫고 프로그램 종료
-    if (fread(image, size, 1, fpBmp) < 1)
+    if (fread(image, size, 1, originalFpBmp) < 1)
     {
-        fclose(fpBmp);
+        fclose(originalFpBmp);
         return 0;
     }
 
-    fclose(fpBmp);    // 비트맵 파일 닫기
+    fclose(originalFpBmp);    // 비트맵 파일 닫기
 
 
     ///////////// 여기서부터는 비트맵 쓰기 영역//////////////////////////
 
-    changedFpBmp = fopen("changed.bmp", "wb");    // 결과 출력용 텍스트 파일 열기
+    changedFpBmp = fopen("changed.bmp", "wb");    // 결과 출력용 bmp 파일 열기
     if (changedFpBmp == NULL)    // 파일 열기에 실패하면
     {
         free(image);      // 픽셀 데이터를 저장한 동적 메모리 해제
