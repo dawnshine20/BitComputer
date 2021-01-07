@@ -65,182 +65,193 @@ int main()
 	memset(&rgbSpacePixel, 0, sizeof(RGBTRIPLE));    // p1을 구조체 크기만큼 0으로 설정
 	memset(&rgbPixel, 0, sizeof(RGBTRIPLE));    // p1을 구조체 크기만큼 0으로 설정
 
-	/////////int padding;             // 픽셀 데이터의 가로 크기가 4의 배수가 아닐 때 남는 공간의 크기
-	/////////int size;                // 픽셀 데이터 크기
-	/////////
-	/////////fpInputFile = fopen("0000.JSF", "rb");
-	/////////if (fpInputFile == NULL)
-	/////////{
-	/////////	printf("읽기 실패");
-	/////////	return 0;
-	/////////} // 파일 열기에 실패하면
-	/////////
-	/////////fseek(fpInputFile, 0, SEEK_SET); // 첫번째 파일포인터
-	/////////
-	/////////fseek(fpInputFile, HEADERSIZE, SEEK_CUR);                    //처음 위치에서 헤더사이즈byte 뒤로 설정
-	/////////printf("현재 위치는 : %ld\n", ftell(fpInputFile));			//fseek 후 파일 포인터 위치 확인
-	/////////
-	/////////fread(&jsfInfo.pictureNumber, sizeof(long), 1, fpInputFile);
-	/////////printf("그림의 갯수는 : %d개 입니다.\n", jsfInfo.pictureNumber);
-	/////////
-	/////////fseek(fpInputFile, 26, SEEK_CUR);// 예약어 무시
-	/////////
-	/////////fread(&jsfInfo.size, sizeof(long), 1, fpInputFile);
-	/////////printf("압축해상도 size는 %d 입니다..\n", jsfInfo.size);
-	/////////
-	/////////fread(&jsfInfo.width, sizeof(short), 1, fpInputFile);
-	/////////printf("가로 size는 : %d입니다.\n", jsfInfo.width);
-	/////////fread(&jsfInfo.height, sizeof(short), 1, fpInputFile);
-	/////////printf("세로 size는 : %d입니다.\n\n", jsfInfo.height);
+	int padding;             // 픽셀 데이터의 가로 크기가 4의 배수가 아닐 때 남는 공간의 크기
+	int size;                // 픽셀 데이터 크기
+	
+	fpInputFile = fopen("0000.JSF", "rb");
+	if (fpInputFile == NULL)
+	{
+		printf("읽기 실패");
+		return 0;
+	} // 파일 열기에 실패하면
+	
+	fseek(fpInputFile, 0, SEEK_SET); // 첫번째 파일포인터
+	
+	fseek(fpInputFile, HEADERSIZE, SEEK_CUR);                    //처음 위치에서 헤더사이즈byte 뒤로 설정
+	printf("현재 위치는 : %ld\n", ftell(fpInputFile));			//fseek 후 파일 포인터 위치 확인
+	
+	fread(&jsfInfo.pictureNumber, sizeof(long), 1, fpInputFile);
+	printf("그림의 갯수는 : %d개 입니다.\n", jsfInfo.pictureNumber);
+	
+	fseek(fpInputFile, 26, SEEK_CUR);// 예약어 무시
+	
+	fread(&jsfInfo.size, sizeof(long), 1, fpInputFile);
+	printf("압축해상도 size는 %d 입니다..\n", jsfInfo.size);
+	
+	fread(&jsfInfo.width, sizeof(short), 1, fpInputFile);
+	printf("가로 size는 : %d입니다.\n", jsfInfo.width);
+	fread(&jsfInfo.height, sizeof(short), 1, fpInputFile);
+	printf("세로 size는 : %d입니다.\n\n", jsfInfo.height);
 
-	//padding = (PIXEL_ALIGN - ((infoHeader.biWidth * PIXEL_SIZE) % PIXEL_ALIGN)) % PIXEL_ALIGN;
-	//size = (infoHeader.biWidth * PIXEL_SIZE + padding) * infoHeader.biHeight;
-	//printf("size크기는 %d입니다.\n", size);
+	
 
 	//--------------------------------헤더파일 등록--------------------
-	//fileHeader.bfSize = 54 + 220 * 56 = 12374; 
+	 
 	fileHeader.bfType = 'MB';
-	fileHeader.bfSize = 54 + 220 * 56;//54 + size;
+	//fileHeader.bfSize = 54 + 220 * 56;//54 + size;
 	fileHeader.bfReserved1 = 0x00;
 	fileHeader.bfReserved2 = 0x00;
 	fileHeader.bfOffBits = 54; // 54
 
 	
 	infoHeader.biSize = 40;		//현재 비트맵 정보 헤더(BITMAPINFOHEADER)의 크기
-	infoHeader.biWidth = 73;//jsfInfo.width;       // 비트맵 이미지의 가로 크기
-	infoHeader.biHeight = 56;//jsfInfo.height;     // 비트맵 이미지의 세로 크기
+	infoHeader.biWidth = jsfInfo.width;//jsfInfo.width;       // 비트맵 이미지의 가로 크기
+	infoHeader.biHeight = -jsfInfo.height;//jsfInfo.height;     // 비트맵 이미지의 세로 크기
 	infoHeader.biPlanes = 1; //사용하는 색상판의 수.항상 1입니다.
 	infoHeader.biBitCount = 24;//픽셀 하나를 표현하는 비트 수
 	infoHeader.biCompression = 0;		//압축 방식.보통 비트맵은 압축을 하지 않으므로 0입니다.
-	infoHeader.biSizeImage = 220 * 56;//220 * 56;		//비트맵 이미지의 픽셀 데이터 크기(압축 되지 않은 크기)
+	//infoHeader.biSizeImage = 220 * 56;//220 * 56;		//비트맵 이미지의 픽셀 데이터 크기(압축 되지 않은 크기)
 	infoHeader.biXPelsPerMeter = 0;		//그림의 가로 해상도(미터당 픽셀)
 	infoHeader.biYPelsPerMeter = 0;		//그림의 세로 해상도(미터당 픽셀)
 	infoHeader.biClrUsed = 0;		//색상 테이블에서 실제 사용되는 색상 수
 	infoHeader.biClrImportant = 0;		//비트맵을 표현하기 위해 필요한 색상 인덱스 수
 
+	padding = (PIXEL_ALIGN - ((infoHeader.biWidth * PIXEL_SIZE) % PIXEL_ALIGN)) % PIXEL_ALIGN;
+	size = (infoHeader.biWidth * PIXEL_SIZE + padding) * infoHeader.biHeight;
+	printf("size크기는 %d입니다.\n", size);
+
+	fileHeader.bfSize = 54 + size;//54 + size;
+	infoHeader.biSizeImage = size;//220 * 56;		//비트맵 이미지의 픽셀 데이터 크기(압축 되지 않은 크기)
+
 
 
 	fpOutputTxtFile____ = fopen("sample.txt", "w");
-	fpOutputFile = fopen("sample.bmp", "wb");
+	fpOutputFile = fopen("0000.bmp", "wb");
 	if (fpOutputFile == NULL)    // 파일 열기에 실패하면
 	{
 		printf("실패");
 		return 0;         // 프로그램 종료
 	}
 
-	
-	
-
 	fwrite(&fileHeader, sizeof(BITMAPFILEHEADER), 1, fpOutputFile);
+	printf("\n%d\n", ftell(fpOutputFile));
 	fwrite(&infoHeader, sizeof(BITMAPINFOHEADER), 1, fpOutputFile);
+	printf("\n%d\n", ftell(fpOutputFile));
 
 	fseek(fpOutputFile, fileHeader.bfOffBits, SEEK_SET); // 파일 포인터를 픽셀 데이터의 시작 위치로 이동
 	printf("output 파일 포인터 위치는 %d입니다.\n\n", ftell(fpOutputFile));
 
-	char* buffer = new char[220 * 56];
-	memset(buffer, 0, sizeof(220 * 56));
-	fwrite(buffer, sizeof(220 * 56), 1, fpOutputFile);
-
 	//--------------------------------------쓰기영역-------------------------
 
-	//////int heightCount = 0;
-	//////short color = 0;
-	//////while (jsfInfo.height > heightCount)
-	//////{
-	//////	//int location = ftell(fpFile);
-	//////	heightCount++; //엔터 후 
-	//////
-	//////	short idNumber = 0; // 식별번호
-	//////
-	//////	short setCount = 0; // 세트갯수
-	//////	short spaceCount = 0; // 공백갯수
-	//////	short pixelCount = 0; // 그림갯수
-	//////
-	//////	fread(&idNumber, sizeof(short), 1, fpInputFile); // 식별번호 읽기
-	//////	printf("시작 식별번호는 : %d입니다.\n", idNumber); 
-	//////	switch (idNumber)
-	//////	{
-	//////	case 0:
-	//////	{
-	//////		for (int i = 0; i < jsfInfo.width; i++)
-	//////		{
-	//////			fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
-	//////
-	//////			///////////////////////////////////////////
-	//////			fprintf(fpOutputTxtFile____, "%c%c", '-', '-');
-	//////		}
-	//////		fprintf(fpOutputFile, "\n");
-	//////	}break;
-	//////	case 1:
-	//////	{
-	//////		for (int i = 0; i < jsfInfo.width; i++)
-	//////		{
-	//////			fread(&color, sizeof(short), 1, fpInputFile);
-	//////			rgbPixel = changeRGB(color); // 2byte -> 3byte rgb로 변경
-	//////			fwrite(&rgbPixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//이미지 쓰기
-	//////
-	//////			///////////////////////////////////////////////
-	//////			//fseek(fpInputFile, sizeof(short), SEEK_CUR);
-	//////			fprintf(fpOutputTxtFile____, "%c%c", '0', '0');
-	//////		}
-	//////		fprintf(fpOutputFile, "\n");
-	//////	}break;
-	//////	default: // 공백과 데이터 공존
-	//////	{
-	//////		int temp = 0;
-	//////		setCount = idNumber - 1;
-	//////
-	//////		for (int i = 0; i < setCount; i++)
-	//////		{
-	//////			//int location = ftell(fpInputFile);
-	//////			fread(&spaceCount, sizeof(short), 1, fpInputFile);//공백갯수
-	//////			printf("공백 갯수는 : %d입니다.\n", spaceCount);
-	//////
-	//////			fread(&pixelCount, sizeof(short), 1, fpInputFile);//데이터갯수
-	//////			printf("픽셀 갯수는 : %d입니다.\n", pixelCount);
-	//////
-	//////			temp += spaceCount;
-	//////			temp += pixelCount;
-	//////
-	//////			for (int j = 0; j < spaceCount; j++)
-	//////			{
-	//////				fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
-	//////
-	//////				////////////////////////////////////////////////
-	//////				fprintf(fpOutputTxtFile____, "%c%c", '-', '-');
-	//////			}
-	//////			for (int j = 0; j < pixelCount; j++)
-	//////			{
-	//////				fread(&color, sizeof(short), 1, fpInputFile);
-	//////				rgbPixel = changeRGB(color); // 2byte -> 3byte rgb로 변경
-	//////				fwrite(&rgbPixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//픽셀 이미지 쓰기
-	//////
-	//////				///////////////////////////////////////////////////
-	//////				//fseek(fpInputFile, sizeof(short), SEEK_CUR);
-	//////				fprintf(fpOutputTxtFile____, "%c%c", '0', '0');
-	//////			}
-	//////		}
-	//////		printf("\n------------------------------\n");
-	//////
-	//////		int rest = jsfInfo.width - temp - 1;
-	//////		for (int i = 0; i < rest; i++)
-	//////		{
-	//////			fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
-	//////
-	//////
-	//////			/////////////////////////////////////////////////
-	//////			fprintf(fpOutputTxtFile____, "%c%c", '-', '-');
-	//////		}
-	//////
-	//////		fprintf(fpOutputTxtFile____, "\n");
-	//////	}break;
-	//////
-	//////	}
-	//////}
+	int heightCount = 0;
+	short color = 0;
+
+	while (jsfInfo.height > heightCount)
+	{
+		//int location = ftell(fpFile);
+		
+		heightCount++; //엔터 후 
+	
+		short idNumber = 0; // 식별번호
+	
+		short setCount = 0; // 세트갯수
+		short spaceCount = 0; // 공백갯수
+		short pixelCount = 0; // 그림갯수
+	
+		fread(&idNumber, sizeof(short), 1, fpInputFile); // 식별번호 읽기
+		printf("시작 식별번호는 : %d입니다.\n", idNumber); 
+		switch (idNumber)
+		{
+		case 0:
+		{
+			for (int i = 0; i < jsfInfo.width; i++)
+			{
+				fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
+	
+				///////////////////////////////////////////
+				fprintf(fpOutputTxtFile____, "%c", '-');
+				
+			}
+			fprintf(fpOutputFile, "\n");
+		}break;
+		case 1:
+		{
+			for (int i = 0; i < jsfInfo.width; i++)
+			{
+				fread(&color, sizeof(short), 1, fpInputFile);
+				rgbPixel = changeRGB(color); // 2byte -> 3byte rgb로 변경
+				fwrite(&rgbPixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//이미지 쓰기
+	
+				///////////////////////////////////////////////
+				//fseek(fpInputFile, sizeof(short), SEEK_CUR);
+				fprintf(fpOutputTxtFile____, "%c",  '0');
+				
+			}
+			fprintf(fpOutputFile, "\n");
+		}break;
+		default: // 공백과 데이터 공존
+		{
+			int temp = 0;
+			setCount = idNumber - 1;
+	
+			for (int i = 0; i < setCount; i++)
+			{
+				
+				//int location = ftell(fpInputFile);
+				fread(&spaceCount, sizeof(short), 1, fpInputFile);//공백갯수
+				printf("공백 갯수는 : %d입니다.\n", spaceCount);
+	
+				fread(&pixelCount, sizeof(short), 1, fpInputFile);//데이터갯수
+				printf("픽셀 갯수는 : %d입니다.\n", pixelCount);
+	
+				temp += spaceCount;
+				temp += pixelCount;
+	
+				for (int j = 0; j < spaceCount; j++)
+				{
+					fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
+	
+					////////////////////////////////////////////////
+					fprintf(fpOutputTxtFile____, "%c", '-');
+					
+				}
+				for (int j = 0; j < pixelCount; j++)
+				{
+					fread(&color, sizeof(short), 1, fpInputFile);
+					rgbPixel = changeRGB(color); // 2byte -> 3byte rgb로 변경
+					fwrite(&rgbPixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//픽셀 이미지 쓰기
+	
+					///////////////////////////////////////////////////
+					//fseek(fpInputFile, sizeof(short), SEEK_CUR);
+					fprintf(fpOutputTxtFile____, "%c", '0');
+					
+				}
+			}
+			printf("\n------------------------------\n");
+	
+			int rest = jsfInfo.width - temp - 1;
+			for (int i = 0; i < rest; i++)
+			{
+				fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
+	
+	
+				/////////////////////////////////////////////////
+				fprintf(fpOutputTxtFile____, "%c", '-');
+				
+			}
+			fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
+			fprintf(fpOutputTxtFile____, "\n");
+			
+		}break;
+	
+		}
+		//fwrite(&rgbSpacePixel, sizeof(RGBTRIPLE), 1, fpOutputFile);//공백 이미지 쓰기
+		
+	}
 	
 	fclose(fpOutputFile);    // 텍스트 파일 닫기
 	fclose(fpOutputTxtFile____);    // 텍스트 파일 닫기
-	//fclose(fpInputFile);    // 이미지 파일 닫기
+	fclose(fpInputFile);    // 이미지 파일 닫기
 
 
 
