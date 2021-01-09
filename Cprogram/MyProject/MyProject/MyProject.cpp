@@ -6,12 +6,201 @@
 #include <time.h>
 #include <math.h>
 
-
 int main()
 {
-	//↓↑
-	//시스템 프로그램
+
 }
+
+#pragma region 가변인수 처리 문법
+//void f1(...) {
+//	// 처리 방법.
+//}
+//void f2(int a, ...) {
+//
+//}
+//
+//int main()
+//{
+//	f1();
+//	f1(10);
+//	f1(10, 20);
+//
+//	f2(10);
+//	f2(10, 20, 30);
+//
+//	//int printf(char* t, ...); // ... <- 가변인수 처리함
+//	printf("%d %d %d", 10, 20, 30);
+//}
+#pragma endregion
+
+#pragma region 함수포인터2
+//void f1(void) {
+//
+//}
+//void f2(void* pp) {
+//	int id = *(int*)pp;
+//	
+//	switch (id)
+//	{
+//	case 0:
+//		//a 만 사용하는 코드
+//		break;
+//	case 1:
+//		// a,b를 모두 사용하는 코드
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//struct ST1 {
+//	int id = 0;
+//	int a;
+//};
+//struct ST2 {
+//	int id = 1;
+//	int a;
+//	int b;
+//};
+//int main()
+//{
+//	ST1 s1;
+//	ST2 s2;
+//	f2(&s1);
+//	f2(&s2);
+//
+//	char ar[] = "10 20 30 40";
+//	
+//	f2(ar);
+//
+//
+//	f2(new int);
+//	f2(new short);
+//
+//	int a = 10;
+//	int b = 20;
+//	void* p = &a; // p가 주소를 받을 때 타입의 구분이 없다.
+//	p = &b;
+//	
+//	struct ST {
+//		int a;
+//		int b;
+//	};
+//	ST s;
+//	p = &s;
+//
+//	return 0;
+//}
+
+#pragma endregion
+
+#pragma region const 사용이유 및 방법
+//void f1(int* b) 
+//{
+//	// 알고리즘....
+//}
+//void f2(const int* p)
+//{
+//	//*p = 10		(불가X)
+//	p = new int;//	(가능O)
+//}
+//void f3(int* const  p)
+//{
+//	*p = 10;//		(가능O)
+//	//p = new int;//(불가X)
+//}
+//void f4(const int* const  p)
+//{
+//	//*p = 10//		(불가X)
+//	//p = new int;//(불가X)
+//}
+//
+//// 헤드 파일(.h)
+//class Test {
+//	void f1();
+//};
+////소스파일(.c, .cpp) (공개 안함)
+//void Test::f1() {
+//
+//}
+//	int printf(char const* const p, ...)
+//	{
+//		
+//		//만약 const가 없다고 가정하고 프로그래밍 수행시
+//		//{
+//		//	if (rand() == 30000)
+//		//		//p = new char[1000] // 읽기전용으로 만들지 않으면 변경되면 안되는 값들이 변경되어
+//		// 함수 내부 문제가 당장은 아니더라도 간간히 발생할 가능성이 있기 때문에 사용
+//		// 보는 즉시 읽기 전용임을 예상할 수 있음
+//		//}
+//	}
+//	printf("%d호랑이%d", 10, 20);
+//
+//	//int a = 20;
+//	//int* b = &a;
+//	//
+//	//f1(&a); // 중요
+//	//
+//	//const int c = 10; // c는 상수이다.(읽기 전용)
+//	////c = 20;
+//	//
+//	//int* d1 = new int;				//A 
+//	//const int* d2 = new int;		//B - 더이상 값을 못받음
+//	//int* const d3 = new int;		//C	- 더 이상 주소를 못 받음
+//	//const int const* d1 = new int;	//D - 주소든 값이든 둘다 받기 불가
+//	//
+//	//// (1)은 값이 상수화(읽기 전용), (2)는 주소가 상수가 된다(읽기 전용) 
+//	////(1)int(2)* d1 = new int;
+#pragma endregion
+
+
+#pragma region 함수포인터
+
+//void f1() {
+//	printf("호랑이\n");
+//}
+//void f4() {
+//	printf("호랑이\n");
+//}
+//
+////함수의 인수로 코드를 전달하는 것이 목적이다.
+//void f3(int a, int* b, void (*ff)()) {
+//	ff();
+//}
+//
+//	//ex) 오름차 순 내림차 순으로 등으로 정렬하는 함수를 전달하기 위해 사용 
+//f3(10, NULL, f1);// 함수를 인수로 전달(코드를 전달 할 수 있다!)
+//f3(10, NULL, f4);// 함수를 인수로 전달(코드를 전달 할 수 있다!)
+//
+//
+//
+//void (*f2)();
+//f2 = f1; // f1 함수 포인터 값을 f2 함수 포인터 값 공유
+//f2();
+//
+//int  (*pf)(char const* const _Format, ...) = printf;
+//pf("코끼리\n");
+//
+//int  (*test)(char const* const _Format, ...) = pf;
+//test("독수리");
+//// 함수포인터 왜 쓸까?
+//함수의 인수로 코드를 전달하는 것이 목적이다.
+#pragma endregion
+
+#pragma region 소수연산 주의점
+//float a = 0.1f;
+//float sum = 0.0f;
+//for (int i = 0; i < 100; i++)
+//{
+//	sum += a;// 10.0f
+//}
+//printf("%f \n", sum);
+//
+//// ==, != 금지, 대안방안 >=, <=를 사용
+//if (sum == 10.0f) { // 큰일나는 코드(절대 만족할 수 없는 코드)
+//
+//}
+#pragma endregion
 
 #pragma region 12/29 Problem 1번
 //1.
