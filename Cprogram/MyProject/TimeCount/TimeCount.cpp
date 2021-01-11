@@ -5,7 +5,7 @@
 #include "TimeCount.h"
 #include <time.h>
 #include<stdio.h>
-#include<time.h>
+
 
 #define MAX_LOADSTRING 100
 
@@ -133,35 +133,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
 	case WM_CREATE:
 	{
-	
-			time_t rawTime;
-			struct tm* pTimeInfo;
-
-			rawTime = time(NULL);                // 현재 시간을 받음
-			pTimeInfo = localtime(&rawTime);    // 현재 시간을 이쁘게 struct tm에 넣음
-
-			int year = pTimeInfo->tm_year + 1900;    //연도에는 1900 더해줌
-			int month = pTimeInfo->tm_mon + 1;    // 월에는 1 더해줌
-			int day = pTimeInfo->tm_mday;
-			int hour = pTimeInfo->tm_hour;
-			int min = pTimeInfo->tm_min;
-			int sec = pTimeInfo->tm_sec;
-			// printf("time_t : %lld\n", rawTime);
-			// printf("timeInfo : %d년 %d월 %d일 %d시 %d분 %d초\n", year, month, day, hour, min, sec);
-
-	
-
 		HANDLE hTimer = (HANDLE)SetTimer(
 			hWnd,
 			TIMERID,      //Timer ID
-			1,   //1000ms= 1s 한번 메세지 WM_TIMER 발생
+			1000,   //1000ms= 1s 한번 메세지 WM_TIMER 발생
 			NULL    // 속성
 		);
 
 	}
 	case WM_TIMER:
 	{
-		
+        
+
 		InvalidateRect(hWnd, NULL, true);
 	}break;
 
@@ -187,6 +170,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
+            struct tm* pTime;
+            time_t rawTime;
+
+            rawTime = time(NULL);                // 현재 시간을 받음
+            pTime = localtime(&rawTime);    // 현재 시간을 이쁘게 struct tm에 넣음
+            
+            hdc = GetDC(hWnd); //DC을얻는 방법 1
+
+            TCHAR str[30];
+            
+            wsprintf(str, TEXT("%d/%d/%d  %d시%d분%d초"), 
+                1900+pTime->tm_year, 1+pTime->tm_mon, pTime->tm_mday, pTime->tm_hour, 
+                pTime->tm_min, pTime->tm_sec);
+            TextOut(hdc, 10, 10, str, lstrlen(str));
+
+            ReleaseDC(hWnd, hdc);
+
             EndPaint(hWnd, &ps);
         }
         break;
