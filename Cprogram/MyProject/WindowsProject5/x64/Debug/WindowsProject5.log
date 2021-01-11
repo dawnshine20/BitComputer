@@ -1,0 +1,7 @@
+﻿  WindowsProject5.cpp
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject5\WindowsProject5.cpp(158,38): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject5\WindowsProject5.cpp(213,74): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject5\WindowsProject5.cpp(214,74): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject5\WindowsProject5.cpp(222,78): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject5\WindowsProject5.cpp(223,78): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  WindowsProject5.vcxproj -> D:\HB\BitComputer\Cprogram\MyProject\x64\Debug\WindowsProject5.exe

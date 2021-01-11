@@ -6,9 +6,9 @@
 int main()
 {
 
-	FILE* rf = fopen("0000.jsf", "rb"); 
+	FILE* rf = fopen("0000.jsf", "rb");
 
-	if (rf == NULL) 
+	if (rf == NULL)
 	{
 		printf("Open Error");
 		return 0;
@@ -25,8 +25,8 @@ int main()
 	int pictureNumber = 0;
 	WORD width221, height221;
 	width221 = (128 * 3); // rgb 때문에 * 3 
-	height221 = 96  ; 
-	long size221 = (width221 *16) * (height221*14); // 가로에는 16개 사진 , 세로에는 14개 사진
+	height221 = 96;
+	long size221 = (width221 * 16) * (height221 * 14); // 가로에는 16개 사진 , 세로에는 14개 사진
 	BYTE* Image221 = new BYTE[size221];
 	memset(Image221, 0, size221);
 
@@ -66,17 +66,17 @@ int main()
 
 		BYTE* Image16 = new BYTE[size16];// 16bit형을 받는 메모리 사이즈 확보
 		BYTE* Image24 = new BYTE[size24];// 데이타를 받지는 않았지만
-		
+
 		memset(Image16, 0, size16);
 		memset(Image24, 0, size24);
-		
+
 		for (int i = 0; i < height; i++)
 		{
 			WORD idNum = 0;
 			fread(&idNum, 2, 1, rf);
 			printf("idNum:%d\n", idNum);
 			//Offset 공식 = y * w + x
-			DWORD _OFFSET = (height - 1 - i) * (width * 2) + 0; 
+			DWORD _OFFSET = (height - 1 - i) * (width * 2) + 0;
 			printf("%d\n", _OFFSET);
 			switch (idNum) // switch == goto 문장
 			{
@@ -100,7 +100,7 @@ int main()
 			}break;
 			}
 		}
-		
+
 		for (int i = 0, k = 0; i < height; i++) {
 			for (int j = 0; j < width; j++, k++) {
 				WORD data16 = *(WORD*)(Image16 + k * 2);
@@ -120,9 +120,9 @@ int main()
 				BYTE G = (data16 & 0x07E0) >> 3;
 				BYTE B = (data16 & 0x001F) << 3;
 
-				*(Image221 +(i * width221 * 16) + (96* width221 * 16)*(13-a/16) + (width221*pictureNumber)+(j * 3) + 2) = R;
-				*(Image221 +(i * width221 * 16) + (96* width221 * 16)*(13-a/16) + (width221*pictureNumber)+(j * 3) + 1) = G;
-				*(Image221 +(i * width221 * 16) + (96* width221 * 16)*(13-a/16) + (width221*pictureNumber)+(j * 3) + 0) = B;
+				*(Image221 + (i * width221 * 16) + (96 * width221 * 16) * (13 - a / 16) + (width221 * pictureNumber) + (j * 3) + 2) = R;
+				*(Image221 + (i * width221 * 16) + (96 * width221 * 16) * (13 - a / 16) + (width221 * pictureNumber) + (j * 3) + 1) = G;
+				*(Image221 + (i * width221 * 16) + (96 * width221 * 16) * (13 - a / 16) + (width221 * pictureNumber) + (j * 3) + 0) = B;
 			}
 			//i 변화에 따라 사진세로 갯수 달라지도록 설계할 것
 		}
@@ -179,7 +179,7 @@ int main()
 
 	BITMAPINFOHEADER bifResult;
 	bifResult.biSize = 40;// 인포헤더사이즈 40byte
-	bifResult.biWidth = width221 * 16 / 3; 
+	bifResult.biWidth = width221 * 16 / 3;
 	bifResult.biHeight = height221 * 14;
 	bifResult.biPlanes = 1; // 그림의 갯수
 	bifResult.biBitCount = 24;// 24bit color
@@ -208,4 +208,3 @@ int main()
 	printf("성공");
 	fclose(rf);
 }
-

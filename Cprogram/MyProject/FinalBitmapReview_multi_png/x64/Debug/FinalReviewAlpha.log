@@ -1,0 +1,3 @@
+﻿  FinalReviewAlpha.cpp
+D:\HB\BitComputer\Cprogram\MyProject\FinalBitmapReview_multi_png\FinalReviewAlpha.cpp(28,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  FinalReviewAlpha.vcxproj -> D:\HB\BitComputer\Cprogram\MyProject\x64\Debug\FinalReviewAlpha.exe

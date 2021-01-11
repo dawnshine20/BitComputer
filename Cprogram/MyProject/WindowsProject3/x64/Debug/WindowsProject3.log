@@ -1,3 +1,10 @@
 ﻿  WindowsProject3.cpp
-D:\HB\BITComputerLecture\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(220,50): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WindowsProject3.vcxproj -> D:\HB\BITComputerLecture\BitComputer\Cprogram\MyProject\x64\Debug\WindowsProject3.exe
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(356,21): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(357,21): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(363,32): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(364,40): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(368,38): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(368,35): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(370,36): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(370,33): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  WindowsProject3.vcxproj -> D:\HB\BitComputer\Cprogram\MyProject\x64\Debug\WindowsProject3.exe
