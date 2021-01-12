@@ -1,0 +1,6 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: 중간 디렉터리(Debug\)에 다른 프로젝트(WindowsProject6.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+  WindowsProject6.cpp
+C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(256,17): warning C4101: 'MyBitmap' :참조되지 않은 지역 변수입니다.
+C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(255,18): warning C4101: 'MemDC' :참조되지 않은 지역 변수입니다.
+C:\git\BitComputer\Cprogram\MyProject\WindowsProject6\WindowsProject6.cpp(256,27): warning C4101: 'OldBitmap' :참조되지 않은 지역 변수입니다.
+  WindowsProject6.vcxproj -> C:\git\BitComputer\Cprogram\MyProject\Debug\Windows6_Pinpong_Bitmap_21_01_04.exe

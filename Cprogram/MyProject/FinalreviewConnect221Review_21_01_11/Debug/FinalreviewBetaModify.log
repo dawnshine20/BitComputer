@@ -1,0 +1,3 @@
+﻿  FinalreviewBetaModify.cpp
+C:\git\BitComputer\Cprogram\MyProject\FinalreviewBetaModify\FinalreviewBetaModify.cpp(55,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  FinalreviewBetaModify.vcxproj -> C:\git\BitComputer\Cprogram\MyProject\Debug\FinalreviewBetaModify.exe
