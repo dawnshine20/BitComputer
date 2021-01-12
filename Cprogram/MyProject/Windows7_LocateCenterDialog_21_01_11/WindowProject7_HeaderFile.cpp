@@ -255,7 +255,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}break;
 			case btnNumber: //wParam==1000 - ID가 1000인 버튼0
 			{
-				//DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)MsgDlg1);// 4번째 인자 ( 새로운 다이얼로그 메세지 처리 루틴 생성)
+				DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)MsgDlg1);// 4번째 인자 ( 새로운 다이얼로그 메세지 처리 루틴 생성)
 			}break;
 
 		    case IDM_ABOUT:

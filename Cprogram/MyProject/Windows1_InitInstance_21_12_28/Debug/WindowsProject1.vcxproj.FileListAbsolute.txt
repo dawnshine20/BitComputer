@@ -1,4 +1,3 @@
 D:\HB\BITComputerLecture\BitComputer\Cprogram\MyProject\WindowsProject1\Debug\WindowsProject1.exe
 D:\HB\BITComputerLecture\BitComputer\Cprogram\MyProject\WindowsProject1\Debug\WindowsProject1.pdb
-C:\git\BitComputer\Cprogram\MyProject\Debug\WindowsProject1.pdb
 C:\git\BitComputer\Cprogram\MyProject\WindowsProject1\Debug\WindowsProject1.pdb
