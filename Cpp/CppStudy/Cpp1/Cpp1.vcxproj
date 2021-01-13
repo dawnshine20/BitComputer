@@ -24,6 +24,7 @@
     <ProjectGuid>{b589e554-d69d-4592-a73f-f61e6f4c349e}</ProjectGuid>
     <RootNamespace>Cpp1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CppStudy</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,7 +140,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="apple.cpp" />
+    <ClCompile Include="banana.cpp" />
     <ClCompile Include="Cpp1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="apple.h" />
+    <ClInclude Include="banana.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
