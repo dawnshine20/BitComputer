@@ -1,22 +1,22 @@
 //#include "apple.h"
 //#include <stdio.h>
 //
-//void CApple::f1() { // 傈开窃荐 f1牢单...
+//void CApple::f1() { // 鞝勳棴頃垬 f1鞚鸽嵃...
 //	printf("f1\n");
 //}
-//void CApple::f2() { // 傈开窃荐 f1牢单...
+//void CApple::f2() { // 鞝勳棴頃垬 f1鞚鸽嵃...
 //	printf("f2\n");
 //}
 
 //--------------------------------------------
-#include "apple.h"
-#include <stdio.h>
-
-CApple::CApple() {
-
-}
-
-void CApple::f2(CBanana* app) {// 4
-	printf("f2\n");
-	app->f3(); //5
-}
+//#include "apple.h"
+//#include <stdio.h>
+//
+//CApple::CApple() {
+//
+//}
+//
+//void CApple::f2(CBanana* app) {// 4
+//	printf("f2\n");
+//	app->f3(); //5
+//}

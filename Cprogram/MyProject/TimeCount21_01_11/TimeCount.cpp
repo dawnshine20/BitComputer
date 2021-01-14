@@ -139,12 +139,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			1000,   //1000ms= 1s 한번 메세지 WM_TIMER 발생
 			NULL    // 속성
 		);
-
 	}
 	case WM_TIMER:
 	{
-        
-
 		InvalidateRect(hWnd, NULL, true);
 	}break;
 

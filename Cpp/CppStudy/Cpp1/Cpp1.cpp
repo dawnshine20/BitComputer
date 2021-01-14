@@ -496,7 +496,7 @@ using namespace std;
 //	int* p = NULL;
 //	CTest() {
 //		if (p == NULL)
-//			p - new int[10];
+//			p = new int[10];
 //	}
 //
 //	// 100% 소멸자는 무조껀 virtual 붙여야 한다.
@@ -530,10 +530,10 @@ using namespace std;
 //	void SetHeight(int height){// Setter 함수
 //		this->height = height;
 //	}
-//	int GetWidth(){// Setter 함수
+//	int GetWidth(){// Getter 함수
 //		return width;
 //	}
-//	int GetHeight(){// Setter 함수
+//	int GetHeight(){// Getter 함수
 //		return height;
 //	}
 //};
@@ -547,5 +547,322 @@ using namespace std;
 //	
 //}
 #pragma endregion
+#pragma region 12.클래스 체이닝 응용
+//class CTest {
+//public:
+//	CTest& eat() {
+//		printf("1\n");
+//		return *this;
+//	}
+//	CTest& drink() {
+//		printf("2\n");
+//		return *this;
+//	}
+//	CTest& make() {
+//		printf("3\n");
+//		return *this;
+//	}
+//};
+//int main()
+//{
+//	CTest t;
+//	t.eat().eat().drink().make();
+//}
+#pragma endregion
+#pragma region 13.friend 함수
+//class CBanana;
+//class CApple {
+//	int data = 30;
+//public:
+//	//int getData() { return data; }
+//	// friend 키워드가 있으면 밖에서 원형에 관련된 함수를 찾아 낸다.
+//	// friend는 정확하게 클래스 소속은 아니지만 클래스 내부 데이터를 사용할 수 있다.
+//	// 예) 홍길동 - 자식은 아니지만 밥도 먹고 잠도자고 집에 있는 것들 사용 가능
+//	friend void com(CApple& app, CBanana& bpp);
+//};
+//class CBanana {
+//	int data = 20;
+//public:
+//	friend void com(CApple& app, CBanana& bpp);
+//};
+//
+////friend보다 setter, getter 사용하는 것이 더 유리함 friend는 setter,getter 개념이 약했을때 사용되었었음
+////클래스 소속인 경우 선언 차이 void CApple::com
+//void com(CApple& app, CBanana& bpp) {
+//	if (app.data > bpp.data) {
+//		printf("1\n");
+//	}
+//}
+//int main() {
+//	CApple a; 
+//	CBanana b;
+//	com(a, b);
+//}
+#pragma endregion
+#pragma region 14.복사생성자
+
+//class CTest { // code를 비워 놓으면 컴파일러가 자동으로 만들어주는 내용
+//	// 1. private:
+//	// 2. 디폴트 생성자
+//	// 3. 복사 생성자(내가 만들면 컴파일러가 안 만든다.)
+//	// 4. CTest* this;
+//};
+//
+//class CTiger {
+//private:
+//	int a = 10, b = 20;
+////복사 생성자는 안만들면 자동으로 만들어 진다.
+//public:
+//	CTiger() { // default 생성자
+//		printf("생성자 콜\n");
+//	};
+//	// 복사 생성자를 내가 만들 것이다.
+//	CTiger(CTiger& temp) { //<---컴파일러 내부에서 printf를 제외하고 복사생성자 (자동) 만들어줌
+//		//printf("복사 생성자 콜\n"); 
+//	}
+//	~CTiger() {
+//		printf("소멸자 콜\n");
+//	};
+//	void show() {
+//		printf("%d %d\n", this->a, this->b);
+//	}
+//};
+//
+//int main()
+//{
+//	CTiger t1;
+//	t1.show();
+//	CTiger t2 = t1; // << 문제의 코드
+//	t2.show();
+//}
+#pragma endregion
+#pragma region 14.복사생성자-2
+//class CTest { // code를 비워 놓으면 컴파일러가 자동으로 만들어주는 내용
+//	// 1. private:
+//	// 2. 디폴트 생성자
+//	// 3. 복사 생성자(내가 만들면 컴파일러가 안 만든다.)
+//	// 4. CTest* this;
+//};
+//
+//class CTiger {
+//private:
+//	int a, b;
+//	//복사 생성자는 안만들면 자동으로 만들어 진다.
+//public:
+//	CTiger() { // default 생성자
+//		a = 10;
+//		b = 20;
+//		printf("생성자 콜\n");
+//	};
+//	// 복사 생성자를 내가 만들 것이다.(내가 책임지고 변수 값도 넣어주어야 한다.)
+//	CTiger(CTiger& temp) { 
+//		a = 10;
+//		b = 20;
+//		printf("복사 생성자 콜\n"); 
+//	}
+//	void show() {
+//		printf("%d %d\n", this->a, this->b);
+//	}
+//};
+//
+//int main()
+//{
+//	CTiger t1;
+//	t1.show();
+//	CTiger t2 = t1; // << 문제의 코드
+//	t2.show();
+//}
+#pragma endregion
+#pragma region 14.복사생성자-3(deep copy)
+//class CTiger {
+//private:
+//	int a, b;
+//	int* p;
+//public:
+//	CTiger() { // default 생성자
+//		a = 10;	b = 20;
+//		p = new int;
+//		*p = 30;
+//	};
+//	
+//	// 컴파일러가 해주는 복사 형태
+//	//CTiger(CTiger& t) {
+//	//	a = t.a;
+//	//	b = t.b;
+//	//	p = t.p;// 공유가 일어남(shallow copy) <--- 문제가 되는 부분
+//	//}
+//
+//	// 내가 직접 해주는 복사형태(깊은 복사 형태로 만들어줘야한다)
+//	CTiger(CTiger& t) {
+//		a = t.a;
+//		b = t.b;
+//		p = new int;// (deep copy) 
+//		*p = 30; // 직접 넣어서 제어해주어야한다.
+//	}
+//
+//	void show() {
+//		printf("%d %d\n", *this->p, p);
+//	}
+//	~CTiger() {
+//		delete p; // < 공유된 메모리를 해제하기 떄문에 2번 해제, 때문에 프로그램이 죽어버림
+//	}
+//};
+//
+//int main()
+//{
+//	CTiger t1;
+//	CTiger t2 = t1;
+//	t1.show();
+//	t2.show();
+//
+//}
+#pragma endregion
+#pragma region 15.static 변수
+//class CTiger {
+//public:
+//	int a;
+//	//컴파일 후에 전역화 된다.
+//	static int b; // 스테틱 변수는 반드시 값을 초기화 해야 한다.
+//
+//	static void f1() {
+//		
+//	}
+//};
+//int CTiger::b = 100; // static변수는 클래스 외부에서 초기화 가능하다.
+//
+////void f1() {
+////	int a = 0;
+////	// 다른 함수에서 접근을 불가하도록 만들면서 전역으로 사용하기 위해 static 키워드를 사용한다.
+////	static int b = 0; // 컴파일 되고 나면 전역변수로 올라감
+////	a++;
+////	b++;
+////	printf("%d %d\n", a, b);
+////}
+//
+//int main()
+//{
+//	//객체를 생성시키지 않고도 바로 사용할 수 있다.
+//	printf("%d\n", CTiger::b);
+//	CTiger::b++;
+//	printf("%d\n", CTiger::b);
+//
+//	CTiger t1;
+//	printf("%d\n", t1.b);
+//	t1.b++;
+//// 모든 생성되는 객체의 공용 변수 == static 변수
+//	CTiger t2;
+//	printf("%d\n", t2.b);
+//}
+#pragma endregion
+#pragma region 15.static 변수-2
+//class CTiger {
+//public:
+//	int a;
+//	//컴파일 후에 전역화 된다.
+//	static int b; // 스테틱 변수는 반드시 값을 초기화 해야 한다.
+//
+//	CTiger() {
+//		b++;
+//	}
+//	~CTiger() {
+//		b--;
+//	}
+//	static void f1() {
+//
+//	}
+//};
+//int CTiger::b = 0; // static변수는 클래스 외부에서 초기화 가능하다.
+////↓↓↓↓ static 변수 초기화 잘못 사용하는 예
+////CTiger::b = 0;
+////int b = 0;
+//
+//int main()
+//{
+//	// 메모리 누수 여부를 생성자와 소멸자 갯수로 판단이 가능하다.
+//	{
+//		CTiger t1, t2, t3;
+//		CTiger* t4 = new CTiger;
+//		printf("%d\n", CTiger::b);
+//
+//		delete t4;
+//	}
+//	printf("%d\n", CTiger::b);
+//}
+//
+#pragma endregion
+#pragma region 16.static 함수
+//class CTiger {
+//	int a, b, c, d;
+//	int ar[100];
+//	static int count;
+//public:
+//	//객체를 생성시키지 않고 바로 사용 할 수 있다.
+//	static void f1() {
+//		printf("콜\n");
+//	}
+//	//// 잘못된 사용
+//	//void f2() {
+//	//	count++;
+//	//	printf("콜\n");
+//	//}
+//	// 맞는 사용
+//	static void f2() {
+//		count++;
+//		printf("콜\n");
+//	}
+//	//// 잘못된 사용
+//	//void f3() {
+//	//	f2();
+//	//}
+//	// 옳은 사용
+//	static void f3() {
+//		f2();
+//	}
+//};
+//
+//int main()
+//{
+//	CTiger::f1();
+//}
+
+#pragma endregion
+#pragma region MyRegion
+class CTiger {
+private:
+	int a;
+	void 기침약() {
+		//함수는 최소한의 기능을 가지도록 제작된다.
+		// 한 함수는 한 기능만 수행되도록 만들어져야 한다.
+	}
+	void 해열제() {
+
+	}
+	void 콧물약() {
+
+	}
+public:
+	//void f1(const int x,const int* const p) const{
+	//	//멤버 변수 변경 불가
+	//	//a = 10; // 불가
+	//}
+	
+	void 종합감기약() { // 캡슐화
+		기침약();
+		해열제();
+		콧물약();
+	}
+};
+int main()
+{
+	CTiger t;
+	//t.기침약();
+	//t.해열제();
+	//t.콧물약();
+	t.종합감기약();
+
+}
+#pragma endregion
+
+
 
 #pragma endregion

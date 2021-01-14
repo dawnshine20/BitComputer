@@ -1,23 +1,23 @@
 //#include "banana.h"
 //#include <stdio.h>
 //
-//void CBanana::f1() { // Àü¿ªÇÔ¼ö f1ÀÎµ¥...
+//void CBanana::f1() { // ì „ì—­í•¨ìˆ˜ f1ì¸ë°...
 //	printf("f1\n");
 //}
-//void CBanana::f2() { // Àü¿ªÇÔ¼ö f1ÀÎµ¥...
+//void CBanana::f2() { // ì „ì—­í•¨ìˆ˜ f1ì¸ë°...
 //	printf("f2\n");
 //}
 //
 //--------------------------------------------
-#include "apple.h"
-#include "banana.h"
-#include <stdio.h>
-
-	void CBanana::f1() { //2
-		printf("f1\n");
-		CApple app;
-		app.f2(this);//3
-	}
-	void CBanana::f3() {//6
-		printf("f3\n");
-	}
+//#include "apple.h"
+//#include "banana.h"
+//#include <stdio.h>
+//
+//void CBanana::f1() { //2
+//	printf("f1\n");
+//	CApple app;
+//	app.f2(this);//3
+//}
+//void CBanana::f3() {//6
+//	printf("f3\n");
+//}
