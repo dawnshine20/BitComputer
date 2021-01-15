@@ -354,71 +354,473 @@ using namespace std;
 //}
 #pragma endregion
 #pragma region 업캐스팅 예제3
-class CAnimal {
+//class CAnimal {
+//public:
+//	virtual void cry() = 0; // 순수 가상함수.(처음부터 코드가 없는 형태)
+//};
+//
+//class CCat :public CAnimal {
+//public:
+//	void cry() {
+//		printf("야옹\n");
+//	}
+//};
+//class CDog :public CAnimal {
+//public:
+//	void cry() {
+//		printf("멍멍\n");
+//	}
+//};
+//class CSnake :public CAnimal {
+//public:
+//	void cry() {
+//		printf("쉭쉭\n");
+//	}
+//};
+//
+//int main()
+//{
+//	srand((signed)time(NULL));
+//	
+//	
+//	//CCat a; CDog b; CSnake  c;
+//	//for (int i = 0; i < 5; i++)
+//	//{
+//	//	int num = rand() % 3; // 0 1 2
+//	//	switch (num) {
+//	//	case 0:
+//	//	{
+//	//		a.cry();
+//	//	}break;
+//	//	case 1:
+//	//	{
+//	//		b.cry();
+//	//	}break;
+//	//	case 2:
+//	//	{
+//	//		c.cry();
+//	//	}break;
+//	//	}
+//	//}
+//	//---------위 코드와 아래코드는 같은 코드이다.(ㄷㄷ)------------------------
+//
+//	CCat* a = new CCat;
+//	CDog* b = new CDog;
+//	CSnake* c = new CSnake;
+//
+//	CAnimal* ani[] = { new CCat , new CDog, new CSnake };
+//	//ani[0] = new CCat;
+//	//ani[1] = new CDog;
+//	//ani[2] = new CSnake;
+//
+//	for (int i = 0; i < 5; i++)
+//	{
+//		int num = rand() % 3; // 0 1 2
+//		ani[num]->cry();
+//	}
+//	
+//}
+//
+#pragma endregion
+#pragma region 같은 level의 상속 단계는 아무런 관계가 없다.
+//class CA{
+//public:
+//	void f1() { printf("f1"); }
+//};
+//class CB : public CA {
+//	void f2() { printf("f2"); }
+//};
+//class CC : public CB {
+//	void f3() { printf("f3"); }
+//};
+//class CD : public CB {
+//	void f4() { printf("f4"); }
+//};
+//
+////		A(f1)
+////		B(f2)
+////	C(f3)		D(f4)
+//// 같은 레벨에 존재하지만 C와 D는 아무런 관계가 없다.
+//int main()
+//{
+//	CA a; // 1
+//	CB b; // 12
+//	CC c; // 123
+//	CD d; // 124
+//
+//}
+
+#pragma endregion
+#pragma region 생성자 (신)문법
+//class CA {
+//public:
+//	int x, y;
+//public:
+//	/*CA() {
+//		x = 0;
+//		y = 0;
+//	}*/
+//	// 위와 아래 코드는 완전한 동격 코드이다.(아래 코드가 성능이 더 좋음)
+//	CA() : x(0), y(0) {}
+//
+//	//-----------------------------------------
+//
+//	/*CA(int a, int b)
+//	{
+//		x = a;
+//		y = b;
+//	}*/
+//	// 위와 아래 코드는 완전한 동격 코드이다.
+//	CA(int a, int b) : x(a), y(b) {
+//	}
+//
+//	//---------------------------------------
+//	/*CA(int x, int y)
+//	{
+//		this -> x = x;
+//		this -> y = y;
+//	}*/
+//	// 위와 아래 코드는 완전한 동격 코드이다.
+//	CA(int x, int y) : x(x), y(y) {
+//	}
+//};
+//
+//int main()
+//{
+//
+//}
+
+#pragma endregion
+#pragma region 컴파일러가 자동으로 생성해주는 주요 구문들
+//class CA {
+//	//private:
+//	// 디폴트 생성자가 만들어진다.
+//	// 복사 생성자가 만들어진다.
+//	// CA* this
+//	//객체가 생성 될때 this 안에는 생성된 객체의 주소가 들어가 있다.
+//	//this = &a;
+//	//소멸자 자동생성
+//};
+//
+//int main()
+//{
+//	CA a;
+//}
+#pragma endregion
+#pragma region 알파고 베타고
+//class AI {
+//public:
+//	virtual void playSet() = 0;
+//};
+//class CAlphaGo : public AI {
+//public:
+//	void playSet() {
+//		printf("인공지능은 알파고입니다.\n");
+//	}
+//};
+//class CBetaGo : public AI {
+//public:
+//	void playSet() {
+//		printf("인공지능은 베타고입니다.\n");
+//	}
+//};
+//
+//class CA {
+//public:
+//	CA() {
+//		printf("경기를 시작합니다.\n");
+//	}
+//	//void play(CAlphaGo* ag) { // 문제의 코드: 비슷한 동일한 함수 생김(업캐스팅 필요)
+//	//	ag->playSet();
+//	//	printf("바둑 대국 중...\n");
+//	//}
+//	//void play(CBetaGo* bg) { // 문제의 코드: 비슷한 동일한 함수 생김(업캐스팅 필요)
+//	//	bg->playSet();
+//	//	printf("바둑 대국 중...\n");
+//	//}
+//	void play(AI* ai) {  // 해결된 코드
+//		ai->playSet();
+//		printf("바둑 대국 중...\n");
+//	}
+//};
+//
+//
+//int main()
+//{
+//	CA a;
+//	a.play(new CAlphaGo);
+//	a.play(new CBetaGo);
+//}
+//
+#pragma endregion
+#pragma region 알파고 베타고 진화버전(질나쁜 코드)
+//class AI {
+//public:
+//	virtual void playSet() = 0;
+//	virtual void end() = 0;
+//};
+//
+//class CAlphaGo : public AI {
+//public:
+//	void playSet() {
+//		printf("인공지능은 알파고입니다.\n");
+//	}
+//	void end() {
+//		printf("알파고가 개가 중입니다.\n");
+//	}
+//};
+//class CBetaGo : public AI {
+//public:
+//	void playSet() {
+//		printf("인공지능은 베타고입니다.\n");
+//	}
+//	void end() {
+//		printf("베타고가 개가 중입니다.\n");
+//	}
+//};
+//
+//class CA {
+//public:
+//
+//	CA() {
+//		printf("경기를 시작합니다.\n");
+//	}
+//	//---------질나쁜 코드----------(구태여 인수 전달해서 비용을 증가시킴)
+//	void play(AI * ai) {
+//		ai->playSet();
+//		printf("바둑 대국 중...\n");
+//	}
+//
+//	void end(AI * ai) {
+//		ai->end();
+//	}
+//	//---------질나쁜 코드----------
+//};
+//
+//
+//int main()
+//{
+//	CA a;
+//	a.play(new CAlphaGo);//문제점
+//	a.play(new CBetaGo);//문제점
+//	a.end(new CAlphaGo);//문제점
+//	a.end(new CBetaGo);//문제점
+//}
+#pragma endregion
+#pragma region 해결(질 좋은 코드)_클래스의 의존적 관계 사용
+//class AI {
+//public:
+//	virtual void playSet() = 0;
+//	virtual void end() = 0;
+//};
+//
+//class CAlphaGo : public AI {
+//public:
+//	void playSet() {
+//		printf("인공지능은 알파고입니다.\n");
+//	}
+//	void end() {
+//		printf("알파고가 개가 중입니다.\n");
+//	}
+//};
+//class CBetaGo : public AI {
+//public:
+//	void playSet() {
+//		printf("인공지능은 베타고입니다.\n");
+//	}
+//	void end() {
+//		printf("베타고가 개가 중입니다.\n");
+//	}
+//};
+//
+//class CA { // AI 클래스와 CA는 의존적 관계에 있다.
+//public:
+//	AI* ai;
+//	CA(AI* ai):ai(ai) { // >>>>>>>>> 주입(injection)
+//		//this -> ai = ai
+//		printf("경기를 시작합니다.\n");
+//	}
+//	//---------고친 코드----------
+//	void play() {
+//		ai->playSet();
+//		printf("바둑 대국 중...\n");
+//	}
+//
+//	void end() {
+//		ai->end();
+//	}
+//	//-------------------------
+//};
+//
+//
+//int main()
+//{
+//	CA a(new CAlphaGo);
+//	a.play();
+//	a.end();
+//
+//	printf("\n");
+//	printf("\n");
+//
+//	CA b(new CBetaGo);
+//	b.play();
+//	b.end();
+//	
+//}
+#pragma endregion
+#pragma region 상속과 소멸자의 관계(upcasting케이스) virtual을 붙이는 이유
+//class A {
+//public:
+//	A() {
+//		printf("A생콜\n");
+//	}
+//	virtual ~A() { // virtual을 붙임으로써 자식 소멸자도 불러주게 된다.
+//		printf("A소콜\n");
+//	}
+//};
+//class B : public A {
+//public:
+//	B() {
+//		printf("B생콜\n");
+//	}
+//	virtual ~B() { // 누가 또 상속 받을 것을 대비해서 virtual을 사용한다.
+//		printf("B소콜\n");
+//	}
+//};
+//
+//int main()
+//{
+//	//부자자부
+//	A* a = new B;
+//	delete a;
+//}
+//
+//class A {
+//public:
+//	A() {
+//		printf("A생콜\n");
+//	}
+//	virtual ~A() { // virtual을 붙임으로써 자식 소멸자도 불러주게 된다.
+//		printf("A소콜\n");
+//	}
+//};
+//class B : public A {
+//public:
+//	B() {
+//		printf("B생콜\n");
+//	}
+//	virtual ~B() { // 누가 또 상속 받을 것을 대비해서 virtual을 사용한다.
+//		printf("B소콜\n");
+//	}
+//};
+//
+//int main()
+//{
+//	//부자자부
+//	A* a = new B;
+//	delete a;
+//}
+//
+//
+#pragma endregion
+#pragma region 자식이 부모를 2개 상속?(다중 상속)
+//class AI {
+//
+//};
+//
+//class A: public AI {
+//public:
+//	void f1() {
+//		printf("1\n");
+//	}
+//};
+//class B: public AI {
+//public:
+//	void f2() {
+//		printf("2\n");
+//	}
+//};
+//class C: public A, public B  {
+//public:
+//	void f3() {
+//		printf("3\n");
+//	}
+//};
+//
+//int main()
+//{
+//	C c;
+//	c.f1();
+//	c.f2();
+//	c.f3();
+//}
+#pragma endregion
+#pragma region namespace 사용법
+//// std도 사용하지 않더라도 프로그램 메모리에 무조껀 잡고 들어가는건지?
+//
+////전역변수로 쓰면 되지 왜 네임스페이스로 만드는가?
+////산 사람 입장에서 int a, int b라는 더이상 선언 할 수 없다.
+//// 다른 회사 라이브러리 가져오면 변수명 겹칠 가능성 다분히 존재한다.
+//// 보통 namespace는 회사 이름을 사용한다.
+//using namespace std;
+//
+//namespace AAA {
+//	int a = 10;
+//	int b = 20;
+//	void f1() {
+//		printf("test\n");
+//	}
+//};
+//
+//int main()
+//{
+//	printf("%d\n", AAA::a);
+//	AAA::f1();
+//}
+#pragma endregion
+
+#pragma region MFC 다운캐스팅 문법을 위한  실습예제
+
+class A {
 public:
-	virtual void cry() = 0; // 순수 가상함수.(처음부터 코드가 없는 형태)
+	void f1(){}
+};
+class B: public A {
+public:
+	void f2() {}
 };
 
-class CCat :public CAnimal {
+class D {
 public:
-	void cry() {
-		printf("야옹\n");
+	void f1(A* a) { // 부<=자 업 캐스팅
+		//
+		a->f1();
+		B* b = (B * )a;
+		b->f2();
 	}
-};
-class CDog :public CAnimal {
-public:
-	void cry() {
-		printf("멍멍\n");
-	}
-};
-class CSnake :public CAnimal {
-public:
-	void cry() {
-		printf("쉭쉭\n");
+	A* GetDlgItem() {
+		return new B;
 	}
 };
 
-int main()
-{
-	srand((signed)time(NULL));
-	
-	
-	//CCat a; CDog b; CSnake  c;
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	int num = rand() % 3; // 0 1 2
-	//	switch (num) {
-	//	case 0:
-	//	{
-	//		a.cry();
-	//	}break;
-	//	case 1:
-	//	{
-	//		b.cry();
-	//	}break;
-	//	case 2:
-	//	{
-	//		c.cry();
-	//	}break;
-	//	}
-	//}
-	//---------위 코드와 아래코드는 같은 코드이다.(ㄷㄷ)------------------------
+int main() {
+	A* a = new B;
+	D d;
+	d.f1(new B);
 
-	CCat* a = new CCat;
-	CDog* b = new CDog;
-	CSnake* c = new CSnake;
+	A* a1 = d.GetDlgItem();
+	a1->f1();
 
-	CAnimal* ani[] = { new CCat , new CDog, new CSnake };
-	//ani[0] = new CCat;
-	//ani[1] = new CDog;
-	//ani[2] = new CSnake;
+	B* a2 = (B*)d.GetDlgItem();
+	a2->f2();
 
-	for (int i = 0; i < 5; i++)
-	{
-		int num = rand() % 3; // 0 1 2
-		ani[num]->cry();
-	}
-	
+	//다형성 이용하기 위해 부모 주소 먼저 받고 쓰고자하는 함수는 다운 캐스팅 해서 사용해라
+	// 버튼 클래스 뿐만 아니라 리스트박스 클래스, 등등 여러개의 자식 클래스가 있는데 일일히 다 함수로 만들 수 없기 때문에
+	// 다형성을 이용하는것이 최적화된 코드이기 때문에 사용된 기법이다.
 }
 
 #pragma endregion
+
+
+
+
