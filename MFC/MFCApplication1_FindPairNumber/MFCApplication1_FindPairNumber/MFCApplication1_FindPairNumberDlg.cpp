@@ -77,6 +77,10 @@ BEGIN_MESSAGE_MAP(CMFCApplication1FindPairNumberDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON10, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton10)
 	ON_BN_CLICKED(IDC_BUTTON11, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton11)
 	ON_BN_CLICKED(IDC_BUTTON12, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton12)
+	ON_BN_CLICKED(IDC_BUTTON13, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton13)
+	ON_BN_CLICKED(IDC_BUTTON14, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton14)
+	ON_BN_CLICKED(IDC_BUTTON15, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton15)
+	ON_BN_CLICKED(IDC_BUTTON16, &CMFCApplication1FindPairNumberDlg::OnBnClickedButton16)
 END_MESSAGE_MAP()
 
 
@@ -165,223 +169,585 @@ HCURSOR CMFCApplication1FindPairNumberDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-//----------------------------------------------------------
 int clickedCnt = 0;
 bool isEven = false;
 
-class CPairGame {
+class CUserInform 
+{
 private:
 	int cardNumber1;
 	int cardNumber2;
+	int btnId1;
+	int btnId2;
 
 public:
-	CPairGame() {
+	CUserInform() {
 		cardNumber1 = 0;
 		cardNumber2 = 0;
 	}
-
-	void SetCardNumber1(int number){
-		this->cardNumber1 = number;
-		//MessageBox(NULL,TEXT("0X01"), TEXT("알림"), MB_OK);
+	void SetBtnId1(int btnId) {
+		this->btnId1 = btnId;
 	}
-	
-	void SetCardNumber2(int number){
-		this->cardNumber2 = number;
-		//MessageBox(NULL, TEXT("0X10"), TEXT("알림"), MB_OK);
+	void SetBtnId2(int btnId) {
+		this->btnId2 = btnId;
+	}
+	int GetBtnId1() {
+		return btnId1;
+	}
+	int GetBtnId2() {
+		return btnId2;
 	}
 
+	void SetCardNumber1(int cardNum) {
+		this->cardNumber1 = cardNum;
+	}
+	void SetCardNumber2(int cardNum) {
+		this->cardNumber2 = cardNum;
+	}
 	int GetCardNumber1() {
 		return cardNumber1;
 	}
-
-	int GetCardNumber2(){
+	int GetCardNumber2() {
 		return cardNumber2;
 	}
 
-	bool CompareCard() 
+	bool CompareCard()
 	{
-		if (!isEven)
-			return false;
-
-		if (isEven && (cardNumber1 == cardNumber2))
-		{
+		if (this->cardNumber1 == this->cardNumber2)
 			return true;
+		else
+			return false;
+	}
+
+	void RegisterCard(CString strBtnNum, int btnId) {
+		int cardNumber = _ttoi(strBtnNum); // btn to int
+
+		if (clickedCnt == 0) // 클릭 횟수가 짝수라면
+		{
+			isEven = true;
+			this->SetCardNumber2(cardNumber);
+			this->SetBtnId2(btnId);
+		}
+		else
+		{
+			isEven = false;
+			this->SetCardNumber1(cardNumber);
+			this->SetBtnId1(btnId);
 		}
 	}
+
 };
 
-CPairGame* User= new CPairGame;
+CUserInform* User = new CUserInform;
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton1()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CString  strTest;
-	int cardNumber;
-
+	CString strBtnNum;
 	clickedCnt++;
 	clickedCnt %= 2;
 
-	if (clickedCnt == 0)
-		isEven = true;
-	else
-		isEven = false;
-
 	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON1);
-	t->GetWindowTextW(strTest);
+	t->GetWindowTextW(strBtnNum);
 
-	cardNumber = _ttoi(strTest);
-
-	if (!isEven)
+	User->RegisterCard(strBtnNum, IDC_BUTTON1);
+		
+	if (isEven)
 	{
-		User->SetCardNumber1(cardNumber);
-		MessageBox(TEXT("1회 클릭"), TEXT("알림"), MB_OK);
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+			
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
 	}
-	else {
-		User->SetCardNumber2(cardNumber);
-		MessageBox(TEXT("2회 클릭"), TEXT("알림"), MB_OK);
-	}
-
-
-	if (User->CompareCard() && (isEven))
-	{
-		GetDlgItem(IDC_BUTTON1)->EnableWindow(false);
-		GetDlgItem(IDC_BUTTON2)->EnableWindow(false);
-	}
-
-	
-
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton2()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CString  strTest;
-	int cardNumber;
-
+	CString strBtnNum;
 	clickedCnt++;
 	clickedCnt %= 2;
 
-	if (clickedCnt == 0)
-		isEven = true;
-	else
-		isEven = false;
-
 	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON2);
-	t->GetWindowTextW(strTest);
+	t->GetWindowTextW(strBtnNum);
 
-	cardNumber = _ttoi(strTest);
+	User->RegisterCard(strBtnNum, IDC_BUTTON2);
 
-	if (clickedCnt == 0)
+	if (isEven)
 	{
-		User->SetCardNumber1(cardNumber);
-		MessageBox(TEXT("1회 클릭"), TEXT("알림"), MB_OK);
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
 	}
-	else {
-		User->SetCardNumber2(cardNumber);
-		MessageBox(TEXT("2회 클릭"), TEXT("알림"), MB_OK);
-	}
-
-
-	if (User->CompareCard() && (isEven))
-	{
-		GetDlgItem(IDC_BUTTON1)->EnableWindow(false);
-		GetDlgItem(IDC_BUTTON2)->EnableWindow(false);
-	}
-
-
-
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton3()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CString  strTest;
-	int cardNumber;
-
+	CString strBtnNum;
 	clickedCnt++;
 	clickedCnt %= 2;
 
-	if (clickedCnt == 0)
-		isEven = true;
-	else
-		isEven = false;
-
 	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON3);
-	t->GetWindowTextW(strTest);
+	t->GetWindowTextW(strBtnNum);
 
-	cardNumber = _ttoi(strTest);
+	User->RegisterCard(strBtnNum, IDC_BUTTON3);
 
-	if (!isEven)
+	if (isEven)
 	{
-		User->SetCardNumber1(cardNumber);
-		MessageBox(TEXT("1회 클릭"), TEXT("알림"), MB_OK);
-	}
-	else {
-		User->SetCardNumber2(cardNumber);
-		MessageBox(TEXT("2회 클릭"), TEXT("알림"), MB_OK);
-	}
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
 
-
-	if (User->CompareCard() && (isEven))
-	{
-		GetDlgItem(IDC_BUTTON1)->EnableWindow(false);
-		GetDlgItem(IDC_BUTTON2)->EnableWindow(false);
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
 	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton4()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON4);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON4);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton5()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON5);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON5);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton6()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON6);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON6);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton7()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON7);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON7);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton8()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON8);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON8);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton9()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON9);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON9);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton10()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON10);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON10);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton11()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON11);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON11);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
 
 
 void CMFCApplication1FindPairNumberDlg::OnBnClickedButton12()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON12);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON12);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+}
+
+
+void CMFCApplication1FindPairNumberDlg::OnBnClickedButton13()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON13);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON13);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+}
+
+
+void CMFCApplication1FindPairNumberDlg::OnBnClickedButton14()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON14);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON14);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+}
+
+
+void CMFCApplication1FindPairNumberDlg::OnBnClickedButton15()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON15);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON15);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+}
+
+
+void CMFCApplication1FindPairNumberDlg::OnBnClickedButton16()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strBtnNum;
+	clickedCnt++;
+	clickedCnt %= 2;
+
+	CButton* t = (CButton*)GetDlgItem(IDC_BUTTON16);
+	t->GetWindowTextW(strBtnNum);
+
+	User->RegisterCard(strBtnNum, IDC_BUTTON16);
+
+	if (isEven)
+	{
+		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		{
+
+			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
+		}
+		else
+		{
+			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
+			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
+			GetDlgItem(User->GetBtnId2())->EnableWindow(true);
+		}
+	}
+	else
+		GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 }
