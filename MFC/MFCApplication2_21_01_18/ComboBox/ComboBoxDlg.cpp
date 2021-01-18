@@ -130,7 +130,7 @@ BOOL CComboBoxDlg::OnInitDialog()
 	//pComboBox->AddString(_T("자두"));
 	
 	
-	pComboBox->SetItemData(0, 0.01); // 수박 변수 안에 500이라는 int값을 저장한다.
+	pComboBox->SetItemData(0, 500); // 수박 변수 안에 500이라는 int값을 저장한다.
 	pComboBox->SetItemData(1, 1500);
 	pComboBox->SetItemData(2, 2500);
 	pComboBox->SetItemData(3, 3500);
