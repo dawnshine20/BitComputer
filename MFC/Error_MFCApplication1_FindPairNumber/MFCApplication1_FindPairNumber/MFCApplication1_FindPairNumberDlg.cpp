@@ -256,14 +256,15 @@ void CMFCApplication1FindPairNumberDlg::OnBnClickedButton1()
 
 	User->RecordNumOfClicked();
 	User->RegisterCard(pWnd, IDC_BUTTON1);
+
 	if (isEven) // 클릭횟수가 짝수인 경우
 	{
-		if (User->CompareCard()) // 두개의 카드의 수를 비교한다
+		if (User->CompareCard()) // 선택된 두개의 카드가 같은 경우
 		{
 			GetDlgItem(User->GetBtnId1())->EnableWindow(false);
 			GetDlgItem(User->GetBtnId2())->EnableWindow(false);
 		}
-		else
+		else // 선택된 두개의 카드가 같지 않은 경우
 		{
 			// 이전에 넣었던 cardNumber1의 홀수 버튼 id 복원 시켜야함
 			GetDlgItem(User->GetBtnId1())->EnableWindow(true);
@@ -340,3 +341,185 @@ void CMFCApplication1FindPairNumberDlg::OnBnClickedButton12()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
+
+
+///-------------------지원씨 코드----------------
+//ON_COMMAND_RANGE(IDC_CARD1_1, IDC_CARD6_2, &CCardGameDlg::SpareBtn)
+//...
+//CWnd* BeforeCardObjt;		// 이전 버튼의 객체 주소를 저장하기 위한 변수.
+//// 같은 번호를 가지는 카드인지 체크하는 함수.
+//// 이전 버튼 객체의 주소와 현재 버튼 객체의 주소를 비교한다.
+//// 인수 ->  ID1 : 현재 버튼 ID, ID2 : 같은 번호의 버튼 ID.
+//void CCardGameDlg::SameCardCheck(INT ID1, INT ID2)
+//{
+//	// 버튼의 활성화, visible 제어를 위한 변수.
+//	static BOOL state = FALSE;
+//	// 재시작을 위한 변수.
+//	static WORD FindNum = 0;
+//	// 버튼 클릭 횟수.
+//	static WORD cnt = 0;
+//	++cnt;
+//	// 현재 버튼의 객체 주소 저장, 클릭 시 비활성화.
+//	CWnd* CardObjt = GetDlgItem(ID1);
+//	CardObjt->EnableWindow(state);
+//	// 이전 버튼의 객체 주소와 현재 버튼의 객채 주소가 같고, 버튼 클릭 횟수가 짝수일 경우.
+//	if (BeforeCardObjt == GetDlgItem(ID2) && cnt % 2 == 0)
+//	{
+//		// 이전 버튼과 현재 버튼 비활성화/invisible.
+//		CardObjt->EnableWindow(state);
+//		BeforeCardObjt->EnableWindow(state);
+//		CardObjt->ShowWindow(state);
+//		BeforeCardObjt->ShowWindow(state);
+//		++FindNum;
+//	}
+//	// 버튼 클릭 횟수가 짝수일 경우.
+//	if (cnt % 2 == 0)
+//	{
+//		// 이전 버튼과 현재 버튼 활성화.
+//		state = TRUE;
+//		BeforeCardObjt->EnableWindow(state);
+//		CardObjt->EnableWindow(state);
+//	}
+//	// 모든 카드 세트를 찾을 경우 재시작.
+//	if (FindNum == CARDSET)
+//	{
+//		state = TRUE;
+//		CardObjt = GetDlgItem(IDC_START);
+//		CardObjt->EnableWindow(state);
+//		CardObjt->ShowWindow(state);
+//		FindNum = 0;
+//	}
+//	// 다음 버튼 클릭 시 비교를 위해 이전 카드 객체 주소에 현재 객체 주소를 저장.
+//	BeforeCardObjt = CardObjt;
+//	state = FALSE;
+//}
+//// 버튼 이벤트 발생 시 각 버튼 ID에 따라 SameCardCheck() 함수를 실행.
+//void CCardGameDlg::SpareBtn(UINT BTNID)
+//{
+//	switch (BTNID)
+//	{
+//	case IDC_CARD1_1:
+//		SameCardCheck(IDC_CARD1_1, IDC_CARD1_2);
+//		break;
+//	case IDC_CARD1_2:
+//		SameCardCheck(IDC_CARD1_2, IDC_CARD1_1);
+//		break;
+//	case IDC_CARD2_1:
+//		SameCardCheck(IDC_CARD2_1, IDC_CARD2_2);
+//		break;
+//	case IDC_CARD2_2:
+//		SameCardCheck(IDC_CARD2_2, IDC_CARD2_1);
+//		break;
+//	case IDC_CARD3_1:
+//		SameCardCheck(IDC_CARD3_1, IDC_CARD3_2);
+//		break;
+//	case IDC_CARD3_2:
+//		SameCardCheck(IDC_CARD3_2, IDC_CARD3_1);
+//		break;
+//	case IDC_CARD4_1:
+//		SameCardCheck(IDC_CARD4_1, IDC_CARD4_2);
+//		break;
+//	case IDC_CARD4_2:
+//		SameCardCheck(IDC_CARD4_2, IDC_CARD4_1);
+//		break;
+//	case IDC_CARD5_1:
+//		SameCardCheck(IDC_CARD5_1, IDC_CARD5_2);
+//		break;
+//	case IDC_CARD5_2:
+//		SameCardCheck(IDC_CARD5_2, IDC_CARD5_1);
+//		break;
+//	case IDC_CARD6_1:
+//		SameCardCheck(IDC_CARD6_1, IDC_CARD6_2);
+//		break;
+//	case IDC_CARD6_2:
+//		SameCardCheck(IDC_CARD6_2, IDC_CARD6_1);
+//		break;
+//	}
+//}
+//// 게임 시작 버튼.
+//// 버튼을 누르면 게임 시작 버튼을 비활성화, invisible 상태로 만들고
+//// 보이지 않던 모든 카드를 활성화, visible 상태로 만든다.
+//void CCardGameDlg::OnBnClickedStart()
+//{
+//	// 버튼의 활성화, visible 제어를 위한 변수.
+//	static BOOL state = FALSE;
+//	// START GAME 버튼의 객채 주소를 얻고 비활성화, invisible 상태로 만든다.
+//	CWnd* CardObjt;
+//	CardObjt = GetDlgItem(IDC_START);
+//	CardObjt->EnableWindow(state);
+//	CardObjt->ShowWindow(state);
+//	// 카드에 해당하는 각각의 버튼을 활성화, visible 상태로 만든다.
+//	state = !state;
+//	for (int i = 0; i < CARDNUM; i++)
+//	{
+//		CardObjt = GetDlgItem(IDC_CARD1_1 + i);
+//		CardObjt->ShowWindow(state);
+//		CardObjt->EnableWindow(state);
+//	}
+//	// 이전 버튼 객체 주소에 START GAME 버튼의 객체 주소를 저장한다.
+//	BeforeCardObjt = GetDlgItem(IDC_START);
+//}
+//
+////----------------------지훈씨 코드
+//
+//BEGIN_MESSAGE_MAP(CMFCApplication2Dlg, CDialogEx)
+//	ON_WM_SYSCOMMAND()
+//	ON_WM_PAINT()
+//	ON_WM_QUERYDRAGICON()
+//	ON_COMMAND_RANGE(IDC_BTN01, IDC_BTN88, Onbutton1)
+//	ON_BN_CLICKED(IDC_RESET, &CMFCApplication2Dlg::OnBnClickedReset)
+//END_MESSAGE_MAP()
+//// 전 버튼의 ID
+//int firstID = 0;
+//// 현재 누른 버튼의ID
+//int secondID = 0;
+//// 짝수번으로 선택한 버튼인 상황에서 이전 버튼과 다를경우를 세기위해.
+//int even = 0, check = 1;
+//// 버튼 비활성화, 사라짐
+//void CMFCApplication2Dlg::ClikBTN(int IDsecond, int IDfirst, int num) {
+//	GetDlgItem(IDsecond)->EnableWindow(false);
+//	// 현재 id가 1007 이하일때
+//	int id1 = IDsecond + 8;
+//	if (IDsecond < 1008) {
+//		if (IDfirst == id1) {
+//			GetDlgItem(IDfirst)->ShowWindow(false);
+//			GetDlgItem(IDsecond)->ShowWindow(false);
+//		}
+//		if (IDfirst != id1 && num == 0) {
+//			GetDlgItem(IDfirst)->EnableWindow(true);
+//			GetDlgItem(IDsecond)->EnableWindow(true);
+//		}
+//	}
+//	// 현재 id가 1008이상 1015 이하일때
+//	int id2 = IDsecond - 8;
+//	if (IDsecond < 1016 && IDsecond > 1007) {
+//		if (IDfirst == id2) {
+//			GetDlgItem(IDfirst)->ShowWindow(false);
+//			GetDlgItem(IDsecond)->ShowWindow(false);
+//		}
+//		if (IDfirst != id2 && num == 0) {
+//			GetDlgItem(IDfirst)->EnableWindow(true);
+//			GetDlgItem(IDsecond)->EnableWindow(true);
+//		}
+//	}
+//}
+//// 버튼 클릭시
+//void CMFCApplication2Dlg::Onbutton1(UINT ID) {
+//	even = check % 2;
+//	firstID = secondID;
+//	secondID = ID;
+//	ClikBTN(secondID, firstID, even);
+//	check++;
+//}
+//// 리셋
+//void CMFCApplication2Dlg::OnBnClickedReset()
+//{
+//	for (int i = 0; i < 16; i++) {
+//		GetDlgItem(IDC_BTN01 + i)->ShowWindow(true);
+//		GetDlgItem(IDC_BTN01 + i)->EnableWindow(true);
+//	}
+//	check = 1;
+//	even = 0;
+//	firstID = 0;
+//	secondID = 0;
+//}

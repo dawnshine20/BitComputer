@@ -220,7 +220,7 @@ public:
 	}
 
 	void RegisterCard(CString strBtnNum, int btnId) {
-		int cardNumber = _ttoi(strBtnNum); // btn to int
+		int cardNumber = _ttoi(strBtnNum); // string to int
 
 		if (clickedCnt == 0) // 클릭 횟수가 짝수라면
 		{
