@@ -39,8 +39,7 @@ CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
-	
+	CDialogEx::DoDataExchange(pDX);	
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
@@ -147,11 +146,12 @@ BOOL CComboBoxDlg::OnInitDialog()
 		SetWindowTextW(sn);
 
 	//------------ 리스트 박스
-	((CListBox*)GetDlgItem(IDC_LIST1))->AddString(_T("참외1"));
-	((CListBox*)GetDlgItem(IDC_LIST1))->AddString(_T("참외2"));
-	((CListBox*)GetDlgItem(IDC_LIST1))->AddString(_T("참외3"));
-	((CListBox*)GetDlgItem(IDC_LIST1))->AddString(_T("참외4"));
-	((CListBox*)GetDlgItem(IDC_LIST1))->SetCurSel(2);
+	CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST1);
+	pListBox->AddString(_T("참외1"));
+	pListBox->AddString(_T("참외2"));
+	pListBox->AddString(_T("참외3"));
+	pListBox->AddString(_T("참외4"));
+	pListBox->SetCurSel(2);
 	
 	GetDlgItem(IDC_RIGHTBUTTON)->EnableWindow(FALSE);
 	GetDlgItem(IDC_LEFTBUTTON)->EnableWindow(FALSE);
@@ -285,6 +285,7 @@ void CComboBoxDlg::OnBnClickedButton3()
 	CListBox* ListRight = ((CListBox*)GetDlgItem(IDC_LIST2));
 	CString fruit;
 	// 오른쪽 리스트 박스에서 옮겨질 셀 캡션 저장 후 삭제.
+	// 선택되지 않았다면 GetCursSel은 -1 반환
 	UINT SelNum = ListRight->GetCurSel();
 	ListRight->GetText(SelNum, fruit);
 	ListRight->DeleteString(SelNum);
@@ -297,5 +298,8 @@ void CComboBoxDlg::OnBnClickedButton3()
 
 void CComboBoxDlg::OnLbnSelchangeList2()
 {
+	// 1) -1 >> 0 1 2 3 4 5 갯수 (-1일 경우 실패)
+	// 2) 0 >> true, false
+	// 3) -1, -2, -3, -4: 실패의 이유를 숫자로 설명하는 것(에러 종류)
 	GetDlgItem(IDC_LEFTBUTTON)->EnableWindow(TRUE);
 }

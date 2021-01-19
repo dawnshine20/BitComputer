@@ -36,4 +36,11 @@ public:
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButton2();
 	afx_msg void OnCbnSelchangeCombo1();
+	afx_msg void OnBnClickedCheck1();
+	afx_msg void OnBnClickedRightbutton();
+	afx_msg void OnBnClickedLeftbutton();
+	afx_msg void OnLbnSelchangeLeftlist();
+	afx_msg void OnLbnSelchangeRightlist();
+	afx_msg void OnBnClickedCallingUpButton();
+	afx_msg void DistincVIP(UINT id);
 };

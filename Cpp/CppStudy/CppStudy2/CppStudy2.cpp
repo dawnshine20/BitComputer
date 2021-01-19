@@ -780,45 +780,91 @@ using namespace std;
 #pragma endregion
 
 #pragma region MFC 다운캐스팅 문법을 위한  실습예제
-
-class A {
-public:
-	void f1(){}
-};
-class B: public A {
-public:
-	void f2() {}
-};
-
-class D {
-public:
-	void f1(A* a) { // 부<=자 업 캐스팅
-		//
-		a->f1();
-		B* b = (B * )a;
-		b->f2();
-	}
-	A* GetDlgItem() {
-		return new B;
-	}
-};
-
-int main() {
-	A* a = new B;
-	D d;
-	d.f1(new B);
-
-	A* a1 = d.GetDlgItem();
-	a1->f1();
-
-	B* a2 = (B*)d.GetDlgItem();
-	a2->f2();
-
-	//다형성 이용하기 위해 부모 주소 먼저 받고 쓰고자하는 함수는 다운 캐스팅 해서 사용해라
+////
+////class A {
+////public:
+////	void f1(){}
+////};
+////class B: public A {
+////public:
+////	void f2() {}
+////};
+////
+////class D {
+////public:
+////	void f1(A* a) { // 부<=자 업 캐스팅
+//		//
+//		a->f1();
+//		B* b = (B * )a;
+//		b->f2();
+//	}
+////	A* GetDlgItem() {
+//		return new B;
+//	}
+////};
+////
+////int main() {
+//	A* a = new B;
+//	D d;
+//	d.f1(new B);
+//
+//	A* a1 = d.GetDlgItem();
+//	a1->f1();
+//
+//	B* a2 = (B*)d.GetDlgItem();
+//	a2->f2();
+//
+//	//다형성 이용하기 위해 부모 주소 먼저 받고 쓰고자하는 함수는 다운 캐스팅 해서 사용해라
 	// 버튼 클래스 뿐만 아니라 리스트박스 클래스, 등등 여러개의 자식 클래스가 있는데 일일히 다 함수로 만들 수 없기 때문에
 	// 다형성을 이용하는것이 최적화된 코드이기 때문에 사용된 기법이다.
-}
+//}
+//
+#pragma endregion
 
+#pragma region 자식이 할 일을 다하고 부모도 같이 일을 해야하는 경우 상속을 사용
+
+//class A {
+//public:
+//	virtual void f1() {
+//		printf("칼\n");
+//	}
+//};
+//
+//class B : public A {
+//public:
+//	void f1() {
+//		printf("방패\n");
+//		A::f1();
+//	}
+//
+//};
+//
+//int main()
+//{
+//	A* a = new B;
+//	a->f1();
+//}
+//------아래와 같은 형식의 코드로 사용된다면 자식이 먼저 일을 수행한 후에 
+//부모가 또 뒷처리 일을 수행해야하는 경우로 추측할 수 있다.
+class A {
+public:
+	virtual void f1() {}
+};
+
+class B : public A {
+public:
+	void f1() {
+		// 코드를 작성하시오
+		A::f1();
+	}
+
+};
+
+int main()
+{
+	A* a = new B;
+	a->f1();
+}
 #pragma endregion
 
 
