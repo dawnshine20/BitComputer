@@ -152,20 +152,32 @@ public:
 CStockProgram* User = new CStockProgram;
 
 void CMFCApplication2StockProgramDlg::DistincVIP(UINT id) {
-	
+	UINT selectedNum = m_combo1.GetCurSel();
+	int feeData = m_combo1.GetItemData(selectedNum);
+	CString strFeeData;
+
 	switch (id) {
 	case IDC_RADIO1:
 	{
 		User->DistincVIP(false);
-		//SendMessage(IDC_BUTTON1);
+		User->SetFeeRate(feeData);
+
+		strFeeData.Format(_T("%.2f %%"), User->GetFeeRate() * 100);
+		SetDlgItemText(IDC_STATIC1, strFeeData);
 	}break;
 	case IDC_RADIO2: {
 		User->DistincVIP(true);
-		//SendMessage(IDC_BUTTON1);
+		User->SetFeeRate(feeData);
+
+		strFeeData.Format(_T("%.2f %%"), User->GetFeeRate() * 100);
+		SetDlgItemText(IDC_STATIC1, strFeeData);
 	}break;
 	default:
 		User->DistincVIP(false);
-		//SendMessage(IDC_BUTTON1);
+		User->SetFeeRate(feeData);
+
+		strFeeData.Format(_T("%.2f %%"), User->GetFeeRate() * 100);
+		SetDlgItemText(IDC_STATIC1, strFeeData);
 	}
 }
 
@@ -432,7 +444,7 @@ void CMFCApplication2StockProgramDlg::OnBnClickedCallingUpButton()
 			//주의!) 메모장 ansi 파일로 저장할 것
 			//--txt파일에서 읽어온 문자열 버퍼, 리스트 박스에 쓰기 및 저장--
 			getFileString += (str + _T('\n'));
-			pListBoxLeft->AddString(getFileString);
+			pListBoxLeft->AddString(str + _T('\n'));
 		}
 
 		readFile.Close();

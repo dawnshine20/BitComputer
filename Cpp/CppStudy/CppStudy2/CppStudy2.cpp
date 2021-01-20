@@ -846,27 +846,291 @@ using namespace std;
 //}
 //------아래와 같은 형식의 코드로 사용된다면 자식이 먼저 일을 수행한 후에 
 //부모가 또 뒷처리 일을 수행해야하는 경우로 추측할 수 있다.
-class A {
-public:
-	virtual void f1() {}
-};
-
-class B : public A {
-public:
-	void f1() {
-		// 코드를 작성하시오
-		A::f1();
-	}
-
-};
-
-int main()
-{
-	A* a = new B;
-	a->f1();
-}
+//class A {
+//public:
+//	virtual void f1() {}
+//};
+//
+//class B : public A {
+//public:
+//	void f1() {
+//		// 코드를 작성하시오
+//		A::f1();
+//	}
+//
+//};
+//
+//int main()
+//{
+//	A* a = new B;
+//	a->f1();
+//}
 #pragma endregion
 
 
+#pragma region 연산자 오버로딩(VECTOR 예제)
+//class CVector {
+//public:
+//	float x, y; // 성분값이다. z는 버린다.
+//	CVector() {}
+//	CVector(float x, float y) {
+//		this->x = x;
+//		this->y = y;
+//	}
+//
+//	void output() {
+//		printf("%.02f %.02f\n", x, y);
+//	}
+//	CVector add(CVector v) {
+//		CVector r;
+//		r.x = x + v.x;
+//		r.y = y + v.y;
+//		return r;
+//	}
+//	// operator + << 함수 이름이다.
+//	//CVector operator +(CVector v) {
+//	//	CVector r;
+//	//	r.x = x + v.x;
+//	//	r.y = y + v.y;
+//	//	return r;
+//	//}
+//
+//	//-----위 코드보다 더 좋은 코드 주소만 
+//	// 던저주기 때문에 메모리 절약
+//	// 그러나 사용자에게 불편한 코드-----
+//	CVector operator +(CVector* v) { 
+//		CVector r;
+//		r.x = x + v->x;
+//		r.y = y + v->y;
+//		return r;
+//	}
+//	CVector operator -(CVector* v) { 
+//		CVector r;
+//		r.x = x - v->x;
+//		r.y = y - v->y;
+//		return r;
+//	}
+//
+//
+//	//-----위 코드를 수정하여 사용자를 생각해 만들면서 
+//	// 공유를 통해 성능을 올린 코드-----
+//	CVector operator +(const CVector& v) const { 
+//		// const를 통해 데이터 무결성 보장(인자 데이터 상수화 및 함수 내에서 멤버 변수 상수화)
+//		//v.x = 100(앞에 있는 const로 인해 불가)
+//		//x = 100;(뒤에 붙은 const로 인해 불가)
+//		
+//		CVector r;
+//		r.x = x + v.x;
+//		r.y = y + v.y;
+//		return r;
+//	}
+//	CVector operator -(const CVector& v) const {
+//		CVector r;
+//		r.x = x - v.x;
+//		r.y = y - v.y;
+//		return r;
+//	}
+//};
+//int main()
+//{
+//	CVector a(2.0f, 1.0f), b(1.0f, 2.0f);
+//	a.output();
+//	CVector c = a.add(b);
+//	c.output();
+//
+//	CVector d = a.operator+(b); // 연산자 오버로딩.
+//	d.output();
+//
+//	CVector e = a+b; // 컴파일시 d와 같이 컴퓨터가 바꿈
+//	e.output();
+//
+//	CVector f = a + (&b); // 사용자가 불편함을 많이 느끼므로 변경이 필요(참조형태가 필요)
+//	f.output();
+//}
+//
+#pragma endregion
+#pragma region +=에 대한 연산자 재정의(VECTOR 재정의)
+//class CVector {
+//public:
+//	float x, y; // 성분값이다. z는 버린다.
+//	CVector() {}
+//	CVector(float x, float y) {
+//		this->x = x;
+//		this->y = y;
+//	}
+//
+//	void output() {
+//		printf("%.02f %.02f\n", x, y);
+//	}
+//	
+//	CVector operator +(const CVector& v)const { 
+//		CVector r;
+//		r.x = x + v.x;
+//		r.y = y + v.y;
+//		return r;
+//	}
+//	CVector& operator +=(const CVector& v) {
+//		this->x += v.x;
+//		this->y += v.y;
+//
+//		return *this;
+//	}
+//	
+//	//수학에서 벡터의 곱은 존재하지 않기 때문에 제공하지 않는다.
+//	//곱에 대한 합인 내적 함수만 존재한다.
+//	
+//};
+//int main()
+//{
+//	CVector a(2.0f, 1.0f), b(1.0f, 2.0f), c(2.0f, 3.0f);
+//
+//	//a = a + b;
+//	a += b;
+//	a.output();
+//
+//	int x = 1, y = 2, z = 3;
+//	(x += y) += z;
+//	printf("%d %d %d\n", x, y, z);
+//
+//	(a += b) += c; // return이 필요한 형태이기 때문에 코드의 수정이 필요하다.
+//	
+//}
+
+#pragma endregion
+#pragma region 단항연산자에 대한 연산자 재정의(VECTOR 예제)
+//class CVector {
+//private:
+//	float x, y; // 성분값이다. z는 버린다.
+//public:
+//	CVector() {}
+//	CVector(float x, float y) {
+//		this->x = x;
+//		this->y = y;
+//	}
+//
+//	void output() {
+//		printf("%.02f %.02f\n", x, y);
+//	}
+//	
+//	//-------------------------
+//	CVector operator -() const{
+//		CVector r;
+//		r.x = -this->x;
+//		r.y = -this->y;
+//		return r;
+//	}
+//	CVector operator +() const{
+//		CVector r;
+//		r.x = +this->x;
+//		r.y = +this->y;
+//		return r;
+//	}
+//	bool operator ==(CVector& v) const {
+//		if (this->x == v.x && this->y == v.y) {
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	bool operator !=(CVector& v) const {
+//		if (this->x != v.x || this->y != v.y) {
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	CVector operator *(float value) const {
+//		CVector r;
+//		r.x = x * value;
+//		r.y = y * value;
+//		return r;
+//	}
+//
+//	//수학에서 벡터의 곱은 존재하지 않기 때문에 제공하지 않는다.
+//	//곱에 대한 합인 내적 함수만 존재한다.
+//
+//
+//	// 우리 멤버는 아니지만 멤버변수를 사용할 수 있다.
+//	friend CVector operator *(float f, const CVector& v); 
+//};
+//
+//CVector operator *(float f, const CVector& v) { // 사용하기 위해서 friend 혹은 setter,getter를 사용
+//	CVector r;
+//	r.x = f * v.x;
+//	r.y = f * v.y;
+//	return r;
+//}
+//
+//int main()
+//{
+//	int x, y, z = 10;
+//	// 비용이 좀 더 들더라도 음수 양수 맞춰줘야 한다.
+//	x = +z;
+//	y = -z;
+//
+//	CVector a(2.0f, 1.0f), b(2.0f, 1.0f), c(2.0f, 3.0f);
+//
+//	CVector d;
+//	d = -a;		 // 단항 연산에 대한 연산자 재정의 필요.
+//	d.output();
+//	if (a == b) { // 부동 소수점 계산해서 비교하는건 사실 말이 안되는 경우이지만 그냥 비교하는건 제공
+//		printf("1\n");
+//	}
+//
+//	b = a * 2.0f;
+//	b.output();
+//	//사용자가 아래와 같이 사용하고 싶을 수도 있다.
+//	b = 2.0f * a;
+//	b.output();
+//	
+//	//---------------
+//}
+#pragma endregion
+#pragma region 주의case 전위 후위 연산자 재정의
+//class CVector {
+//private:
+//	float x, y; // 성분값이다. z는 버린다.
+//public:
+//	CVector() {}
+//	CVector(float x, float y) {
+//		this->x = x;
+//		this->y = y;
+//	}
+//
+//	void output() {
+//		printf("%.02f %.02f\n", x, y);
+//	}
+//
+//	CVector operator++() { //전위 연산자 사용 ++a
+//		printf("1\n");
+//		x += 1.0f;
+//		y += 1.0f;
+//		return *this;
+//	}
+//	CVector operator++(int) { //후위 연산자 a++를 사용하기 위해서 인자에 int를 넣어 준다.
+//		printf("2\n");
+//		CVector r;
+//		r.x = x; 
+//		r.y = y;
+//
+//		x += 1.0f;
+//		y += 1.0f;
+//
+//		return r; //백업시켜놓은 데이터 먼저 제공한다.
+//	}
+//};
+//int main()
+//{
+//	CVector a(2.0f, 1.0f), b(2.0f, 1.0f), c(2.0f, 3.0f);
+//	++a;
+//	a.output();
+//	a++;// 연산자가 위와 다르다.
+//
+//	b = ++a;
+//	b.output();
+//	c = a++;
+//	c.output();
+//}
+#pragma endregion
 
 
