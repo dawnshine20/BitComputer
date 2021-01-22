@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "MyClass1.h"
 
-
-
 void CMyClass::SetData1(int Data) 
 { this->m_Data1 = Data; }
 
