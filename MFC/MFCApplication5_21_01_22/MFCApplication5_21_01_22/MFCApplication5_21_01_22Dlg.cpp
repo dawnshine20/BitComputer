@@ -138,14 +138,15 @@ BOOL CMFCApplication5210122Dlg::OnInitDialog()
 	listCtrl->InsertColumn(2, &lvColumn);
 
 	TCHAR data[2][3][16] = {
-		L"홍길동", L"국문학과", L"10-13시",
-		L"이순신", L"체육학과", L"11-12시",
+		{L"홍길동", L"국문학과", L"10-13시"},
+		{L"이순신", L"체육학과", L"11-12시" }
 	};
 
 	for (int i = 0; i < 2; i++)
 	{
 		int num = listCtrl->GetItemCount();
 		LV_ITEM lvItem;
+
 		lvItem.mask = LVIF_TEXT;
 		lvItem.iItem = num; // 로우 번호 설정
 		lvItem.iSubItem = 0;

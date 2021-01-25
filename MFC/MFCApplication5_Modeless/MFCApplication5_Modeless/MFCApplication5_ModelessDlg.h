@@ -32,5 +32,4 @@ protected:
 public:
 	CDialog1* Dialog1 = NULL;
 	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
 };

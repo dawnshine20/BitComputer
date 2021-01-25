@@ -1134,3 +1134,9 @@ using namespace std;
 #pragma endregion
 
 
+#pragma region MyRegion
+int main()
+{
+
+}
+#pragma endregion

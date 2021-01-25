@@ -67,7 +67,6 @@ BEGIN_MESSAGE_MAP(CMFCApplication5ModelessDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFCApplication5ModelessDlg::OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, &CMFCApplication5ModelessDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -158,23 +157,21 @@ HCURSOR CMFCApplication5ModelessDlg::OnQueryDragIcon()
 }
 
 
-//CDialog1* Dialog = NULL;
 void CMFCApplication5ModelessDlg::OnBnClickedButton1()
 {
 	
 	MessageBox(MB_OK);
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	if (Dialog1 == NULL) {
+		//부모 다이얼로그 좌표 구하기
+		CRect rectParent;
+		this->GetWindowRect(&rectParent);
+
 		Dialog1 = new CDialog1(this);
 		Dialog1->Create(IDD_DIALOG1);
+		Dialog1->SetWindowPos(NULL, rectParent.left + rectParent.Width(), rectParent.top,
+			rectParent.Width(), rectParent.Height(), NULL);
 		Dialog1->ShowWindow(SW_SHOW);
 		
 		// 예약 : 생성된 모달리스 위치 설정
 	}
-}
-
-
-void CMFCApplication5ModelessDlg::OnBnClickedButton2()
-{
-	SetBackgroundColor(RGB(0, 0, 0));
 }

@@ -103,6 +103,7 @@ BOOL CMFCMainDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	myClass = new CMyClass;
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -159,15 +160,18 @@ HCURSOR CMFCMainDlg::OnQueryDragIcon()
 
 void CMFCMainDlg::OnBnClickedButton1()
 {
-	CMyClass* myClass = new CMyClass;
-
-	CSubDlg cSubDlg;
+	CSubDlg* cSubDlg = new CSubDlg(this);
 
 	CString strData1, strData2;
 	myClass->SetData1(GetDlgItemInt(IDC_EDIT1));
 	myClass->SetData2(GetDlgItemInt(IDC_EDIT2));
 
-	if (cSubDlg.DoModal() == MB_OK) {
-
+	if (cSubDlg->DoModal() == IDOK) {
+		myClass->CalcData();
+		int dataResult = myClass->GetResult();
+		CString strResult;
+		strResult.Format(L"%d", dataResult);
+		((CEdit*)GetDlgItem(IDC_EDIT3))->SetWindowTextW(strResult);
+		//SetDlgItemTextW(IDC_EDIT3, strResult);
 	}
 }

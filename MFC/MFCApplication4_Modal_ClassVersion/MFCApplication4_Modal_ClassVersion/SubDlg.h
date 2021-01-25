@@ -2,7 +2,7 @@
 
 
 // CSubDlg 대화 상자
-
+class CMFCMainDlg;
 class CSubDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CSubDlg)
@@ -22,5 +22,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
-	//CMFCMainDlg* pMain;
+	CMFCMainDlg* pMainDlg;
+	afx_msg void OnBnClickedButton1();
 };

@@ -12,7 +12,6 @@
 #define IDC_BUTTON2                     1001
 #define IDC_SLIDER_RED                  1002
 #define IDC_SLIDER_GREEN                1003
-#define IDC_SLIDER3                     1004
 #define IDC_SLIDER_BLUE                 1004
 
 // Next default values for new objects

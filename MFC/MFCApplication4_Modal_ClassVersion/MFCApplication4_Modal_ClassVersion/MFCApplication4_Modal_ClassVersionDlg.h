@@ -5,7 +5,7 @@
 #pragma once
 
 
-
+class CMyClass;
 // CMFCApplication4ModalClassVersionDlg 대화 상자
 class CMFCMainDlg : public CDialogEx
 {
@@ -34,5 +34,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
-	
+public:
+	CMyClass* myClass;
 };
