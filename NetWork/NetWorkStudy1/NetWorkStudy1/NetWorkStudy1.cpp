@@ -357,8 +357,20 @@ using namespace std;
 //	} printf("\n");
 //
 //
+//	출력코드
 //	endIt = li.end();
 //	for (it = li.begin(); it != endIt; ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+// 3의 배수만 모두 삭제..(3항 연산 버젼)
+//	for (it = li.begin(); it != li.end(); )
+//	{
+//		it = (*it % 3 == 0) ? li.erase(it) : ++it;
+//	} printf("\n");
+//	
+//	// 출력코드
+//	for (it = li.begin(); it != li.end(); ++it)
 //	{
 //		printf("%d ", *it);
 //	} printf("\n");
@@ -385,69 +397,29 @@ using namespace std;
 //
 //void main()
 //{
-//	//std::list<int> li;
-//	list<int> li; 
-//	printf("%d\n", li.size());
-//
-//	// Insert(create)
-//	li.push_back(10);
-//	printf("%d\n", li.size());
-//	li.push_back(20);
-//	li.push_front(30);
-//	printf("%d\n", li.size());
-//
+//	list<int> li;
+//	list<int>::iterator it;
 //	for (int i = 0; i < 10; i++)
 //	{
 //		li.push_back(i * 10 + 40);
 //	}
-//
-//	// Read( Select )
-//	list<int>::iterator it;
-//	list<int>::iterator beginIt = li.begin();
-//	list<int>::iterator endIt = li.end();
-//	
-//	for (it = beginIt; it != endIt; ++it) 
+//	li.push_back(70);
+//	for (it = li.begin(); it != li.end(); ++it)
 //	{
 //		printf("%d ", *it);
 //	} printf("\n");
 //
-//	printf("%s \n", li.empty() ? "Empty" : "Not Empty");
-//
-//	for (it = beginIt; it != endIt; ++it)
-//	{
-//		if (*it == 60) {
-//			li.erase(it);
-//			break;
-//		}
-//	} printf("\n");
-//	for (it = beginIt; it != endIt; ++it)
-//	{
-//		printf("%d ", *it);
-//	} printf("\n");
-//
-//
-//	// 3의 배수만 모두 삭제..(3항 연산 버젼)
-//	for (it = li.begin(); it != li.end(); )
-//	{
-//		it = (*it % 3 == 0) ? li.erase(it) : ++it;
-//	} printf("\n");
-//
-//
-//	endIt = li.end();
-//	for (it = li.begin(); it != endIt; ++it)
-//	{
-//		printf("%d ", *it);
-//	} printf("\n");
-//
-//	// remove 사용
 //	li.remove(70); // 중복된 70 모두를 제거하는 코드
+//
 //	for (it = li.begin(); it != li.end(); ++it)
 //	{
 //		printf("%d ", *it);
 //	} printf("\n");
 //
 //	//1. 특정 데이타 제거 2. 짝수만 제거 3. 범위 설정하고 제거
+//	//remove_if()를 사용한다면 메모리 해제는 옵션 설정 함수 안에서 하는 것이 맞음
 //	li.remove_if(f1); // 제거될 수 있는 조건을 함수 내에서 걸어주어 제거할 수 있다.
+//
 //	for (it = li.begin(); it != li.end(); ++it)
 //	{
 //		printf("%d ", *it);
@@ -487,12 +459,32 @@ using namespace std;
 ////f1(3, 4);
 ////f1(3.0, 4.0);
 #pragma endregion
-#pragma region STL3
+#pragma region STL3(구조체 타입을 활용)
+
 // 추가, 삭제, 갱신, 검색, 정렬
 struct STRU {
 	int id;
 	int x, y, z;
 };
+
+bool f3(STRU a)
+{
+	// 제거 시키고 싶은 조건에서는 true를 걸어주고 반대는 false
+	return (a.id % 3 == 0) ? true : false;
+}
+bool f4(STRU a, STRU b)
+{
+	return a.id > b.id; // 역순 정렬
+}
+bool f5(STRU a) {
+	return a.id == 20;
+}
+
+bool f6(STRU* a, STRU* b)
+{
+	return a->id > b->id; // 역순 정렬
+}
+
 void main()
 {
 	list<STRU> user;
@@ -518,16 +510,266 @@ void main()
 	{
 		if (uIT->id == 60)
 		{
-			user.erase(uIT);
+			uIT = user.erase(uIT);
 			break;
 		}
 	} printf("\n");
-
+	
 	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
 		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
 	}printf("\n");
+	
+	// id가 3의 배수인 데이터 제거(remove_if 사용)
+	user.remove_if(f3);
+	
+	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
+	}printf("\n");
+	
+	// id에 대해서 역순 정렬
+	user.sort(f4);
+	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
+	}printf("\n");
+	
+	// id가 20가 있는지 확인하고 싶음
+	uIT = find_if(user.begin(), user.end(), f5);
+	if (uIT != user.end()) {
+		printf("find\n");
+	}
+	else {
+		printf("not find\n");
+	}
+	// 위에 방법은 메모리 측면에서 손해가 크기 때문에 사용 안함
+	//----------------------------------------------------
+	printf("\n\n");
+	list<STRU*> pUser;
+	list<STRU*>::iterator puIt;
+
+	// Create
+	for (size_t i = 0; i < 10; i++)
+	{
+		STRU* t = new STRU;
+		t->id = i * 10;
+		t->x = i * 3 + 0;
+		t->y = i * 3 + 1;
+		t->z = i * 3 + 2;
+		pUser.push_back(t); // 이제는 주소(4byte) 가 넘어감
+	}
+
+	// Read
+	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
+		printf("%d %d %d %d \n", 
+			(*puIt)->id, //puIT는 주소의 주소
+			(*puIt)->x,(*puIt)->y,(*puIt)->z
+		);
+	}printf("\n");
+
+	// id 20인 데이터 삭제
+	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
+		if ((*puIt)->id == 20) {
+			// 아주머니는 주소만 관리하지 메모리는 별도로 해제 시켜주어야 한다.
+			delete(*puIt); //leak 요소 제거
+			pUser.erase(puIt); // 주소만 제거
+			// clear(); // 메모리 모두 제거하고 함수 사용
+			break;
+		}
+	}
+
+	// 역순 정렬 (id를 기준으로 역순)
+	pUser.sort(f6);
+	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
+		printf("%d %d %d %d \n", (*puIt)->id, (*puIt)->x, (*puIt)->y, (*puIt)->z);
+	}printf("\n");
 }
 #pragma endregion
+#pragma region STL4(구조체 갱신)
+//bool f1(int data) {
+//	return data == 200;
+//}
+//void update(list<int> &li, int pos, int newValue) {
+//	list<int>::iterator it;
+//	it = li.begin();
+//	for (int i = 0; i < pos; i++){
+//		++it;
+//	}
+//	*it = newValue;
+//}
+//int main() {
+//	list<int> li;
+//	list<int>::iterator it;
+//	li.push_back(10);
+//	li.push_back(20);
+//	li.push_back(30);
+//
+//	//------------
+//	// 삽입 방법1
+//	it = li.begin();
+//	++it;
+//	*it = 100;
+//	for (it = li.begin(); it != li.end(); ++it) {
+//		printf("%d ", *it);
+//	}printf("\n");
+//
+//	// 삽입 방법2
+//	replace(li.begin(), li.end(), 100, 200);// 시작, 끝, 바꿀 예정 데이터, 바꾸는 데이터
+//	for (it = li.begin(); it != li.end(); ++it) {
+//		printf("%d ", *it);
+//	}printf("\n");
+//
+//	// 삽입 방법3
+//	replace_if(li.begin(), li.end(), f1, 300);// 조건에 만족하면 300으로 바꿔라
+//	for (it = li.begin(); it != li.end(); ++it) {
+//		printf("%d ", *it);
+//	}printf("\n");
+//
+//	// 함수 별도로 만들어 볼 것(2번째 데이터 400으로 바꾸시오)
+//	// 0  1  2
+//	//10 20 30
+//	update( li, 1, 400);
+//	for (it = li.begin(); it != li.end(); ++it) {
+//		printf("%d ", *it);
+//	}printf("\n");
+//}
+#pragma endregion
+#pragma region (별 die or live)문제 이효빈 솔루션
+//struct STAR {
+//	int id;
+//	int age;
+//};
+//
+//int main()
+//{
+//	srand((unsigned)time(NULL));
+//
+//	list<STAR> user;
+//	list<STAR>::iterator uIT;
+//
+//	int index = 10;
+//
+//	
+//	for (size_t i = 0; i < 10; i++)
+//	{
+//		STAR star;
+//		star.id = i;
+//		star.age = 0;
+//		user.push_back(star);
+//	}
+//
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//		printf("%02d ", uIT->id);
+//	}printf("\n");
+//
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//		printf("%2d ", uIT->age);
+//	}printf("\n");
+//
+//	int inputData = 0;
+//	int randomValue;
+//	int removeCnt = 0;
+//	do {
+//		removeCnt = 0;
+//
+//		for (uIT = user.begin(); uIT != user.end();) {
+//			randomValue = rand() % 100;
+//			if (randomValue < 50)
+//			{
+//				removeCnt++;
+//
+//				uIT = user.erase(uIT);
+//			}
+//			else 
+//			{
+//				++(uIT->age);
+//				++uIT;
+//			}
+//		}
+//
+//		for (size_t i = 0; i < removeCnt; i++)
+//		{
+//			STAR star;
+//			star.id = index++;
+//			star.age = 0;
+//
+//			user.push_back(star);
+//		}
+//		
+//		for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//			printf("%02d ", uIT->id);
+//		}printf("\n");
+//		for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//			printf("%2d ", uIT->age);
+//		}printf("\n");
+//
+//		scanf("%d", &inputData);
+//	} while (inputData != 99 );
+//}
+#pragma endregion
+#pragma region (별 die or live)문제 강사님 솔루션
+//struct STAR {
+//	int id;
+//	int age;
+//};
+//
+//int main()
+//{
+//	srand((unsigned)time(NULL));
+//	list<STAR*> star;
+//	list<STAR*>::iterator it;
+//
+//	while (true)
+//	{
+//		//갱신( 죽고 사는 )
+//		for (it = star.begin(); it != star.end();) {
+//			if (rand() % 2) {// 죽었을 때
+//				delete(*it);
+//				it = star.erase(it);
+//			}
+//			else {//살았을 때
+//				(*it)->age++;
+//				++it;
+//			}
+//		}
+//		
+//		// 데이터 생성
+//		while (star.size() < 10) {
+//			STAR* t = new STAR;
+//			static int id = 0;
+//			t->id = id++;
+//			t->age = 0;
+//			star.push_back(t);
+//		}
+//
+//		//출력코드
+//		for (it = star.begin(); it != star.end(); ++it) {
+//			printf("%02d ", (*it)->id);
+//		}printf("\n");
+//		for (it = star.begin(); it != star.end(); ++it) {
+//			printf("%02d ", (*it)->age);
+//		}printf("\n");
+//
+//
+//		int num;
+//		scanf_s("%d", &num);
+//		if (num == 99) {
+//			printf("Exit\n");
+//			break;
+//		}
+//	}
+//
+//	// 마무리 된 코드
+//	printf("1:%02d\n", star.size());
+//	for (it = star.begin(); it != star.end(); ++it) 
+//	{
+//			delete (*it);
+//	}
+//	printf("2:%02d\n", star.size());// 주소만 가지고 있고 메모리 할당은 안되어 있다
+//	star.clear();// 메모리 할당이 안되어 있는 값들을 0으로 초기화한다.
+//	printf("3:%02d\n", star.size());
+//}
+	
+#pragma endregion
+
 
 
 
