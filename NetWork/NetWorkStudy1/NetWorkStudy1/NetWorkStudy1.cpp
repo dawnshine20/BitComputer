@@ -333,7 +333,7 @@ using namespace std;
 //	for (it = beginIt; it != endIt; ++it) 
 //	{
 //		if (*it == 60) {
-//			li.erase(it);
+//			li.erase(it); // remove
 //			break;
 //		}
 //	} printf("\n");
@@ -364,5 +364,170 @@ using namespace std;
 //	} printf("\n");
 //}
 #pragma endregion
+#pragma region STL2(3항 연산자 활용, remove)
+//bool f1(long a) {
+//	// 제거 시키고 싶은 조건에서는 true를 걸어주고 반대는 false
+//	/*if (a >= 50 && a <= 110) {
+//		return true;
+//	}
+//	else
+//		return false;*/
+//
+//	return (a >= 50 && a <= 110) ? true : false;
+//}
+//bool f2(long a, long b)
+//{
+//	//int s1 = 변형;
+//	//int s2 = 변형;
+//	//return s1 < s2;
+//	return a < b; //순차 정렬, 반대의 경우 역순 정렬
+//}
+//
+//void main()
+//{
+//	//std::list<int> li;
+//	list<int> li; 
+//	printf("%d\n", li.size());
+//
+//	// Insert(create)
+//	li.push_back(10);
+//	printf("%d\n", li.size());
+//	li.push_back(20);
+//	li.push_front(30);
+//	printf("%d\n", li.size());
+//
+//	for (int i = 0; i < 10; i++)
+//	{
+//		li.push_back(i * 10 + 40);
+//	}
+//
+//	// Read( Select )
+//	list<int>::iterator it;
+//	list<int>::iterator beginIt = li.begin();
+//	list<int>::iterator endIt = li.end();
+//	
+//	for (it = beginIt; it != endIt; ++it) 
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//
+//	printf("%s \n", li.empty() ? "Empty" : "Not Empty");
+//
+//	for (it = beginIt; it != endIt; ++it)
+//	{
+//		if (*it == 60) {
+//			li.erase(it);
+//			break;
+//		}
+//	} printf("\n");
+//	for (it = beginIt; it != endIt; ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//
+//
+//	// 3의 배수만 모두 삭제..(3항 연산 버젼)
+//	for (it = li.begin(); it != li.end(); )
+//	{
+//		it = (*it % 3 == 0) ? li.erase(it) : ++it;
+//	} printf("\n");
+//
+//
+//	endIt = li.end();
+//	for (it = li.begin(); it != endIt; ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//
+//	// remove 사용
+//	li.remove(70); // 중복된 70 모두를 제거하는 코드
+//	for (it = li.begin(); it != li.end(); ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//
+//	//1. 특정 데이타 제거 2. 짝수만 제거 3. 범위 설정하고 제거
+//	li.remove_if(f1); // 제거될 수 있는 조건을 함수 내에서 걸어주어 제거할 수 있다.
+//	for (it = li.begin(); it != li.end(); ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//	
+//	for (int i = 0; i < 10; i++)
+//	{
+//		li.push_back(rand() % 100);
+//	}
+//
+//	for (it = li.begin(); it != li.end(); ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//
+//	li.sort(f2); // (data, 10, 4, f2) li는 data, 갯수, 사이즈 모두 알고 있음
+//
+//	for (it = li.begin(); it != li.end(); ++it)
+//	{
+//		printf("%d ", *it);
+//	} printf("\n");
+//	//----------------------------------
+//	printf("%d %d \n", li.front(), li.back());
+//
+//	//----------------------------------
+//	//find는 있는지 없는지 판별할 때 주로 쓰인다.
+//	printf(li.end() != (it = find(li.begin(), li.end(), 40)) ? "find\n": "not find\n");
+//		
+//}
+//
+////-------------템플릿 문법
+////void f1(T a, T b) {// 템플릿을 사용하면 모든 코드를 사용 할 수 있다.
+////	t = a;
+////	a = b;
+////	b = t;
+////}
+////f1(3, 4);
+////f1(3.0, 4.0);
+#pragma endregion
+#pragma region STL3
+// 추가, 삭제, 갱신, 검색, 정렬
+struct STRU {
+	int id;
+	int x, y, z;
+};
+void main()
+{
+	list<STRU> user;
+	list<STRU>::iterator uIT;
+	// Create
+	for (size_t i = 0; i < 10; i++)
+	{
+		STRU t;
+		t.id = i * 10;
+		t.x = i * 3 + 0;
+		t.y = i * 3 + 1;
+		t.z = i * 3 + 2;
+		user.push_back(t);
+	}
+	// Read
+	for (uIT = user.begin(); uIT != user.end(); ++uIT){
+		printf("%d %d %d %d \n", uIT->id, uIT->x,uIT->y, uIT->z);
+	}printf("\n");
+	
+	// id 60번인 데이터 제거
+	// remove 사용
+	for (uIT = user.begin(); uIT != user.end(); ++uIT)
+	{
+		if (uIT->id == 60)
+		{
+			user.erase(uIT);
+			break;
+		}
+	} printf("\n");
+
+	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
+	}printf("\n");
+}
+#pragma endregion
+
 
 
