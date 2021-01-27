@@ -460,128 +460,128 @@ using namespace std;
 ////f1(3.0, 4.0);
 #pragma endregion
 #pragma region STL3(구조체 타입을 활용)
-
-// 추가, 삭제, 갱신, 검색, 정렬
-struct STRU {
-	int id;
-	int x, y, z;
-};
-
-bool f3(STRU a)
-{
-	// 제거 시키고 싶은 조건에서는 true를 걸어주고 반대는 false
-	return (a.id % 3 == 0) ? true : false;
-}
-bool f4(STRU a, STRU b)
-{
-	return a.id > b.id; // 역순 정렬
-}
-bool f5(STRU a) {
-	return a.id == 20;
-}
-
-bool f6(STRU* a, STRU* b)
-{
-	return a->id > b->id; // 역순 정렬
-}
-
-void main()
-{
-	list<STRU> user;
-	list<STRU>::iterator uIT;
-	// Create
-	for (size_t i = 0; i < 10; i++)
-	{
-		STRU t;
-		t.id = i * 10;
-		t.x = i * 3 + 0;
-		t.y = i * 3 + 1;
-		t.z = i * 3 + 2;
-		user.push_back(t);
-	}
-	// Read
-	for (uIT = user.begin(); uIT != user.end(); ++uIT){
-		printf("%d %d %d %d \n", uIT->id, uIT->x,uIT->y, uIT->z);
-	}printf("\n");
-	
-	// id 60번인 데이터 제거
-	// remove 사용
-	for (uIT = user.begin(); uIT != user.end(); ++uIT)
-	{
-		if (uIT->id == 60)
-		{
-			uIT = user.erase(uIT);
-			break;
-		}
-	} printf("\n");
-	
-	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
-		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
-	}printf("\n");
-	
-	// id가 3의 배수인 데이터 제거(remove_if 사용)
-	user.remove_if(f3);
-	
-	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
-		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
-	}printf("\n");
-	
-	// id에 대해서 역순 정렬
-	user.sort(f4);
-	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
-		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
-	}printf("\n");
-	
-	// id가 20가 있는지 확인하고 싶음
-	uIT = find_if(user.begin(), user.end(), f5);
-	if (uIT != user.end()) {
-		printf("find\n");
-	}
-	else {
-		printf("not find\n");
-	}
-	// 위에 방법은 메모리 측면에서 손해가 크기 때문에 사용 안함
-	//----------------------------------------------------
-	printf("\n\n");
-	list<STRU*> pUser;
-	list<STRU*>::iterator puIt;
-
-	// Create
-	for (size_t i = 0; i < 10; i++)
-	{
-		STRU* t = new STRU;
-		t->id = i * 10;
-		t->x = i * 3 + 0;
-		t->y = i * 3 + 1;
-		t->z = i * 3 + 2;
-		pUser.push_back(t); // 이제는 주소(4byte) 가 넘어감
-	}
-
-	// Read
-	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
-		printf("%d %d %d %d \n", 
-			(*puIt)->id, //puIT는 주소의 주소
-			(*puIt)->x,(*puIt)->y,(*puIt)->z
-		);
-	}printf("\n");
-
-	// id 20인 데이터 삭제
-	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
-		if ((*puIt)->id == 20) {
-			// 아주머니는 주소만 관리하지 메모리는 별도로 해제 시켜주어야 한다.
-			delete(*puIt); //leak 요소 제거
-			pUser.erase(puIt); // 주소만 제거
-			// clear(); // 메모리 모두 제거하고 함수 사용
-			break;
-		}
-	}
-
-	// 역순 정렬 (id를 기준으로 역순)
-	pUser.sort(f6);
-	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
-		printf("%d %d %d %d \n", (*puIt)->id, (*puIt)->x, (*puIt)->y, (*puIt)->z);
-	}printf("\n");
-}
+//
+//// 추가, 삭제, 갱신, 검색, 정렬
+//struct STRU {
+//	int id;
+//	int x, y, z;
+//};
+//
+//bool f3(STRU a)
+//{
+//	// 제거 시키고 싶은 조건에서는 true를 걸어주고 반대는 false
+//	return (a.id % 3 == 0) ? true : false;
+//}
+//bool f4(STRU a, STRU b)
+//{
+//	return a.id > b.id; // 역순 정렬
+//}
+//bool f5(STRU a) {
+//	return a.id == 20;
+//}
+//
+//bool f6(STRU* a, STRU* b)
+//{
+//	return a->id > b->id; // 역순 정렬
+//}
+//
+//void main()
+//{
+//	list<STRU> user;
+//	list<STRU>::iterator uIT;
+//	// Create
+//	for (size_t i = 0; i < 10; i++)
+//	{
+//		STRU t;
+//		t.id = i * 10;
+//		t.x = i * 3 + 0;
+//		t.y = i * 3 + 1;
+//		t.z = i * 3 + 2;
+//		user.push_back(t);
+//	}
+//	// Read
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT){
+//		printf("%d %d %d %d \n", uIT->id, uIT->x,uIT->y, uIT->z);
+//	}printf("\n");
+//	
+//	// id 60번인 데이터 제거
+//	// remove 사용
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT)
+//	{
+//		if (uIT->id == 60)
+//		{
+//			uIT = user.erase(uIT);
+//			break;
+//		}
+//	} printf("\n");
+//	
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
+//	}printf("\n");
+//	
+//	// id가 3의 배수인 데이터 제거(remove_if 사용)
+//	user.remove_if(f3);
+//	
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
+//	}printf("\n");
+//	
+//	// id에 대해서 역순 정렬
+//	user.sort(f4);
+//	for (uIT = user.begin(); uIT != user.end(); ++uIT) {
+//		printf("%d %d %d %d \n", uIT->id, uIT->x, uIT->y, uIT->z);
+//	}printf("\n");
+//	
+//	// id가 20가 있는지 확인하고 싶음
+//	uIT = find_if(user.begin(), user.end(), f5);
+//	if (uIT != user.end()) {
+//		printf("find\n");
+//	}
+//	else {
+//		printf("not find\n");
+//	}
+//	// 위에 방법은 메모리 측면에서 손해가 크기 때문에 사용 안함
+//	//----------------------------------------------------
+//	printf("\n\n");
+//	list<STRU*> pUser;
+//	list<STRU*>::iterator puIt;
+//
+//	// Create
+//	for (size_t i = 0; i < 10; i++)
+//	{
+//		STRU* t = new STRU;
+//		t->id = i * 10;
+//		t->x = i * 3 + 0;
+//		t->y = i * 3 + 1;
+//		t->z = i * 3 + 2;
+//		pUser.push_back(t); // 이제는 주소(4byte) 가 넘어감
+//	}
+//
+//	// Read
+//	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
+//		printf("%d %d %d %d \n", 
+//			(*puIt)->id, //puIT는 주소의 주소????
+//			(*puIt)->x,(*puIt)->y,(*puIt)->z
+//		);
+//	}printf("\n");
+//
+//	// Delete(id 20인 데이터 삭제)
+//	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
+//		if ((*puIt)->id == 20) {
+//			// 아주머니는 주소만 관리하지 메모리는 별도로 해제 시켜주어야 한다.
+//			delete(*puIt); //leak 요소 제거
+//			pUser.erase(puIt); // 주소만 제거
+//			// clear(); // 메모리 모두 제거하고 함수 사용 할것
+//			break;
+//		}
+//	}
+//
+//	// 역순 정렬 (id를 기준으로 역순)
+//	pUser.sort(f6);
+//	for (puIt = pUser.begin(); puIt != pUser.end(); ++puIt) {
+//		printf("%d %d %d %d \n", (*puIt)->id, (*puIt)->x, (*puIt)->y, (*puIt)->z);
+//	}printf("\n");
+//}
 #pragma endregion
 #pragma region STL4(구조체 갱신)
 //bool f1(int data) {
@@ -595,6 +595,7 @@ void main()
 //	}
 //	*it = newValue;
 //}
+//
 //int main() {
 //	list<int> li;
 //	list<int>::iterator it;
@@ -623,7 +624,7 @@ void main()
 //		printf("%d ", *it);
 //	}printf("\n");
 //
-//	// 함수 별도로 만들어 볼 것(2번째 데이터 400으로 바꾸시오)
+//
 //	// 0  1  2
 //	//10 20 30
 //	update( li, 1, 400);
@@ -706,70 +707,81 @@ void main()
 //}
 #pragma endregion
 #pragma region (별 die or live)문제 강사님 솔루션
-//struct STAR {
-//	int id;
-//	int age;
-//};
-//
-//int main()
-//{
-//	srand((unsigned)time(NULL));
-//	list<STAR*> star;
-//	list<STAR*>::iterator it;
-//
-//	while (true)
-//	{
-//		//갱신( 죽고 사는 )
-//		for (it = star.begin(); it != star.end();) {
-//			if (rand() % 2) {// 죽었을 때
-//				delete(*it);
-//				it = star.erase(it);
-//			}
-//			else {//살았을 때
-//				(*it)->age++;
-//				++it;
-//			}
-//		}
-//		
-//		// 데이터 생성
-//		while (star.size() < 10) {
-//			STAR* t = new STAR;
-//			static int id = 0;
-//			t->id = id++;
-//			t->age = 0;
-//			star.push_back(t);
-//		}
-//
-//		//출력코드
-//		for (it = star.begin(); it != star.end(); ++it) {
-//			printf("%02d ", (*it)->id);
-//		}printf("\n");
-//		for (it = star.begin(); it != star.end(); ++it) {
-//			printf("%02d ", (*it)->age);
-//		}printf("\n");
-//
-//
-//		int num;
-//		scanf_s("%d", &num);
-//		if (num == 99) {
-//			printf("Exit\n");
-//			break;
-//		}
-//	}
-//
-//	// 마무리 된 코드
-//	printf("1:%02d\n", star.size());
-//	for (it = star.begin(); it != star.end(); ++it) 
-//	{
-//			delete (*it);
-//	}
-//	printf("2:%02d\n", star.size());// 주소만 가지고 있고 메모리 할당은 안되어 있다
-//	star.clear();// 메모리 할당이 안되어 있는 값들을 0으로 초기화한다.
-//	printf("3:%02d\n", star.size());
-//}
-	
+struct STAR {
+	int id;
+	int age;
+};
+
+int main()
+{
+	srand((unsigned)time(NULL));
+	list<STAR*> star;
+	list<STAR*>::iterator it;
+
+	while (true)
+	{
+		//갱신( 죽고 사는 )
+		for (it = star.begin(); it != star.end();) {
+			if (rand() % 2) {// 죽었을 때
+				delete(*it);
+				it = star.erase(it);
+			}
+			else {//살았을 때
+				(*it)->age++;
+				++it;
+			}
+		}
+		
+		// 데이터 생성
+		while (star.size() < 10) {
+			STAR* t = new STAR;
+			static int id = 0;
+			t->id = id++;
+			t->age = 0;
+			star.push_back(t);
+		}
+
+		//출력코드
+		for (it = star.begin(); it != star.end(); ++it) {
+			printf("%02d ", (*it)->id);
+		}printf("\n");
+		for (it = star.begin(); it != star.end(); ++it) {
+			printf("%02d ", (*it)->age);
+		}printf("\n");
+
+
+		int num;
+		scanf_s("%d", &num);
+		if (num == 99) {
+			printf("Exit\n");
+			break;
+		}
+	}
+
+	// 마무리 된 코드
+	printf("1:%02d\n", star.size());
+	for (it = star.begin(); it != star.end(); ++it) 
+	{
+			delete (*it);
+	}
+	printf("2:%02d\n", star.size());// 주소만 가지고 있고 메모리 할당은 안되어 있다
+	star.clear();// 메모리 할당이 안되어 있는 값의 주소를 가지고 있기 떄문에 0으로 초기화한다.
+	printf("3:%02d\n", star.size());
+}
+
 #pragma endregion
 
+#pragma region MyRegion
+//int main()
+//{
+//	//CString s = "ttttt";// cstring도 crud에 대한 데이터를 가지고 있다.
+//	//{키:값}, { 키:값 }, { 키:값 } <- 맵
+//
+//	//데이터를 관리하는 포맷(xml, json)// json은 표준 포맷이다.
+//	//STL(CRUD) = {템플릿, 알고리즘}
+//}
+
+#pragma endregion
 
 
 

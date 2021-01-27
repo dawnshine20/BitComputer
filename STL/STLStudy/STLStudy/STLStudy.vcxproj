@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d32ed383-8dbd-4d23-9f16-1d4d380f4d0c}</ProjectGuid>
-    <RootNamespace>NetWorkStudy1</RootNamespace>
+    <ProjectGuid>{14fe2c9b-6445-4a41-9b33-dbd44f90ba9f}</ProjectGuid>
+    <RootNamespace>STLStudy</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NetWorkStudy1.cpp" />
+    <ClCompile Include="STLStudy.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
