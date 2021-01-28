@@ -197,6 +197,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_USER_SOCKET:
     {
+        // FD_READ: 데이터 수신이 가능하면 윈도우 메시지를 발생시킨다. 
+        // FD_WRITE: 데이터 송신이 가능하면 윈도우 메시지를 발생시킨다. 
+        // FD_CLOSE: 상대가 접속을 종료하면 윈도우 메시지를 발생시킨다. 
+        // FD_CONNECT: 접속이 완료되면 윈도우 메시지를 발생시킨다. 
+        // FD_OOB: OOB 데이터가 도착하면 윈도우 메시지를 발생시킨다.
+
         UINT event = WSAGETSELECTEVENT(lParam);//현재 네트워크에서 발생한 이벤트의 종류를 알려줌
         switch (event) {
         case FD_CONNECT:

@@ -91,10 +91,10 @@ unsigned _stdcall ConnectThread(void* pArg) {
 	// ((WORD)(((BYTE)(((DWORD_PTR)(a)) & 0xff)) | ((WORD)((BYTE)(((DWORD_PTR)(b)) & 0xff))) << 8))
 	// (1,2,3,4) = 0x01020304 (네트워크버전을 알리도록 설정해줌)
 
-	WORD version = MAKEWORD(2, 2); // 첫번째인자 상위 ,부번째인자 하위바이트로 올려주는 역할
+	WORD version = MAKEWORD(2, 2); // 첫번째 인자 상위 ,두번째 인자 하위바이트로 올려주는 역할
 	WSADATA wsaData;
-	//네트워크와 관련된 (함수)범용 동적 라이브러리를 로드.
 	int err;
+	//네트워크와 관련된 (함수)범용 동적 라이브러리를 로드.
 	err = WSAStartup(version, &wsaData);
 	if (err) { // 검수작업(만약 안들어왔다면 프로그램 종료시킴)
 		SetWindowText(hWnd, L"Error : WSAStartup Error");
