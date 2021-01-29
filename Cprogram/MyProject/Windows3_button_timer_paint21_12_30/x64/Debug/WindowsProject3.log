@@ -1,10 +1,11 @@
-﻿  WindowsProject3.cpp
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(356,21): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(357,21): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(363,32): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(364,40): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(368,38): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(368,35): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(370,36): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\HB\BitComputer\Cprogram\MyProject\WindowsProject3\WindowsProject3.cpp(370,33): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WindowsProject3.vcxproj -> D:\HB\BitComputer\Cprogram\MyProject\x64\Debug\WindowsProject3.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(WindowsProject3.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+  WindowsProject3.cpp
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(356,21): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(357,21): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(363,32): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(364,40): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(368,38): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(368,35): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(370,36): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\HB\BitComputer\Cprogram\MyProject\Windows3_button_timer_paint21_12_30\WindowsProject3.cpp(370,33): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  WindowsProject3.vcxproj -> D:\HB\BitComputer\Cprogram\MyProject\x64\Debug\Windows3_button_timer_paint21_12_30.exe

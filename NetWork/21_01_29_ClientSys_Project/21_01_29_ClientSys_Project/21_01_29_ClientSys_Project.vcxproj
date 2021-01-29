@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{50e98b7a-50f2-4535-908e-2ae3fc745d07}</ProjectGuid>
-    <RootNamespace>My210128ServerSys1</RootNamespace>
+    <ProjectGuid>{eb336835-5ad7-4e41-b026-ec4a088ac739}</ProjectGuid>
+    <RootNamespace>My210129ClientSysProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -118,12 +118,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>wsock32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,19 +141,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="21_01_28_ServerSys1.h" />
+    <ClInclude Include="21_01_29_ClientSys_Project.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="21_01_28_ServerSys1.cpp" />
+    <ClCompile Include="21_01_29_ClientSys_Project.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="21_01_28_ServerSys1.rc" />
+    <ResourceCompile Include="21_01_29_ClientSys_Project.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="21_01_28_ServerSys1.ico" />
+    <Image Include="21_01_29_ClientSys_Project.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

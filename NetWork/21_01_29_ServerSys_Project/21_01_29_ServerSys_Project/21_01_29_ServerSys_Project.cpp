@@ -7,7 +7,7 @@
 #include <process.h>
 #include <atlstr.h>
 #include "framework.h"
-#include "21_01_28_ServerSys1.h"
+#include "21_01_29_ServerSys_Project.h"
 
 #define MAX_LOADSTRING 100
 
@@ -27,6 +27,12 @@ bool LoopConnectThread = true;
 SOCKET MainSocket;
 // SOCKET hSocket; // client 소켓 핸들
 
+#define BTN1 1000
+#define BTN2 ((BTN1) + 1)
+#define BTN3 ((BTN2) + 1)
+#define BTN4 ((BTN3) + 1)
+HWND hwndButton1, hwndButton2, hwndButton3, hwndButton4;
+
 
 //나중에 전역으로 사용될 수 있다는
 SOCKET hSocket[100];
@@ -41,7 +47,16 @@ struct FORMAT1 {
 	short mx;
 	short my;
 };
-#define FORMATID1 1234
+struct FORMAT2 {
+	short data;
+};
+struct FORMAT3 {
+	short x, y, z;
+};
+struct FORMAT4 {
+	char ar[10];
+};
+#define FORMATID1 1
 #define FORMATID2 2
 #define FORMATID3 3
 #define FORMATID4 4
@@ -93,38 +108,68 @@ unsigned _stdcall ClientThread(void* pArg) {
 		//MouseData mouseData;
 		int pos = 0;
 		short mx, my;
+		int data;
+		short x, y, z;
 		while (index) {
 			int formatNum = *((int*)(recvBuffer + pos));	// 1. send 한번으로 받을 수도 있고
 														// 2. send 한번 이상으로 받을 수도 있다.
 			pos += sizeof(int);
-			
+
 			switch (formatNum) {
 			case FORMATID1:
 			{
 				mx = ((FORMAT1*)(recvBuffer + pos))->mx;//강제적으로 형을 변환시켜서 사용한다(고급문법)
 				my = ((FORMAT1*)(recvBuffer + pos))->my;
 				pos += sizeof(FORMAT1);
-				index -= sizeof(int) * 2;
+				index -= sizeof(int) + sizeof(FORMAT1);
+				
+				CString strPoint;
+				strPoint.Format(L"mx : %d my : %d", mx, my);
+				SetWindowText(hwndButton1, strPoint);
+
 			}break;
 			case FORMATID2:
 			{
+				data = ((FORMAT2*)(recvBuffer + pos))->data;
 
+				pos += sizeof(FORMAT2);
+				index -= sizeof(int) + sizeof(FORMAT2);
+
+				CString strSum;
+
+				strSum.Format(L"sum : %d ", data);
+				SetWindowText(hwndButton2, strSum);
 			}break;
 			case FORMATID3:
 			{
+				
+				x = ((FORMAT3*)(recvBuffer + pos))->x;//강제적으로 형을 변환시켜서 사용한다(고급문법)
+				y = ((FORMAT3*)(recvBuffer + pos))->y;
+				z = ((FORMAT3*)(recvBuffer + pos))->z;
+				pos += sizeof(FORMAT3);
+				index -= sizeof(int) + sizeof(FORMAT3);
 
+				CString strMultiple;
+				strMultiple.Format(L"x : %d y : %d z : %d", x, y, z);
+				SetWindowText(hwndButton3, strMultiple);
 			}break;
 			case FORMATID4:
 			{
+				char pAry[10] = { 0, };
+				strcpy(pAry, ((FORMAT4*)(recvBuffer + pos))->ar);
+				//pAry = ((FORMAT4*)(recvBuffer + pos))->ar;//강제적으로 형을 변환시켜서 사용한다(고급문법)
+				
+				pos += sizeof(FORMAT4);
+				index -= sizeof(int) + sizeof(FORMAT4);
 
+				CString strAllButton;
+				strAllButton = pAry;
+				SetWindowText(hwndButton4, strAllButton);
 			}break;
 			}
-			CString s;
-			s.Format(L"formatNum: %d mx : %d my : %d", formatNum, mx, my);
-			SetWindowText(hWnd, s);
 		}
-		
-		
+
+
 		if ((WhatEvent.lNetworkEvents & FD_CLOSE) == FD_CLOSE)
 		{
 			closesocket(userInfo->hSocket);// 클라이언트 소켓 제거
@@ -134,29 +179,29 @@ unsigned _stdcall ClientThread(void* pArg) {
 			MessageBox(hWnd, L"클라이언트 접속종료", L"클라이언트 접속종료", MB_OK);
 			break;
 		}
-		
 
-		
+
+
 		// 데이타를 가공한다.
-		
 
-		struct PACKDATA {
-			short sum;
-		};
-		PACKDATA packData;
-		packData.sum = mx + my;
 
-		char sendBuffer[512] = { 0, }; // 마이크로소프트 권장 사양
-		((PACKDATA*)sendBuffer)->sum = packData.sum;
-		
-		//여러 클라이언트들에게 데이터를 보내기 위해 필요(전역변수로 클라이언트 번호를 기억해야하는 이유
-		//for (int i = 0; i < 반복횟수; i++)
-		//{
-		//	send(클라이언트의 소켓번호, sendBuffer, 2, 0);
-		//}
+		//struct PACKDATA {
+		//	short sum;
+		//};
+		//PACKDATA packData;
+		//packData.sum = mx + my;
 
-		send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
-		send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
+		//char sendBuffer[512] = { 0, }; // 마이크로소프트 권장 사양
+		//((PACKDATA*)sendBuffer)->sum = packData.sum;
+
+		////여러 클라이언트들에게 데이터를 보내기 위해 필요(전역변수로 클라이언트 번호를 기억해야하는 이유
+		////for (int i = 0; i < 반복횟수; i++)
+		////{
+		////	send(클라이언트의 소켓번호, sendBuffer, 2, 0);
+		////}
+
+		//send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
+		//send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
 	}
 	_endthreadex(0);
 	return true;
@@ -242,7 +287,7 @@ unsigned _stdcall ConnectThread(void* pArg) {
 		//SetWindowText(hWnd, L"200");
 		SOCKET hSocket = accept(MainSocket, (struct sockaddr*)&sa, &len);
 		// 유저 한명이 생성이 되고 있다.
-		
+
 
 		USERINFO* userInfo = new USERINFO;
 		userInfo->hSocket = hSocket;
@@ -278,7 +323,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// 전역 문자열을 초기화합니다.
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadStringW(hInstance, IDC_MY210128SERVERSYS1, szWindowClass, MAX_LOADSTRING);
+	LoadStringW(hInstance, IDC_MY210129SERVERSYSPROJECT, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
 	// 애플리케이션 초기화를 수행합니다:
@@ -287,7 +332,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY210128SERVERSYS1));
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY210129SERVERSYSPROJECT));
 
 	MSG msg;
 
@@ -324,10 +369,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY210128SERVERSYS1));
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY210129SERVERSYSPROJECT));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MY210128SERVERSYS1);
+	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MY210129SERVERSYSPROJECT);
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -372,10 +417,23 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_CREATE: // 윈도우가 생성될 때 발생하는 메세지( 초기화가 필요한 프로그램 )
+	{
+		hwndButton1 = CreateWindowW(TEXT("BUTTON"), TEXT("BT1"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+			10, 20, 200, 40, hWnd, (HMENU)BTN1, hInst, NULL);
+		hwndButton2 = CreateWindowW(TEXT("BUTTON"), TEXT("BT2"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+			10, 80, 200, 40, hWnd, (HMENU)BTN2, hInst, NULL);
+		hwndButton3 = CreateWindowW(TEXT("BUTTON"), TEXT("BT3"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+			10, 140, 200, 40, hWnd, (HMENU)BTN3, hInst, NULL);
+		hwndButton4 = CreateWindowW(TEXT("BUTTON"), TEXT("BT4"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+			10, 200, 200, 40, hWnd, (HMENU)BTN4, hInst, NULL);
+	}break;
+
 	case WM_COMMAND:
 	{
 		int wmId = LOWORD(wParam);
@@ -430,6 +488,4 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)FALSE;
 }
-
-
 

@@ -6,7 +6,7 @@
 #include <process.h>
 #include<atlstr.h>
 #include "framework.h"
-#include "21_01_28_ClientSys1.h"
+#include "21_01_29_ClientSys_Project.h"
 
 #define MAX_LOADSTRING 100
 
@@ -16,8 +16,14 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 HWND hWnd;
-SOCKET ClientSocket = 0;
+SOCKET ClientSocket = 0; // I/O 상황을 체크할 소켓
 WORD mx, my;
+int data;
+
+#define BTN1 1000
+#define BTN2 ((BTN1) + 1)
+#define BTN3 ((BTN2) + 1)
+#define BTN4 ((BTN3) + 1)
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -58,7 +64,7 @@ bool InitData() {
         return false;
     }
 
-    
+
     // WS; windowSocketAsyncro//윈도우 소켓 비동기
     // 어떤 소켓이랑 어떤 윈도우가 통신을 하는지 알립니다.
     // 이벤트 : 하드웨어적인 사건이 일어났을 때.
@@ -71,11 +77,11 @@ bool InitData() {
     sa.sin_addr.s_addr = inet_addr("192.168.1.55");//자기 자신이 가지고 있는 통신 IP를 가져온다.
     sa.sin_port = htons(3000);
 
-    
-    err = connect(ClientSocket,(LPSOCKADDR)&sa, sizeof(sa));
+
+    err = connect(ClientSocket, (LPSOCKADDR)&sa, sizeof(sa));
     if (err == SOCKET_ERROR) {
         int ErrCode = WSAGetLastError();//가장 최근에 일어난 코드 번호를 달라고 요청
-        if (ErrCode != WSAEWOULDBLOCK) {
+        if (ErrCode != WSAEWOULDBLOCK) { // 에러코드가 
             SetWindowText(hWnd, L"Error : connect Error");
             return false;
         }
@@ -83,9 +89,9 @@ bool InitData() {
     return true;
 }
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPWSTR    lpCmdLine,
+    _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
@@ -94,16 +100,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_MY210128CLIENTSYS1, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_MY210129CLIENTSYSPROJECT, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))
+    if (!InitInstance(hInstance, nCmdShow))
     {
         return FALSE;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY210128CLIENTSYS1));
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY210129CLIENTSYSPROJECT));
 
     MSG msg;
     InitData();
@@ -117,7 +123,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-    return (int) msg.wParam;
+    return (int)msg.wParam;
 }
 
 
@@ -133,17 +139,17 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY210128CLIENTSYS1));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_MY210128CLIENTSYS1);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = WndProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY210129CLIENTSYSPROJECT));
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MY210129CLIENTSYSPROJECT);
+    wcex.lpszClassName = szWindowClass;
+    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
@@ -160,20 +166,20 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      0, 0, 400, 300, nullptr, nullptr, hInstance, nullptr);
+    hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+        0, 0, 400, 300, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+    if (!hWnd)
+    {
+        return FALSE;
+    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+    ShowWindow(hWnd, nCmdShow);
+    UpdateWindow(hWnd);
 
-   return TRUE;
+    return TRUE;
 }
 
 //
@@ -199,15 +205,27 @@ struct FORMAT3 {
     short x, y, z;
 };
 struct FORMAT4 {
-    long ar[10];
+    char ar[10];
 };
 #pragma endregion
 
 //FORMAT1 format1;
+HWND hwndButton1, hwndButton2, hwndButton3, hwndButton4;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE: // 윈도우가 생성될 때 발생하는 메세지( 초기화가 필요한 프로그램 )
+    {
+        hwndButton1 = CreateWindowW( TEXT("BUTTON"), TEXT("BT1"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            300, 20, 50, 40, hWnd, (HMENU)BTN1, hInst, NULL);
+        hwndButton2 = CreateWindowW(TEXT("BUTTON"), TEXT("BT2"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            300, 80 , 50, 40, hWnd, (HMENU)BTN2, hInst, NULL);
+        hwndButton3 = CreateWindowW(TEXT("BUTTON"), TEXT("BT3"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            300, 140 , 50, 40, hWnd, (HMENU)BTN3, hInst, NULL);
+        hwndButton4 = CreateWindowW(TEXT("BUTTON"), TEXT("BT4"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            300, 200, 50, 40, hWnd, (HMENU)BTN4, hInst, NULL);
+    }break;
     case WM_USER_SOCKET:
     {
         // FD_READ: 데이터 수신이 가능하면 윈도우 메시지를 발생시킨다. 
@@ -218,7 +236,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         UINT event = WSAGETSELECTEVENT(lParam);//현재 네트워크에서 발생한 이벤트의 종류를 알려줌
         switch (event) {
+        //주의 : 커넥트 되는 시점에 이벤트가 발생하는게 아니라 커넥트를 시도하기위해서 자동으로 커넥트 이벤트가 발생하는 것
         case FD_CONNECT:
+            
             WSAAsyncSelect(ClientSocket, hWnd, WM_USER_SOCKET, FD_READ);
             break;
         case FD_READ:
@@ -242,19 +262,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         s.Format(L"mx:%d my:%d ", mx, my);
         SetWindowText(hWnd, s.GetBuffer());
     }break;
-    
+
     case WM_LBUTTONDOWN:
     {
         //int a; // 0x12 34 56 78
         // 4096 byte
         // 그림파일 보낼때는 FTP 파일 통신 해야하는 규모
-        const char sendBuffer[512] = { 0, }; // 마이크로소프트 권장 사양
-        int formatNum = 1234;
-        *((int*)sendBuffer + 0) = formatNum;
-
-        ((FORMAT1*)(sendBuffer + 4))->mx = mx;//강제적으로 형을 변환시켜서 사용한다(고급문법)
-        ((FORMAT1*)(sendBuffer + 4))->my = my;
-        send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT1), 0);// 던지려고하는 메모리의 시작 주소
+        
     }break;
     case WM_RBUTTONDOWN:
     {
@@ -265,34 +279,116 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             closesocket(ClientSocket);
             ClientSocket = 0;
         }
-        
+
     }break;
 
     case WM_COMMAND:
+    {
+        int wmId = LOWORD(wParam);
+        // 메뉴 선택을 구문 분석합니다:
+        switch (wmId)
         {
-            int wmId = LOWORD(wParam);
-            // 메뉴 선택을 구문 분석합니다:
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
+        case BTN1:
+        {
+            const char sendBuffer[512] = { 0, }; 
+            int formatNum = 1;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT1*)(sendBuffer + 4))->mx = mx;
+            ((FORMAT1*)(sendBuffer + 4))->my = my;
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT1), 0);
+        }break;
+        case BTN2:
+        {
+            const char sendBuffer[512] = { 0, }; 
+
+            int formatNum = 1;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT1*)(sendBuffer + 4))->mx = mx;
+            ((FORMAT1*)(sendBuffer + 4))->my = my;
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT1), 0);
+
+            data = mx + my;
+            formatNum = 2;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT2*)(sendBuffer + 4))->data = data;
+            
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT2), 0);
+        }break;
+        case BTN3:
+        {
+            const char sendBuffer[512] = { 0, }; 
+            int formatNum = 3;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT3*)(sendBuffer + 4))->x = mx * 2;
+            ((FORMAT3*)(sendBuffer + 4))->y = mx * 3;
+            ((FORMAT3*)(sendBuffer + 4))->z = mx * 4;
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT3), 0);
+
+            formatNum = 4;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            strcpy(((FORMAT4*)(sendBuffer + 4))->ar, "Tiger");
+            
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT4), 0);
+        }break;
+        case BTN4:
+        {
+            const char sendBuffer[512] = { 0, };
+
+            int formatNum = 1;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT1*)(sendBuffer + 4))->mx = mx;
+            ((FORMAT1*)(sendBuffer + 4))->my = my;
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT1), 0);
+
+            data = mx + my;
+            formatNum = 2;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT2*)(sendBuffer + 4))->data = data;
+
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT2), 0);
+
+            formatNum = 3;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            ((FORMAT3*)(sendBuffer + 4))->x = data * 2;
+            ((FORMAT3*)(sendBuffer + 4))->y = data * 3;
+            ((FORMAT3*)(sendBuffer + 4))->z = data * 4;
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT3), 0);
+
+            formatNum = 4;
+            *((int*)sendBuffer + 0) = formatNum;
+
+            strcpy(((FORMAT4*)(sendBuffer + 4))->ar, "Lion");
+
+            send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT4), 0);
+        }break;
+
+        case IDM_ABOUT:
+            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            break;
+        case IDM_EXIT:
+            DestroyWindow(hWnd);
+            break;
+        default:
+            return DefWindowProc(hWnd, message, wParam, lParam);
         }
-        break;
+    }
+    break;
     case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-            EndPaint(hWnd, &ps);
-        }
-        break;
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+        EndPaint(hWnd, &ps);
+    }
+    break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
