@@ -74,7 +74,7 @@ bool InitData() {
     struct sockaddr_in sa;
     ZeroMemory(&sa, sizeof(sa));
     sa.sin_family = AF_INET;
-    sa.sin_addr.s_addr = inet_addr("192.168.1.55");//자기 자신이 가지고 있는 통신 IP를 가져온다.
+    sa.sin_addr.s_addr = inet_addr("192.168.1.111");//자기 자신이 가지고 있는 통신 IP를 가져온다.
     sa.sin_port = htons(3000);
 
 
@@ -346,8 +346,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             ((FORMAT1*)(sendBuffer + 4))->my = my;
             send(ClientSocket, sendBuffer, 4 + sizeof(FORMAT1), 0);
 
-            data = mx + my;
             formatNum = 2;
+            data = mx + my;
             *((int*)sendBuffer + 0) = formatNum;
 
             ((FORMAT2*)(sendBuffer + 4))->data = data;

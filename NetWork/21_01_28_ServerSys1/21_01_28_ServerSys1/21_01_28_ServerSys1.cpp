@@ -20,7 +20,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 // SERVER 전역변수
 HWND hWnd;
 bool LoopConnectThread = true;
@@ -29,7 +28,7 @@ SOCKET MainSocket;
 
 
 //나중에 전역으로 사용될 수 있다는
-SOCKET hSocket[100];
+//SOCKET hSocket[100];
 struct USERINFO {
 	SOCKET hSocket;
 	int id;
@@ -104,7 +103,7 @@ unsigned _stdcall ClientThread(void* pArg) {
 				mx = ((FORMAT1*)(recvBuffer + pos))->mx;//강제적으로 형을 변환시켜서 사용한다(고급문법)
 				my = ((FORMAT1*)(recvBuffer + pos))->my;
 				pos += sizeof(FORMAT1);
-				index -= sizeof(int) * 2;
+				index -= sizeof(int) + sizeof(FORMAT1);
 			}break;
 			case FORMATID2:
 			{
@@ -138,8 +137,6 @@ unsigned _stdcall ClientThread(void* pArg) {
 
 		
 		// 데이타를 가공한다.
-		
-
 		struct PACKDATA {
 			short sum;
 		};
@@ -156,7 +153,7 @@ unsigned _stdcall ClientThread(void* pArg) {
 		//}
 
 		send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
-		send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
+		
 	}
 	_endthreadex(0);
 	return true;
@@ -382,9 +379,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// 메뉴 선택을 구문 분석합니다:
 		switch (wmId)
 		{
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
+		
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
@@ -411,25 +406,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// 정보 대화 상자의 메시지 처리기입니다.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
-		break;
-	}
-	return (INT_PTR)FALSE;
-}
 
 
 

@@ -20,26 +20,23 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 // SERVER 전역변수
 HWND hWnd;
 bool LoopConnectThread = true;
 SOCKET MainSocket;
 // SOCKET hSocket; // client 소켓 핸들
 
+HWND hwndButton1, hwndButton2, hwndButton3, hwndButton4;
 #define BTN1 1000
 #define BTN2 ((BTN1) + 1)
 #define BTN3 ((BTN2) + 1)
 #define BTN4 ((BTN3) + 1)
-HWND hwndButton1, hwndButton2, hwndButton3, hwndButton4;
 
 
-//나중에 전역으로 사용될 수 있다는
 SOCKET hSocket[100];
 struct USERINFO {
 	SOCKET hSocket;
 	int id;
-	int x, y;
 };
 
 #pragma region 클라이언트와 서버의 약속된 문장 형식
@@ -56,10 +53,10 @@ struct FORMAT3 {
 struct FORMAT4 {
 	char ar[10];
 };
-#define FORMATID1 1
-#define FORMATID2 2
-#define FORMATID3 3
-#define FORMATID4 4
+#define FORMAT_ID1 1
+#define FORMAT_ID2 2
+#define FORMAT_ID3 3
+#define FORMAT_ID4 4
 #pragma endregion
 
 // SERVER 프로그램
@@ -116,7 +113,7 @@ unsigned _stdcall ClientThread(void* pArg) {
 			pos += sizeof(int);
 
 			switch (formatNum) {
-			case FORMATID1:
+			case FORMAT_ID1:
 			{
 				mx = ((FORMAT1*)(recvBuffer + pos))->mx;//강제적으로 형을 변환시켜서 사용한다(고급문법)
 				my = ((FORMAT1*)(recvBuffer + pos))->my;
@@ -128,7 +125,7 @@ unsigned _stdcall ClientThread(void* pArg) {
 				SetWindowText(hwndButton1, strPoint);
 
 			}break;
-			case FORMATID2:
+			case FORMAT_ID2:
 			{
 				data = ((FORMAT2*)(recvBuffer + pos))->data;
 
@@ -140,7 +137,7 @@ unsigned _stdcall ClientThread(void* pArg) {
 				strSum.Format(L"sum : %d ", data);
 				SetWindowText(hwndButton2, strSum);
 			}break;
-			case FORMATID3:
+			case FORMAT_ID3:
 			{
 				
 				x = ((FORMAT3*)(recvBuffer + pos))->x;//강제적으로 형을 변환시켜서 사용한다(고급문법)
@@ -153,7 +150,7 @@ unsigned _stdcall ClientThread(void* pArg) {
 				strMultiple.Format(L"x : %d y : %d z : %d", x, y, z);
 				SetWindowText(hwndButton3, strMultiple);
 			}break;
-			case FORMATID4:
+			case FORMAT_ID4:
 			{
 				char pAry[10] = { 0, };
 				strcpy(pAry, ((FORMAT4*)(recvBuffer + pos))->ar);
@@ -179,29 +176,6 @@ unsigned _stdcall ClientThread(void* pArg) {
 			MessageBox(hWnd, L"클라이언트 접속종료", L"클라이언트 접속종료", MB_OK);
 			break;
 		}
-
-
-
-		// 데이타를 가공한다.
-
-
-		//struct PACKDATA {
-		//	short sum;
-		//};
-		//PACKDATA packData;
-		//packData.sum = mx + my;
-
-		//char sendBuffer[512] = { 0, }; // 마이크로소프트 권장 사양
-		//((PACKDATA*)sendBuffer)->sum = packData.sum;
-
-		////여러 클라이언트들에게 데이터를 보내기 위해 필요(전역변수로 클라이언트 번호를 기억해야하는 이유
-		////for (int i = 0; i < 반복횟수; i++)
-		////{
-		////	send(클라이언트의 소켓번호, sendBuffer, 2, 0);
-		////}
-
-		//send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
-		//send(userInfo->hSocket, sendBuffer, 2, 0);// 던지려고하는 메모리의 시작 주소, 2byte
 	}
 	_endthreadex(0);
 	return true;
@@ -292,8 +266,6 @@ unsigned _stdcall ConnectThread(void* pArg) {
 		USERINFO* userInfo = new USERINFO;
 		userInfo->hSocket = hSocket;
 		userInfo->id = num;
-		userInfo->x = num * 3;
-		userInfo->y = num * 4;
 
 		num++;
 		CString s;
@@ -307,10 +279,12 @@ unsigned _stdcall ConnectThread(void* pArg) {
 	_endthreadex(0);
 	return true;
 }
+
 void DataInit() {
 	UINT threadID;
 	_beginthreadex(NULL, 0, ConnectThread, NULL, 0, &threadID);
 }
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
@@ -440,9 +414,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// 메뉴 선택을 구문 분석합니다:
 		switch (wmId)
 		{
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
@@ -469,23 +440,5 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// 정보 대화 상자의 메시지 처리기입니다.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
 
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
-		break;
-	}
-	return (INT_PTR)FALSE;
-}
 
