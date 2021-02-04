@@ -196,7 +196,7 @@ SELECT * FROM emp1 order by sal asc, eno desc;
 SELECT * FROM emp1 order by sal, eno desc;
 SELECT * FROM emp1 order by sal, eno;
 */
-
+/*
 PURGE RECYCLEBIN;
 DROP TABLE emp1;
 -- 테이블 컬럼을 CRUD 할 수 있다.
@@ -208,8 +208,8 @@ CREATE TABLE emp1(
 );
 
 INSERT INTO emp1 VALUES (  '독수리', 50, 33, 52);
-INSERT INTO emp1 VALUES (  '호랑이1', 20,44, 23);
-INSERT INTO emp1 VALUES (  '호랑이2', 20, 55,98);
+INSERT INTO emp1 VALUES (  '호랑이1', 60,44, 23);
+INSERT INTO emp1 VALUES (  '호랑이2', 80, 55,98);
 INSERT INTO emp1 VALUES ( '까마귀', 15,66,54);
 INSERT INTO emp1 VALUES ( '라이언', 15,11,88);
 INSERT INTO emp1 VALUES ( '호랑이3', 35,3,99);
@@ -233,4 +233,430 @@ FROM emp1
 where (kor+eng+mat) > 120 
 ORDER BY ename;
 
-COMMIT; 
+--ex19) where절에서는 별칭을 사용할 수 없다.
+--SELECT kor AS aliaskor 
+--FROM emp1 
+--WHERE aliaskor > 50;
+
+--ex20) where절에서는 별칭을 사용할 수 없다.
+--SELECT
+--컬럼         -- 별칭 사용(O)
+--FROM 테이블명
+--WHERE       -- 별칭 사용(X)
+--GROUP BY    -- 별칭 사용(O)
+--HAVING      -- 별칭 사용(O)
+--ORDER BY    -- 별칭 사용(O)
+*/
+/*
+PURGE RECYCLEBIN;
+DROP TABLE emp1;
+
+CREATE TABLE emp1(
+    ename       VARCHAR2 (20),
+    kor             NUMBER,
+    eng             NUMBER,
+    mat             NUMBER
+);
+
+INSERT INTO emp1 VALUES (  '독수리', 50, 33, 52);
+INSERT INTO emp1 VALUES (  '호랑이1', 60,44, 23);
+INSERT INTO emp1 VALUES (  '호랑이2', 80, 55,98);
+INSERT INTO emp1 VALUES ( '까마귀', 15,66,54);
+INSERT INTO emp1 VALUES ( '라이언', 15,11,88);
+INSERT INTO emp1 VALUES ( '호랑이3', 35,3,99);
+
+--ex21)테이블명 대신에 쿼리문을 사용할 수 있다.
+-- 인라인 뷰, 서브쿼리
+SELECT COUNT(*) FROM emp1;
+SELECT COUNT(*) FROM (SELECT * FROM emp1 WHERE kor > 50);
+-- 위 문장과 동일
+SELECT COUNT(*) FROM emp1 WHERE kor > 50;
+
+--ex22) AND, OR, NOT 사용
+SELECT * FROM emp1
+WHERE kor > 30 AND kor < 80;
+
+SELECT * FROM emp1
+WHERE kor > 30 OR ename = '까마귀';
+
+SELECT * FROM emp1
+WHERE NOT(kor > 30 AND kor < 80);
+
+--ex23)IN은 (= OR)와 완전 동격
+SELECT * FROM emp1
+WHERE kor = 50 OR kor = 15 OR kor = 40;
+
+SELECT * FROM emp1
+WHERE kor NOT IN(50, 15, 40);
+--WHERE kor NOT IN(가변적일 수 있다.);
+--WHERE kor NOT IN(SELECT 문이 들어 올 수 있다.);
+*/
+/*
+PURGE RECYCLEBIN;
+DROP TABLE TAB01;
+
+CREATE TABLE TAB01(
+    ename       VARCHAR2 (20),
+    mt          VARCHAR2 (20)
+);
+
+INSERT INTO TAB01 VALUES (  '호랑이1', '북한산');
+INSERT INTO TAB01 VALUES (  '호랑이2', '도봉산');
+INSERT INTO TAB01 VALUES (  '호랑이3', '북한산');
+INSERT INTO TAB01 VALUES (  '호랑이4', '관악산');
+INSERT INTO TAB01 VALUES (  '호랑이5', '지리산');
+SELECT ename From TAB01 WHERE mt = '도봉산' OR mt = '지리산';
+SELECT ename From TAB01 WHERE mt IN ('도봉산' , '지리산');
+-- 산의 높이가 상위 10위 안에 들어가는 산을 다녀온 고객의 명단을 출력하세요.
+DROP TABLE TAB02;
+CREATE TABLE TAB02(
+    mt       VARCHAR2 (20),
+    height          NUMBER,
+    national        국적
+);
+
+INSERT INTO TAB02 VALUES ( '북한산', 1000);
+INSERT INTO TAB02 VALUES ( '도봉산', 2000);
+INSERT INTO TAB02 VALUES ( '관악산', 1500);
+INSERT INTO TAB02 VALUES ( '지리산', 1800);
+
+-- 산의 높이가 1600 이상
+--select mt from tb02 where height > 1600;
+-- 산의 높이가 1600 보다 높은 산을 다녀온 고객의 명단을 출력하세요.
+-- 예시)산의 높이가 상위 10위 안에 들어가는 산을 다녀온 고객의 랜튼을 한 차번호를 출력하세요.
+SELECT ename 
+from TAB01 
+WHERE mt in( 
+    SELECT mt 
+    FROM tab02
+    WHERE height > 1600
+);
+
+--ex24) between
+SELECT * FROM emp1
+where kor >= 30 and kor <= 80;
+SELECT * FROM emp1
+where kor BETWEEN 30 AND 80
+*/
+/*
+PURGE RECYCLEBIN;
+DROP TABLE emp1;
+
+CREATE TABLE emp1(
+    ename       VARCHAR2 (20),
+    kor             NUMBER,
+    eng             NUMBER,
+    mat             NUMBER
+);
+
+INSERT INTO emp1 VALUES (  '', 50, 33, 52);
+INSERT INTO emp1 VALUES (  null, 60,44, 23);
+INSERT INTO emp1 VALUES (  '호랑이2', null, 55,98);
+INSERT INTO emp1 VALUES ( '까마귀', 15,null,54);
+INSERT INTO emp1 VALUES ( '라이언', null,11,88);
+INSERT INTO emp1 VALUES ( '호랑이3', 35,3,99);
+--ex25)
+SELECT * FROM emp1
+WHERE ename like '호%';
+
+--ex26) null
+--not in
+--not between
+--not like
+--is null >> 데이터 값이 null인가...
+--is not null
+
+--ex27) null이 필요한 경우
+-- 원본 데이터에서 데이타가 소실 혹은 없는 경우
+-- 은행 고객인데 통장 개설을 하지 않은 고객
+-- 미혼인 고객의 결혼 기념일
+-- 비밀번호 찾기를 설정하지 않았을때
+-- 미성년자의 출신대학
+
+--ex28)일단 오류가 난다.
+SELECT * FROM emp1
+--WHERE kor = null; -- 주의 해야 한다.(사용하지 않는 케이스)
+--WHERE kor is null; --(사용하는 케이스)
+WHERE kor is not null; --(사용하는 케이스)
+
+--ex29)
+SELECT * FROM emp1
+WHERE kor is null or eng is null;
+
+--ex30) 문자열에 아무것도 안들어가('') 있으면 null처리 된다.
+SELECT * FROM emp1
+WHERE ename is null;
+*/
+/*
+PURGE RECYCLEBIN;
+DROP TABLE emp1;
+CREATE TABLE emp1(
+    ename       VARCHAR2 (20),
+    address     VARCHAR2 (20)
+);
+
+INSERT INTO emp1 VALUES (  '일길동', '서울');
+INSERT INTO emp1 VALUES (  '이길동', '대전');
+INSERT INTO emp1 VALUES (  '삼길동', '서울');
+INSERT INTO emp1 VALUES (  '사길동', '대전');
+INSERT INTO emp1 VALUES (  '오길동', '서울');
+INSERT INTO emp1 VALUES (  '육길동', '대구');
+
+-- ex31) 삼길동의 고향과 동일한 고향을 가진 사람의 명단을 출력하세요.
+-- 테이블에도 닉네임을 사용할 수 있다.
+-- 임시테이블을 생성하기 위하여 서브쿼리가 사용되었다.
+SELECT s1.ename FROM emp1 s1, (SELECT address FROM emp1 where ename = '삼길동') s2
+WHERE s1.address = s2.address;
+
+-- ex32)max, min
+-- ( > all ), ( < any ) >> max에 대한 것을 찾는다는 의미
+-- ( < all ), ( > any ) >> min에 대한 것을 찾는다는 의미
+--WHERE SALARY > 200 OR SALARY > 300 OR SALARY > 400 (쓸모없는 문장인 것 같지만...)
+--SALARY가 가변적으로 들어올 상황이라면 이야기는 달라진다. 때문에 ANY를 사용하는 것이다.
+-- 200, 300, 400 중에서 최소값보다 큰것인가 묻는것이다.
+-- IN하고 관계가 있는 듯 하지만 IN은 =가를 물어 본 것(때문에 IN과는 상관이 전혀 없다.)
+
+--WHERE SALARY > ANY(200, 300, 400) >> 윗 문장과 완전 동일한 문장.
+--WHERE SALARY > 200
+
+--WHERE SALARY < ANY(200, 300, 400) 
+--WHERE SALARY < 400
+
+--WHERE SALARY > ALL(200, 300, 400)  
+--WHERE SALARY < 200
+
+--WHERE SALARY < ALL(200, 300, 400)  
+--WHERE SALARY > 400
+*/
+/*
+PURGE RECYCLEBIN;
+DROP TABLE tab1;
+CREATE TABLE tab1(
+    dept         NUMBER, -- 부서번호 (기획부서, 개발부서, 영업부서, 총괄부서, 홍보부서)
+    name       VARCHAR2 (20),
+    sal        NUMBER
+);
+INSERT INTO tab1 VALUES (30,  'tiger0', 999);
+INSERT INTO tab1 VALUES (10,  'tiger1', 100);
+INSERT INTO tab1 VALUES (20,  'tiger2', 200);
+INSERT INTO tab1 VALUES (30,  'tiger3', 300);
+INSERT INTO tab1 VALUES (40,  'tiger4', 400);
+INSERT INTO tab1 VALUES (10,  'tiger5', 500);
+INSERT INTO tab1 VALUES (20,  'tiger6', 600);
+INSERT INTO tab1 VALUES (30,  'tiger7', 700);
+INSERT INTO tab1 VALUES (10,  'tiger8', 800);
+INSERT INTO tab1 VALUES (20,  'tiger9', 350);
+
+-- 20번 부서에 급여를 가장 많이 받는 사람보다 급여가 적은 직원들을 모두 출력하세요.
+--접근(1) 20번 부서의 급여를 검색한다.
+SELECT sal FROM tab1 WHERE dept = 20; -- 200, 600, 350
+--접근(2)
+SELECT * FROM tab1 WHERE sal < ANY(200, 600, 350);
+--접근(3)
+SELECT *
+FROM tab1
+WHERE sal < ANY(
+    SELECT sal
+    FROM tab1
+    WHERE dept = 20
+);
+-- 컴공과에서 제일 낮은 점수를 받은 학생보다 못한 다른학과 학생들은 누구냐 ?
+--    컴공 40
+--    컴공 20 --> 컴공 중에서 제일 낮은 학생
+--    컴공 50
+--    중국 80
+--    중국 70
+--    중국 10 ->> 결과
+--    일어 40
+--    일어 05 ->> 결과
+*/
+------------------------------------------------
+/*
+--ex30)
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        VARCHAR2(20),
+    sal         NUMBER
+);
+INSERT INTO tab01 VALUES (10,'t2',100);
+INSERT INTO tab01 VALUES (20,'tiger2',null);
+INSERT INTO tab01 VALUES (30,'monkey3',200);
+INSERT INTO tab01 VALUES (40,'tiGer4',300);
+INSERT INTO tab01 VALUES (50,'원숭',300);
+--ex31)
+--결과만 대문자로 변환하지 원본데이터가 대문자가 된거는 아니다.
+select upper(ename) from tab01;
+select lower(ename) from tab01;
+select initcap(ename) from tab01;
+select * from tab01 where upper(ename) = upper('TIGER2');
+select * from tab01 where lower(ename) like 'tiger%';
+--ex31) 몇글자인가
+select length(ename), lengthb(ename) from tab01;
+select * from tab01 where length(ename) > 3;
+--이름이 외자인 경우를 찾아라
+select * from tab01 where length(ename) <=2;
+--이름이 3자리가 아닌 경우를 찾아라
+select * from tab01 where length(ename) !=3;
+--ex32)
+DROP TABLE tab02; 
+CREATE TABLE tab02(             
+    eno         number,
+    call        varchar2(20)
+);
+INSERT INTO tab02 VALUES (10,'100-200-300');
+INSERT INTO tab02 VALUES (20,'400)500-600');
+INSERT INTO tab02 VALUES (30,'700-800-900');
+INSERT INTO tab02 VALUES (40,'700-800-900');
+INSERT INTO tab02 VALUES (50,'700)800-900');
+INSERT INTO tab02 VALUES (60,'02)800-900');
+--substr : 특정부분의 문자열을 분리할때
+--첫번째 인덱스는 1이다
+select substr(tel, 5, 3) , substr(tel,5) from tab02;
+DROP TABLE tab03; 
+CREATE TABLE tab03(             
+    eno         number,
+    tel        varchar2(20)
+);
+INSERT INTO tab03 VALUES (10,'호랑이만세1편.');
+INSERT INTO tab03 VALUES (20,'호랑이끼리만세2편..');
+INSERT INTO tab03 VALUES (30,'독수리호랑이만세3편...');
+INSERT INTO tab03 VALUES (40,'12345678호랑이...');
+INSERT INTO tab03 VALUES (50,'독수리만세3편...');
+--영화제목을 모두출력하세요 단 제목이 길때는 앞 4자리만 출력
+select substr(tel,1,4), length(tel) from tab03;
+select substr(tel,length(tel)-4) from tab03;
+-- instr
+--select instr(tel, '호랑이') from tab03;
+select substr(call, 1, instr(call,')')) from tab02;
+*/
+-------------------------------------------------------
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        varchar2(20)
+);
+
+INSERT INTO tab01 VALUES (10,'호랑이-만세');
+INSERT INTO tab01 VALUES (20,'코호랑이만-세');
+INSERT INTO tab01 VALUES (30,'독수호랑이');
+INSERT INTO tab01 VALUES (30,'독수_호랑이');
+
+SELECT REPLACE(ename, '호랑이', '코끼리') from tab01;
+SELECT REPLACE(ename, '-', ' ') from tab01;
+SELECT REPLACE(ename, '-', '') from tab01;
+
+INSERT INTO tab01 VALUES (10,'tiger1');
+INSERT INTO tab01 VALUES (20,'tiger2');
+INSERT INTO tab01 VALUES (30,'tiger3');
+INSERT INTO tab01 VALUES (30,'tiger4');
+-- rpad, lpad(right, left)
+-- 남은 공간은 전부 * 채움
+select rpad(ename, 10, '*') from tab01;
+select lpad(ename, 10, '*') from tab01;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        varchar2(20)
+);
+INSERT INTO tab01 VALUES (10,'800123-1234561');
+INSERT INTO tab01 VALUES (20,'900456-9999322');
+
+--800123-*******
+--900456-*******
+select rpad(substr(ename, 1, instr(ename, '-')), 14, '*') from tab01;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        varchar2(20)
+);
+--concat
+INSERT INTO tab01 VALUES (10,'호랑이');
+INSERT INTO tab01 VALUES (20,'코끼리');
+INSERT INTO tab01 VALUES (30,'독수리');
+
+SELECT CONCAT(ename, ':') from tab01;
+SELECT CONCAT(eno, ename) from tab01;
+SELECT CONCAT(eno, CONCAT(':',ename)) from tab01;
+SELECT eno || (':' || ename) 연결 from tab01;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        varchar2(20)
+);
+--trim(세부조건 ltrim, rtrim )
+INSERT INTO tab01 VALUES (10,' 호랑이 ');
+INSERT INTO tab01 VALUES (20,'코 끼 리');
+INSERT INTO tab01 VALUES (30,'_독수리_');
+INSERT INTO tab01 VALUES (30,'독_수_리');
+-- 양쪽 끝에 있는 스페이스를 제거한다.
+select trim(ename) from tab01;
+-- 양쪽 끝에 있는 _ 제거
+SELECT TRIM('_' FROM ename) from tab01;
+-- id를 입력하는데
+-- tiger
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        varchar2(20)
+);
+
+-- ~.4 내림 .5~ 올림
+select round(1234.4),round(1234.5) from dual;
+-- 소숫점 2번째까지 지워버림
+select round(1234.5678, 2) from dual;
+-- 2번째 자리숫자까지 올려버림
+select round(1234, -2) from dual;
+-- 1번째 자리숫자까지 올리거나 내려버림
+select round(1234, -1), round(1235, -1) from dual;
+
+--trunc(반올림 없이 무조껀 잘라버림)
+select trunc(1234.4), trunc(1234.5) from dual;
+--trunc(반올림 없이 첫번째 숫자까지 잘라버림)
+select trunc(1234, -1), trunc(1235, -1) from dual;
+
+--trunc
+select ceil(3.14), floor(3.14), ceil(-3.14), floor(-3.14) from dual;
+select floor(7/3), mod(7,3) from dual;
+
+select 10+20 from dual;
+-- 일반적인 프로그램에서는 문자 + 숫자이면 문자가 된다.
+-- 오라클데이터베이스에서는 위와는 다르게 숫자가 된다.
+select '10' + '20' from dual;
+-- 주의 : 성립이 안된다(성립 시키기 위해서 파이프 연산을 한다.)
+--select 'tiger' + 'win' from dual;
+select 'tiger' || 'win' from dual;
+*/
+purge RECYCLEBIN;
+DROP TABLE tab01; 
+CREATE TABLE tab01(             
+    eno         number,
+    ename        varchar2(20)
+);
+
+INSERT INTO tab01 values(null, '호랑이');
+INSERT INTO tab01 values(30, NULL);
+
+SELECT 100 + eno, ename from tab01;
+--nvl을 사용하면 null이 연산에 참여할 수 있다.(널이 있다명 0 혹은 '익명으로 표시')
+SELECT 100 + nvl(eno, 0), nvl(ename, '익명') ename from tab01;
+-- 널이면 20이 선택되고 널이 아니면 10이 선택된 상황(문자열도 동일한 원리)
+SELECT 100 + nvl2(eno, 10, 20), nvl2(ename, ename, '익명') ename from tab01;
+
+
+COMMIT;
