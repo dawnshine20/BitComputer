@@ -572,7 +572,7 @@ INSERT INTO tab01 VALUES (20,'900456-9999322');
 --900456-*******
 select rpad(substr(ename, 1, instr(ename, '-')), 14, '*') from tab01;
 */
-/*
+/*------------------------------------------------------------------------------------
 purge RECYCLEBIN;
 DROP TABLE tab01; 
 CREATE TABLE tab01(             
@@ -642,9 +642,10 @@ select '10' + '20' from dual;
 --select 'tiger' + 'win' from dual;
 select 'tiger' || 'win' from dual;
 */
+/*
 purge RECYCLEBIN;
-DROP TABLE tab01; 
-CREATE TABLE tab01(             
+DROP TABLE tab01;
+CREATE TABLE tab01(
     eno         number,
     ename        varchar2(20)
 );
@@ -657,6 +658,437 @@ SELECT 100 + eno, ename from tab01;
 SELECT 100 + nvl(eno, 0), nvl(ename, '익명') ename from tab01;
 -- 널이면 20이 선택되고 널이 아니면 10이 선택된 상황(문자열도 동일한 원리)
 SELECT 100 + nvl2(eno, 10, 20), nvl2(ename, ename, '익명') ename from tab01;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno         number,
+    ename        varchar2(40)
+);
+DROP TABLE tab02;
+CREATE TABLE tab02(
+    eno         number,
+    ename        varchar2(40)
+);
+INSERT INTO tab01 values(10, 'tiger1');
+INSERT INTO tab01 values(30, 'tiger2');
+INSERT INTO tab01 values(10, 'tiger3');
 
+INSERT INTO tab02 values(20, 'tiger3');
+INSERT INTO tab02 values(30, 'tiger4');
+INSERT INTO tab02 values(40, 'tiger5');
 
-COMMIT;
+--양쪽의 필드와 타입이 일치해야 사용할 수 있다.
+select  ename from tab01
+union -- 합집합( 중복된 데이타는 1개만 남기고 제거된다.)
+select  ename from tab02;
+
+select  ename from tab01
+union all -- 합집합( 중복된 데이타는 1개만 남기고 제거된다.)
+select  ename from tab02;
+
+--교집합데이터
+select  ename from tab01
+intersect -- 교집합( 중복된 데이타는 1개만 남기고 제거된다.)
+select  ename from tab02;
+
+--교집합데이터
+select  ename from tab01
+intersect -- 교집합( 중복된 데이타는 1개만 남기고 제거된다.)
+select  ename from tab02;
+
+select  ename from tab01
+minus -- 차집합
+select  ename from tab02;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno         number,
+    ename        varchar2(40),
+    salary NUMBER
+);
+DROP TABLE tab02;
+CREATE TABLE tab02(
+    eno         number,
+    ename        varchar2(40)
+);
+INSERT INTO tab01 values(10, 'tiger1', 100);
+INSERT INTO tab01 values(30, 'tiger2', 200);
+INSERT INTO tab01 values(10, 'tiger3', 300);
+
+INSERT INTO tab02 values(20, 'tiger3');
+INSERT INTO tab02 values(30, 'tiger4');
+INSERT INTO tab02 values(40, 'tiger5');
+
+--보통 필터링 조건을 활용하여 union 사용한다.)
+--일치하지 않는 경우에 null로 대체할 수 있다.
+--union은 한번 이상 사용할 수 있다.
+
+--ex) 생산자의 이름 + 소비자의 이름
+select  ename from tab01 where eno <= 20
+union
+select  ename  from tab02 where eno >= 30;
+*/
+--purge RECYCLEBIN;
+
+--decode(실전에서 자주 나온다.)
+-- switch문과 유사하다 goto문과 비슷하다.
+/*
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno         number
+);
+
+INSERT INTO tab01 values(10);
+INSERT INTO tab01 values(30);
+INSERT INTO tab01 values(10);
+select * from tab01;
+select decode(eno,
+    10, '호랑이1',
+    20, '호랑이2', 
+    30 , '호랑이3') from tab01;
+*/
+/*
+switch (eno){
+    case 10:
+        '호랑이1',
+    break;
+}
+*/
+
+/*
+purge RECYCLEBIN;
+
+--decode(실전에서 자주 나온다.)
+-- switch문과 유사하다 goto문과 비슷하다.
+
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno         number,
+    sal         NUMBER
+);
+
+INSERT INTO tab01 values(10,    1000);
+INSERT INTO tab01 values(20, 1100);
+INSERT INTO tab01 values(30, 1200);
+select * from tab01;
+select decode(eno,
+    10, SAL * 1.1, -- 10년차는 보너스 10퍼센트
+    20, SAL * 1.2,
+    30,SAL * 1.3) 
+    from tab01;
+/*
+switch (eno){
+    case 10:
+        '호랑이1',
+    break;
+}
+*/
+/*
+--3)
+select decode(floor(eno/3),
+    0, sal * 1.1, -- 3년차 기준으로 급여 계산되는 논리
+    1, sal * 1.2,
+    2,sal * 1.3) 
+from tab01;
+    
+--4) case when then
+select 
+    case eno
+        when 10 then sal * 1.1
+        when 20 then sal * 1.2
+        when 30 then sal * 1.3
+    end
+from tab01;
+*/
+
+-- 집계함수 : count(), sum(), max(), min(), avg()
+-- 통계
+-- 분산 : variance, 표준편차 : stddev
+-- 결과값은 1개이다. >> 주의
+-- 필드명과 함께 사용 할 수 없다.
+-- 예) select eno, count(eno) 
+--필드명과 함께 사용할 수 있는 유일한 방법은 group by와 함께 사용하는 것이다.
+-- 집계함수는 WHERE절에서 사용할 수 없다.
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno         number,
+    sal         NUMBER
+);
+
+INSERT INTO tab01 values(10, 100);
+INSERT INTO tab01 values(20, NULL);
+INSERT INTO tab01 values(30, 300);
+INSERT INTO tab01 values(40, 300);
+
+select count(*) from tab01;
+select count(sal) from tab01;
+select count(distinct sal) from tab01;
+select sum(eno) from tab01;
+select sum(sal) from tab01;
+select sum(distinct sal) from tab01;
+
+select count(*)
+from tab01
+where sal = 300;
+
+select count(*)
+from tab01
+where sal is not null;
+
+select  
+            count(eno), 
+            sum(eno), 
+            max(eno), 
+            min(eno),
+            avg(eno),
+            variance(eno),
+            stddev(eno)
+from tab01;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno        number,
+    address varchar2(20),
+    salary         NUMBER
+);
+
+INSERT INTO tab01 values(10, '서울', 100);
+INSERT INTO tab01 values(20, '부산', 200);
+INSERT INTO tab01 values(20, '대구', 300);
+INSERT INTO tab01 values(10, '서울', 400);
+
+-- 부서번호가 20인 사원에 조건
+-- 급여가 가장 많은 사람의 금액은 ? 300
+-- 그 사람 이름이 뭔데?
+select * from tab01 where eno = 20;
+select max(salary) from tab01 where eno = 20;
+-- 부서번호가 20 중 급여가 가장 높은 사원의 주소
+select address 
+from tab01 
+where salary = (
+    select max(salary) 
+    from tab01 
+    where eno = 20);
+-- 부서번호가 20인 사람의 평균 급여
+select avg(salary) from tab01 where eno = 20;
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno        number,
+    address varchar2(20),
+    salary         NUMBER
+);
+
+INSERT INTO tab01 values(10, '서울', 100);
+INSERT INTO tab01 values(20, '부산', 200);
+INSERT INTO tab01 values(20, '대구', 300);
+INSERT INTO tab01 values(10, '서울', 400);
+INSERT INTO tab01 values(10, '서울', 400);
+
+--집계함수와 group by는 함께 사용된다.
+select eno 부서번호, avg(salary) 평균급여 from tab01 group by eno;
+
+-- group by : ~~ 별로( 부서별로, 팀별로, 학과별로, )
+-- having을 동반할 수 있는데 조건을 만들고 싶을 때 사용한다.
+-- 그룹에 대한 조건을 따질 때 having을 사용한다.
+-- 그룹별 평균급여, 그룹별 사원수, 그룹별 최대 연봉
+*/
+/*
+purge RECYCLEBIN;
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    eno             number,
+    sal         NUMBER
+);
+
+INSERT INTO tab01 values(1, 800);
+INSERT INTO tab01 values(2, 200);
+INSERT INTO tab01 values(2, 400);
+INSERT INTO tab01 values(1, 500);
+INSERT INTO tab01 values(2, 300);
+
+--ex1)
+select eno, sum(sal)
+from tab01
+group by eno;
+
+--ex2) 급여가 300이상인 직원들의 그룹별 정보를 얻는다.
+select eno, sum(sal)
+from tab01
+where sal > 300 -- select를 제한한다.
+group by eno;
+
+--ex3) 
+select eno, sum(sal)
+from tab01
+group by eno
+having sum(sal) > 1000; --그룹핑된 결과를 제한(조건) 한다.
+
+-- ex4)
+select eno, sum(sal)
+from tab01
+where sal > 300 -- select를 제한한다.
+group by eno
+having sum(sal) > 1000 --그룹핑된 결과를 제한(조건) 한다.
+order by eno;
+*/
+/*
+set pagesize 44;
+purge RECYCLEBIN;
+
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    name      varchar2(20),
+    dept        varchar2(20),
+    job         varchar2(20),
+    salary      number
+);
+
+insert into tab01 values( '홍길동1', 'A사업부', '개발', 100);
+insert into tab01 values( '홍길동2', 'A사업부', '개발', 200);
+insert into tab01 values( '홍길동3', 'A사업부', '생산', 300);
+insert into tab01 values( '홍길동4', 'A사업부', '생산', 400);
+insert into tab01 values( '홍길동5', 'A사업부', '생산', 500);
+insert into tab01 values( '홍길동6', 'A사업부', '지원', 600);
+insert into tab01 values( '홍길동7', 'A사업부', '지원', 700);
+
+insert into tab01 values( '이순신1', 'B사업부', '연구', 100);
+insert into tab01 values( '이순신2', 'B사업부', '연구', 200);
+insert into tab01 values( '이순신3', 'B사업부', '연구', 300);
+insert into tab01 values( '이순신4', 'B사업부', '연구', 400);
+insert into tab01 values( '이순신5', 'B사업부', '생산', 500);
+insert into tab01 values( '이순신6', 'B사업부', '생산', 600);
+insert into tab01 values( '이순신7', 'B사업부', '생산', 700);
+insert into tab01 values( '이순신8', 'B사업부', '지원', 800);
+
+insert into tab01 values( '안중근1', 'C사업부', '연구', 100);
+insert into tab01 values( '안중근2', 'C사업부', '연구', 200);
+insert into tab01 values( '안중근3', 'C사업부', '연구', 300);
+insert into tab01 values( '안중근4', 'C사업부', '개발', 400);
+insert into tab01 values( '안중근5', 'C사업부', '생산', 500);
+insert into tab01 values( '안중근6', 'C사업부', '생산', 600);
+insert into tab01 values( '안중근7', 'C사업부', '생산', 700);
+insert into tab01 values( '안중근8', 'C사업부', '지원', 800);
+insert into tab01 values( '안중근9', 'C사업부', '지원', 900);
+
+select * from tab01;
+
+/*
+A사업부(7명) 		            B사업부(8명) 		           C사업부(9명)
+개발       생산   지원	    연구   생산   지원	        연구       개발    생산  지원
+홍길1    홍길3 홍길6	    순신1 순신5 순신8	    중근1     중근4 중근5 중근8
+홍길2    홍길4 홍길7	    순신2 순신6 		            중근2  	  중근6 중근9
+             홍길5	    	    순신3 순신7		            중근3      중근7
+                                    순신4
+*/
+/*
+--1) 1차 그룹별 사람 몇명인지
+select dept, count(*)
+from tab01
+group by dept;
+
+--2) 2차 그룹별 사람 몇명인지
+select dept,job, count(*)
+from tab01
+group by dept, job;
+
+--3) rollup(전체적인 통계를 한번에 보고자 할 때 사용)
+select dept,job, count(*)
+from tab01
+group by rollup(dept, job);
+
+--4)dept(부서별) 총계만 나온다.
+select dept, job, count(*)
+from tab01
+group by dept, rollup(job);
+
+--5)job(업무별) 총계만 나온다.
+select dept, job, count(*)
+from tab01
+group by job, rollup(dept);
+
+--6) 아래와 같이 유니언 하는 것은
+-- grouping sets 함수와 동일하다.
+select dept, null, count(*)
+from tab01
+group by dept
+union
+select null, job, count(*)
+from tab01
+group by job;
+
+select dept, job, count(*)
+from tab01
+group by grouping sets(dept, job);
+
+select dept, job, 
+    decode(
+        grouping(job),
+        0, job, 
+        1, '총 인원'
+        ), 
+        count(*)
+from tab01
+group by rollup(dept, job);
+
+select dept, grouping(dept) * 2, grouping(job), count(*)
+from tab01
+group by rollup(dept, job);
+
+select dept, decode(grouping(dept) * 2 + grouping(job),
+    0, job,
+    1, '총인원',
+    2, dept,
+    3, '전체 총인원' ), count(*)
+from tab01
+group by rollup(dept, job);
+
+select dept, job, count(*)
+from tab01
+group by CUBE(dept, job)
+order by dept;
+
+select dept, 
+        listagg(name, ', ')
+        within group(order by null)
+from tab01
+group by dept
+order by dept;
+
+*/
+/*
+purge RECYCLEBIN;
+
+DROP TABLE tab01;
+CREATE TABLE tab01(
+    dept        varchar2(20),
+    job         varchar2(20),
+    salary      number
+);
+insert into tab01 values( 'A사업부', '생산', 100);
+insert into tab01 values( 'A사업부', '지원', 200);
+insert into tab01 values( 'A사업부', '생산', 300);
+insert into tab01 values( 'B사업부', '지원', 400);
+insert into tab01 values( 'B사업부', '생산', 500);
+insert into tab01 values( 'B사업부', '지원', 600);
+insert into tab01 values( 'C사업부', '생산', 400);
+insert into tab01 values( 'C사업부', '지원', 500);
+insert into tab01 values( 'C사업부', '생산', 600);
+
+select * from tab01
+pivot(
+    sum(salary) --집계함수
+    for dept --A별(상단)
+    in('A사업부', 'B사업부', 'C사업부') -- A별 필드 항목
+);
+*/
