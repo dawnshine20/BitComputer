@@ -1,7 +1,5 @@
 ﻿#include <windows.h>
 #include <iostream>
-#include<stdio.h>
-#include<stdlib.h>
 #include <time.h>
 using namespace std;
 #pragma region 상속1
@@ -1135,56 +1133,10 @@ using namespace std;
 //}
 #pragma endregion
 
-#pragma region 몬테카를로 원리
-//int main()
-//{
-//	srand((signed)time(NULL));
-//	int RandNum, pick;
-//	int cntChange = 0, cntMaintain = 0;
-//	for (int i = 0; i < 1000; i++)
-//	{
-//		int cards[3] = { 0, };
-//		RandNum = rand() % 3;
-//		cards[RandNum] = 1;
-//
-//		pick = rand() % 3;
-//		if (cards[pick] == 1)
-//			++cntMaintain;
-//		else
-//			++cntChange;
-//	}
-//	printf("안바꿈: %d,  바꿈: %d\n", cntMaintain, cntChange);
-//}
-#pragma endregion
 
-#pragma region 주사위 확률 게임
-//int main()
-//{	
-//	int n = 10;
-//	for (int i = 1; i <= n; i++)
-//	{
-//		int six = pow(6, i);
-//		int notsix = pow(5, i);
-//		printf("%d : %d 퍼센트\n", i, notsix * 100 / six);
-//	}
-//}
-// 몬테카를로 활용
+#pragma region MyRegion
 int main()
 {
-	int n = 10;
-	float percent = 1.0f;
-	for (int i = 1; i <= n; i++)
-	{
-		int cnt = 0;
-		for (int j = 1; j <= 6; j++)
-		{
-			if (j != 6)
-				cnt++;
-		}
-		float eachPercent = (float)cnt / 6.0f;
-		percent *= eachPercent;
-		printf("%f\n", percent);
-	}
+
 }
 #pragma endregion
-
