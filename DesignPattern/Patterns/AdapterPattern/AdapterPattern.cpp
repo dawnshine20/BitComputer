@@ -93,15 +93,10 @@ void main()
     
     Duck *turkeyAdapter = new TurkeyAdapter(&wildTurkey);
     
-    printf("---물오리 테스트---\n");
+    printf("---청둥 오리 테스트---\n");
     testDuck(&malladDuck);
     
     printf("\n");
     printf("---어댑터 적용한 칠면조 테스트---\n");
     testDuck(turkeyAdapter);
-    
 }
-
-
-
-

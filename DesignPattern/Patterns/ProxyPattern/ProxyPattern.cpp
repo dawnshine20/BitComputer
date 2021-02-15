@@ -22,6 +22,8 @@ public:
 //Proxy 상속 클래스
 class Proxy : public Subject
 {
+private:
+	RealSubject* mReal;
 public:
 	Proxy() : mReal(NULL) {}
 	~Proxy() { if (mReal) delete mReal; }
@@ -34,9 +36,6 @@ public:
 
 		mReal->request();
 	}
-
-private:
-	RealSubject* mReal;
 };
 
 int main()

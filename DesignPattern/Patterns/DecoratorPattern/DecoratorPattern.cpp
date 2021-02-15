@@ -25,7 +25,11 @@ private:
     ICoffeeComponent* pComponent;
 public:
     CoffeeDecorator(ICoffeeComponent* c) : pComponent(c) {}
-    ~CoffeeDecorator() { if (pComponent) delete pComponent; }
+    ~CoffeeDecorator() 
+	{ 
+		if (pComponent) 
+			delete pComponent; 
+	}
 
 public:
     // 커피가 있다는 가정하에 가격을 GET할 수 있다.
@@ -57,10 +61,19 @@ int main()
 {
     _wsetlocale(LC_ALL, L"korean");
 
-    ICoffeeComponent* pComponent = new MilkDecorator(new WhipCreamDecorator(new CoffeeDecorator(new Coffee())));
+    ICoffeeComponent* pComponent = 
+		new MilkDecorator(
+			new WhipCreamDecorator(
+				new CoffeeDecorator(
+					new Coffee()
+				)
+			)
+		);
     printf("%ls : %d\n", L"비용",pComponent->GetCost());
     printf("%ls : %ls\n", L"재료", pComponent->GetIngredients().c_str());
     delete pComponent;
 
     return 0;
 }
+
+//---------------------------------------------------------------------------------
