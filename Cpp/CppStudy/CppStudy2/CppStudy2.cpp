@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <time.h>
+#include <string>
 using namespace std;
 #pragma region 상속1
 //
@@ -1169,22 +1170,68 @@ using namespace std;
 //	}
 //}
 // 몬테카를로 활용
-int main()
-{
-	int n = 10;
-	float percent = 1.0f;
-	for (int i = 1; i <= n; i++)
-	{
-		int cnt = 0;
-		for (int j = 1; j <= 6; j++)
-		{
-			if (j != 6)
-				cnt++;
-		}
-		float eachPercent = (float)cnt / 6.0f;
-		percent *= eachPercent;
-		printf("%f\n", percent);
-	}
-}
+//int main()
+//{
+//	int n = 10;
+//	float percent = 1.0f;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		int cnt = 0;
+//		for (int j = 1; j <= 6; j++)
+//		{
+//			if (j != 6)
+//				cnt++;
+//		}
+//		float eachPercent = (float)cnt / 6.0f;
+//		percent *= eachPercent;
+//		printf("%f\n", percent);
+//	}
+//}
 #pragma endregion
 
+#pragma region 숫자 천단위 끊어읽기
+int main()
+{
+	srand((unsigned)time(NULL));
+	//// num은 숫자가 랜덤이다.
+	//// 입력 : 123456
+	//// 출력 : 123,456
+	//int num;
+	//num = rand();
+	//num = 1234567;
+	//int temp = num;
+	//string strNum = to_string(num);
+	//int strLen = strNum.length();
+	//for (int i = 0; i < strLen; i++)
+	//{
+	//	if (i % 3 == 0 && i != 0)
+	//		strNum.insert(strLen - i, ",");
+	//}
+	//cout << strNum;
+	//-----------------------------------------
+	int num = rand();
+	//num = 123456789;
+	int strBuffer[50] = { 0, };
+	int tempNum;
+	int bufferCnt = 0;
+	while (1)
+	{
+		tempNum = (num % (int)pow(10, bufferCnt + 1));
+		strBuffer[bufferCnt] = tempNum / (int)pow(10, bufferCnt);
+
+		if (strBuffer[bufferCnt] == '\0')
+			break;
+		
+		bufferCnt++;
+	}
+
+	for (int i = 0; i < bufferCnt; i++)
+	{
+		if (((bufferCnt - i) % 3 == 0) && i != 0)
+			printf(",");
+		
+		printf("%d", strBuffer[bufferCnt - i - 1]);
+	}
+}
+
+#pragma endregion

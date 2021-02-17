@@ -39,25 +39,23 @@ namespace CSharp_21_02_15
         }
     }*/
     #endregion
-    #region
-    class Program
-    {
-        
+    #region third
+    /*class Program
+    { 
         static void Main(string[] args)
         {
-    
-            /*// %d == {0}
+            *//*// %d == {0}
             Console.WriteLine("독 {0} 수 {1} 리", 10, 20);
             Console.WriteLine("독 {0:d4} 수 {1:D4} 리", 10, 20);
             Console.WriteLine("독 {0:x} 수 {1:x} 리", 10, 20);
 
             // type
-            
+
             byte a01; // 0~255까지 사용 가능
-            
+
             Console.WriteLine(byte.MaxValue);
             Console.WriteLine(byte.MinValue +" " + byte.MaxValue);
-            
+
 
             sbyte a02; //
             Console.WriteLine(sbyte.MinValue + " " + sbyte.MaxValue);
@@ -89,7 +87,7 @@ namespace CSharp_21_02_15
             Console.WriteLine("a");
             Console.WriteLine("{a}");
             Console.WriteLine($"{a}"); // 제법 자주 나온다.
-            Console.WriteLine($"a = {a}"); // 제법 자주 나온다.*/
+            Console.WriteLine($"a = {a}"); // 제법 자주 나온다.*//*
 
             //char a = '호'; // 문자
             //string b = "랑이";
@@ -130,12 +128,516 @@ namespace CSharp_21_02_15
             // c#에서는 #define이 아닌 const 사용 권장.
             // enum : void위에 선언한다.
 
-            string a = null;
-            Console.WriteLine(a == null);
-            int? b = null;
-            Console.WriteLine(b == null);
+            //string a = null;
+            //Console.WriteLine(a == null);
+            //int? b = null;
+            //Console.WriteLine(b == null);
         }
-        
+    }*/
     #endregion
+    #region 02_16
+    //class Program
+    //{
+    //    //enum DialogResult
+    //    //{
+    //    //    YES,
+    //    //    NO,
+    //    //    CANCEL, 
+    //    //    CONFIRM, 
+    //    //    OK
+    //    //}
+    //
+    //    static void Main(string[] args)
+    //    {
+    //        /*string a = null;
+    //        Console.WriteLine( a == null );
+    //
+    //        int? b = null;
+    //        Console.WriteLine( b == null );
+    //
+    //        string c = "10";
+    //        var d = "20"; //  컴파일 시 타입이 결정된다. 결정 후 타입 변경 불가
+    //
+    //        object e = "10"; // 컴파일 시 타입이 결정된다. 결정 후 타입 변경 가능
+    //        e = 1000; // 이 시점부터 int 타입이 된다.(런타임 동안 타입이 결정)
+    //        dynamic f = "10"; // 런타임 시 타입이 결정된다.
+    //                            // 실행될 때 타입이 결정된다. , 형이 안맞아도 컴파일 가능하다.*/
+    //        //Console.WriteLine(c.GetType());
+    //        //Console.WriteLine(d.GetType());
+    //        //Console.WriteLine(e.GetType());
+    //        //Console.WriteLine(f.GetType());
+    //        //
+    //        //Console.WriteLine(int.Parse(c));
+    //        //Console.WriteLine(int.Parse(d));
+    //        ////Console.WriteLine(int.Parse(e)); 사용불가
+    //        //Console.WriteLine(int.Parse(f));
+    //
+    //        // 익셉션 발생
+    //        //try
+    //        //{
+    //        //    string s3 = null;
+    //        //    Console.WriteLine(s3.Length);
+    //        //}
+    //        //catch (Exception e) { Console.WriteLine("{0}", e); }
+    //        //Console.WriteLine("-------------------------");
+    //        //
+    //        //int?[] ar = null;
+    //        //Console.WriteLine(ar[0]);// 익셉션 발생
+    //
+    //        //int? a = null;
+    //        //int? b = 0;
+    //        //
+    //        //Console.WriteLine(a ?? 10);// ?? 널 병합// 널이면 10 선택
+    //        //Console.WriteLine(b ?? 10);// 널 아닐경우 b 소환
+    //
+    //        /*int[] ar = new int[5];
+    //        int[] br = new int[] { 10, 20, 30 };
+    //        Console.WriteLine(ar.Length);
+    //        Console.WriteLine(br.Length);
+    //
+    //        int errNum1; // 성공 양수 실패 ( 음수 )
+    //        uint errNum2; // 성공 양수 실패 0
+    //
+    //        // const int 예제 및 enum( 열겨형 ) >> #define을 묶어 놓은 것이다.
+    //        DialogResult dr = DialogResult.OK;
+    //
+    //        int? a = null;
+    //        Console.WriteLine(a.HasValue);
+    //        a = 10;
+    //        Console.WriteLine(a.Value);*/
+    //
+    //        // 문자열 다루기:"AppleBanana" >> CRUD
+    //        //string s6 = "Tiger";
+    //        //Console.WriteLine(s6.ToLower());
+    //        //Console.WriteLine("Tiger".ToLower());
+    //        //Console.WriteLine("Tiger".ToUpper());
+    //        //
+    //        //Console.WriteLine("=================");
+    //        //string s1 = "Good Morning.";
+    //        //// 1인수 : 시작 위치, 2인수 : 개수
+    //        //Console.WriteLine(s1.Substring(0,6));
+    //        //// 시작위치 부터 마지막까지
+    //        //Console.WriteLine(s1.Substring(3));
+    //        //
+    //        //string[] ar = s1.Split(
+    //        //    new string[] { " " },
+    //        //    StringSplitOptions.None
+    //        //    );
+    //        //foreach (var item in ar)
+    //        //{
+    //        //    Console.WriteLine(item);
+    //        //}
+    //
+    //        //Console.WriteLine(string.Format("{0}banana", "apple"));
+    //        //// -는 좌측 +는 우측
+    //        //Console.WriteLine(string.Format("{0, -10}banana", "apple"));
+    //        //Console.WriteLine(string.Format("{0, 10}banana", "apple"));
+    //        //
+    //        //string fmt = "{0,-20 }{1,-15}{2, 30 }";
+    //        //Console.WriteLine("{0}{1}", 100, 200);
+    //        //
+    //        //Console.WriteLine(fmt, "tiger", "호랑이", "서울");
+    //        //Console.WriteLine(fmt, "lion", "사자", "부산");
+    //        //Console.WriteLine(fmt, "eagle", "독수리", "대구");
+    //
+    //        string s = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+    //        Console.WriteLine(s);
+    //
+    //        string year = DateTime.Now.ToString("yyyy");
+    //        Console.WriteLine(year + "년");
+    //
+    //        string second = DateTime.Now.ToString("ss");
+    //        Console.WriteLine(second + "초");
+    //
+    //        Console.WriteLine(DateTime.Now.DayOfWeek + "요일");
+    //
+    //        //ex1)
+    //        string[] ss = new string[] { "일", "월", "화", "수", "목", "금", "토"  };
+    //        int dw = (int)DateTime.Now.DayOfWeek;
+    //        Console.WriteLine(ss[dw] + "요일");
+    //
+    //        //ex2)
+    //        APPLE app = (APPLE)dw;
+    //        Console.WriteLine(app + "요일");
+    //
+    //        //ex3)
+    //        Console.WriteLine( (APPLE)DateTime.Now.DayOfWeek + "요일");
+    //
+    //        
+    //        string name = "홍길동";
+    //        int age = 10;
+    //        //문자열 포맷
+    //        Console.WriteLine("{0} {1}", name, age);
+    //        string r = string.Format("{0} {1}", name, age);
+    //        Console.WriteLine(r);
+    //        // 문자열 보간
+    //        Console.WriteLine($"{name} {age}");
+    //        Console.WriteLine($"{name,-10} {age:D4}");
+    //        Console.WriteLine($"{name} {age, -10:D4}");
+    //        string rs = $"{name} "+ 
+    //            $"{(age > 17 ? "성인":"미성년자")}";
+    //        Console.WriteLine(rs);
+    //
+    //        name = "이순신";
+    //        age = 20;
+    //
+    //        rs = $"{name} " +
+    //            $"{(age > 17 ? "성인" : "미성년자")}";
+    //        Console.WriteLine(rs);
+    //    }
+    //    enum APPLE { 일, 월, 화, 수, 목, 금, 토 }
+    //}
+    #endregion
+    #region 02_17
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        //Random rand = new Random();
+    //        //int num = rand.Next();
+    //        //Console.WriteLine(num);
+    //        //
+    //        //for (int i = 0; i < 3; i++)
+    //        //{
+    //        //    Console.WriteLine(rand.Next() + " "); ;
+    //        //}Console.WriteLine();
+    //        //Console.WriteLine("{0, 10:n0}", rand.Next());
+    //        //
+    //        //for (int i = 0; i < 4; i++)
+    //        //{
+    //        //    Console.Write("{0}",rand.Next(5,10));
+    //        //}Console.WriteLine();
+    //        //// ex7) 0.0 ~ 1.0 >> color(0, 255)
+    //        //for (int i = 0; i < 3; i++)
+    //        //{
+    //        //    Console.Write("{0:n3}", rand.NextDouble());
+    //        //    Console.Write(" ");
+    //        //}Console.WriteLine();
+    //        //
+    //        //// ex8) 0.0 ~ 10.0
+    //        //Console.WriteLine(rand.NextDouble()*10);
+    //        //Console.WriteLine();
+    //        //
+    //        //// ex9) n 개의 랜덤 데이터 생성
+    //        //byte[] ar = new byte[10];
+    //        //rand.NextBytes(ar);
+    //        //foreach (var item in ar)
+    //        //{
+    //        //    Console.WriteLine(item + " ");
+    //        //}Console.WriteLine();
+    //
+    //        //// 산술 > (대소)관계 > 논리
+    //        //if(3+2 > 4 && 6-2 < 4)
+    //        //{
+    //        //}
+    //        //// 컴파일러 자동 최적화 논리 적용
+    //        //int a = 10;
+    //        //if(true || a++ > 10)
+    //        //{
+    //        //    Console.WriteLine(a);
+    //        //}
+    //        //
+    //        //bool c = true;
+    //        //int d = 0;
+    //        //int e = 1;
+    //        //for (int i = 0; i < 10; i++)
+    //        //{
+    //        //    // 토글
+    //        //    c = !c; 
+    //        //    d = 1 - d;
+    //        //    e = -e;
+    //        //}
+    //        // ?. (엘비스 : 널 조건부 연산)
+    //        // 1. null 아니면 멤버값이 반환된다.
+    //        // 2. 반환되기 때문에 대입 받을 수는 없다.
+    //        int? tt;
+    //        FOO foo1 = null;
+    //        if (foo1 != null) {
+    //            tt  = foo1.num;
+    //        }
+    //        // 위와 아래는 같은 동일한 문장이다.
+    //        FOO foo2 = null;
+    //        tt = foo2?.num;
+    //        // null이기 때문에 f1() 호출하지 않는다.
+    //        Console.WriteLine("=============");
+    //        foo2?.f1();
+    //        Console.WriteLine("=============");
+    //        foo2 = new FOO();
+    //        // null이 아니기 때문에 f1()호출
+    //        foo2?.f1();
+    //    }
+    //    class FOO
+    //    {
+    //        public int num;
+    //        public void f1()
+    //        {
+    //            Console.WriteLine(1);
+    //        }
+    //    }
+    //}
+
+    #endregion
+    #region 드메레의 점수 문제
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Random rand = new Random();
+    //        double a = 6, b = 4;
+    //        double aWin = 0, bWin = 0;
+    //        int num;
+    //        for (int i = 0; i < 100000; i++)
+    //        {
+    //            a = 6;
+    //            b = 4;
+    //            while (true)
+    //            {
+    //                num = rand.Next(0 + 2);
+    //                _ = ((num % 2) == 0) ? ++a : ++b;
+    //                if (a == 7)
+    //                {
+    //                    ++aWin;
+    //                    break;
+    //                }
+    //
+    //                if (b == 7)
+    //                {
+    //                    ++bWin;
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //        Console.WriteLine("A:{0} B:{1}", aWin, bWin);
+    //
+    //    }
+    #endregion
+    #region 16진수 -> 2진수 공백포함시켜서 바꾸기
+    //class Program
+    //{
+    //    static void f1(uint num)
+    //    {
+    //        uint q = num;
+    //        uint[] r = new uint[100];
+    //        int count = 0;
+    //        while (q != 0)
+    //        {
+    //            r[count++] = q % 2; 
+    //            q = q / 2;
+    //        }
+    //
+    //        for (int i = 0; i <= count; i++)
+    //        {
+    //            if(i % 4 == 0 && i != 0)
+    //                Console.Write(" ");
+    //
+    //            Console.Write("{0}", r[count - i]);
+    //        }
+    //        Console.WriteLine();
+    //    }
+    //    static void f234(int value)
+    //    {
+    //        string xnum = string.Format("{0:x}", value);                // 16진수 문자열로 변환.
+    //        int xnumLen = xnum.Length;                                  // 문자열의 길이.
+    //        for (int i = 0; i < xnumLen; i++)
+    //        {
+    //            string SubXNum = xnum.Substring(i, 1);                  // 문자를 하나 가져온다.
+    //            string dNum = Convert.ToInt32(SubXNum, 16).ToString();  // 10진수 문자로 변환.
+    //            int num = int.Parse(dNum);                              // int로 변환.
+    //            int cnt = 0;        // 4자리 마다 띄어쓰기 위한 변수.
+    //            string bnum = "";   // 2진수 문자열을 담을 변수.
+    //            // 2진수 변환 작업.
+    //            while (num != 0)
+    //            {
+    //                bnum += num % 2 != 0 ? 1 : 0;
+    //                num = num / 2;
+    //                ++cnt;
+    //            }
+    //            // 4자리 채우기 작업.
+    //            while (cnt != 4)
+    //            {
+    //                bnum = bnum.Insert(bnum.Length, "0");
+    //                ++cnt;
+    //            }
+    //            // 출력 코드.
+    //            for (int j = 0; j < 4; j++)
+    //            {
+    //                Console.Write("{0}", bnum[3 - j]);
+    //            }
+    //            Console.Write(" ");
+    //        }
+    //    }
+    //    static void f32(uint num)
+    //    {
+    //        int check;
+    //        const int count = 32;
+    //        for (int i = 0; i < count; i++)
+    //        {
+    //            check = 1 << (count - i - 1);
+    //            if (i % 4 == 0 && i != 0)
+    //                Console.Write(" ");
+    //            Console.Write((num & check) == 0 ? 0 : 1);
+    //        }
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        // 0111 1011 1100 1101 0001 0010 0011 0100
+    //        uint n = 0x7bcd1234;
+    //        n = 0x7bcd123f;
+    //        f1(n);
+    //        f32(n);
+    //    }
+    //}
+    #endregion
+    #region 비트 연산자
+    //class Program
+    //{
+    //    static void f32(uint num)
+    //    {
+    //        int check;
+    //        const int count = 32;
+    //        for (int i = 0; i < count; i++)
+    //        {
+    //            check = 1 << (count - i - 1);
+    //            if (i % 4 == 0 && i != 0)
+    //                Console.Write(" ");
+    //            Console.Write((num & check) == 0 ? 0 : 1);
+    //        }Console.WriteLine(" ");
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        uint c = 10;
+    //        uint d = c << 4; // c * 2^4 = c * 16 = 160
+    //        uint e = c * 16; // c를 16번 더한다.
+    //        Console.WriteLine(d);
+    //        // c를 2021번 더한다.
+    //        uint f = c * 2021;
+    //        // 1024 + 512 + 256 + 128 + 64 + 32 + 4 + 1
+    //        uint g = (c << 10) + (c << 9) + (c << 8) + (c << 7) + (c << 6) + (c << 5)
+    //             + (c << 2) + (c << 0);
+    //        Console.WriteLine(g);
+    //
+    //        uint n = 0x7bcd1234;
+    //        uint h = n & 0x0000fff0;
+    //        f32(h);
+    //        
+    //
+    //        uint j1 = 0x00000001; // 비트가 상태값을 가진다. ( )
+    //        uint j2 = 0x01000000; 
+    //        uint j3 = 0x00040000; 
+    //        uint j4 = j1 | j2 | j3;
+    //        //uint j4 = j1 + j2 + j3; 특정 비트가 중복되었을 때 문제가 생긴다.
+    //        f32(j4);
+    //        uint k = ~n;
+    //        Console.WriteLine();
+    //        f32(n);
+    //        f32(k);
+    //        // xor
+    //        uint l = n ^ 0xffffffff;
+    //        Console.WriteLine();
+    //        f32(n);
+    //        f32(0xffffffff);
+    //        f32(l);
+    //
+    //        int? a = null;
+    //        // 널 병합 연산자
+    //        // a가 null이면 100이 선택된다.
+    //        Console.WriteLine( a ?? 100);
+    //        a = 200;
+    //        Console.WriteLine(a ?? 100);
+    //        
+    //    }
+    //}
+    #endregion
+    #region 5장 제어문
+    /*class MainApp
+    {
+        static void Main(string[] args)
+        {
+            //switch (){}
+            //case 변수: 케이스에는 변수를 사용할 수 없다.
+            //for(int i = 0; i < 10; i++)
+            //for(int i = 1; i <= 10; i++)
+            //for(int i = -5; i < 5; i++)
+            int ct;
+            int n = 10;
+            for (ct = 0; ct < n; ct++, n+=20) ;
+            Console.WriteLine(ct + " " + n);
+
+            int[] ar = new int[4];
+            int[] br = new int[4] { 1,2,3,4};
+            foreach (var item in br)
+            {
+                Console.WriteLine(item);
+            }
+            
+            for(int i = 0; i <3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    goto FIND;
+                }
+            }
+        FIND:
+            Console.WriteLine();
+
+            var input = Console.ReadLine();
+            Console.WriteLine(input.GetType());
+            Console.WriteLine(input + 100);
+            Console.WriteLine(int.Parse(input) + 100);
+        }
+    }*/
+    #endregion
+    #region 6장 함수
+    class MainApp
+    {
+        static int a = 10;
+        static ref int f1() 
+        {
+            return ref a;
+        }
+        static void f6 ( ref int x, ref int y )
+        {
+            int t = x;
+            x = y;
+            y = t;
+        }
+        // 참조형은 null값을 받을 수 없기 때문에 자동 방어적 프로그램으로써 작동
+        // 주소상수로 사용되기 때문에 주소가 중간에 변할 염려가 없다.
+
+        static void Main(string[] args)
+        {
+            //int a = 3, b = 4;
+            //f6(ref a, ref b);
+            //Console.WriteLine(a + " " + b);
+            int b = f1(); // 값이 리턴된다.(참조와 아무 관련이 없음)
+            b = 20;
+            Console.WriteLine(a + " " + b);
+
+            ref int c = ref f1(); // 공유가 일어 난다.
+            c = 20;
+            Console.WriteLine(a + " " + c);
+
+            Tiger t = new Tiger();
+            int d = t.f1();
+            d = 30;
+            Console.WriteLine(t.a + " " + d);
+
+            ref int e = ref t.f1();
+            e = 40;
+            Console.WriteLine(t.a + " " + e);
+        }
     }
+
+    class Tiger
+    {
+        public int a = 10;
+        public ref int f1()
+        {
+            return ref a;
+        }
+    }
+    #endregion
+    #region MyRegion
+
+    #endregion
 }
