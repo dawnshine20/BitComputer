@@ -588,56 +588,528 @@ namespace CSharp_21_02_15
     }*/
     #endregion
     #region 6장 함수
-    class MainApp
+    //class MainApp
+    //{
+    //    static int a = 10;
+    //    static ref int f1() 
+    //    {
+    //        return ref a;
+    //    }
+    //    static void f6 ( ref int x, ref int y )
+    //    {
+    //        int t = x;
+    //        x = y;
+    //        y = t;
+    //    }
+    //    // 참조형은 null값을 받을 수 없기 때문에 자동 방어적 프로그램으로써 작동
+    //    // 주소상수로 사용되기 때문에 주소가 중간에 변할 염려가 없다.
+    //    static void f2(int a, int b, out int q, out int r)
+    //    {
+    //        q = a / b;
+    //        r = a % b;
+    //    }
+    //
+    //    static void funcTest()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //    static void funcTest(int a)
+    //    {
+    //        Console.WriteLine(2);
+    //    }
+    //    static void funcTest(float a)
+    //    {
+    //        Console.WriteLine(3);
+    //    }
+    //    static void funcTest(params int[] args)
+    //    {
+    //        for (int i = 0; i < args.Length; i++)
+    //        {
+    //            Console.WriteLine(args[i]);
+    //        }Console.WriteLine();
+    //
+    //        foreach (var item in args)
+    //        {
+    //            Console.WriteLine(item + " ");
+    //        }Console.WriteLine();
+    //    }
+    //    static void f3(int a, int b)
+    //    {
+    //        Console.WriteLine(a + " " + b);
+    //    }
+    //
+    //    static void Main(string[] args)
+    //    {
+    //        // ref 공유가 목적
+    //        //int a = 3, b = 4;
+    //        //f6(ref a, ref b);
+    //        //Console.WriteLine(a + " " + b);
+    //        int b = f1(); // 값이 리턴된다.(참조와 아무 관련이 없음)
+    //        b = 20;
+    //        Console.WriteLine(a + " " + b);
+    //
+    //        ref int c = ref f1(); // 공유가 일어 난다.
+    //        c = 20;
+    //        Console.WriteLine(a + " " + c);
+    //
+    //        Tiger t = new Tiger();
+    //        int d = t.f1();
+    //        d = 30;
+    //        Console.WriteLine(t.a + " " + d);
+    //
+    //        ref int e = ref t.f1();
+    //        e = 40;
+    //        Console.WriteLine(t.a + " " + e);
+    //
+    //        // out 목적은 결과를 얻기 위한 공유
+    //        f2(10, 3, out int q2, out int r2);
+    //        Console.WriteLine(q2 + " " + r2);
+    //        Console.WriteLine($"q2:{q2} r2:{r2}");
+    //        Console.WriteLine("q2:{0} r2:{1}",q2,r2);
+    //
+    //        //함수 재정의(오버로딩) : 동일한 이름으로 함수 생성 조건
+    //        // 1. 전달 이수 개수가 다를 때
+    //        // 2. 개수가 같더라도 전달 타입이 다를때
+    //        // 3. 리턴 타입은 오버로딩 조건에 포함되지 않는다.
+    //        funcTest();
+    //        funcTest((int)10);
+    //        funcTest((float)10.0f);
+    //        funcTest(10, 20, 30);
+    //        // 명명된 매개변수 
+    //        // 코드의 가독성을 높인다. (작은 의미)
+    //        // 특정 매개변수 값 바꿈
+    //        f3(a: 100, b: 200);
+    //        f3(b: 100, a: 200);
+    //
+    //        Test te = new Test();
+    //        te.func1();
+    //    }
+    //}
+    //
+    //class Tiger
+    //{
+    //    public int a = 10;
+    //    public ref int f1()
+    //    {
+    //        return ref a;
+    //    }
+    //}
+    //
+    //class Test
+    //{
+    //    public void func1()
+    //    {
+    //        Console.WriteLine(1);
+    //        //지역함수
+    //        // 호출된 함수 안에서만 사용할 수 있다.
+    //        // 사용하고 버리는 함수
+    //        // 호출 위치와는 상관 없다.
+    //        // 지역적인 반복코드를 묶어놓고 사용한다.(좁은 의미)
+    //        // 람다 함수를 성립시키기 위해 사용(큰 의미)
+    //        //람다 함수 용도 : 함수에 인수 전달로 숫자, 문자열 등등
+    //        // + 알파(코드 전달)
+    //        func2();
+    //        void func2() // 일반 함수, 함수
+    //        {
+    //            Console.WriteLine(2);
+    //        }
+    //
+    //        //실예)
+    //        //func3( func2() )
+    //        //{
+    //        //        func2();
+    //        //}
+    //    }
+    //}
+    #endregion
+    #region 7장 클래스
+    //class Global
+    //{
+    //    public static int ct = 0;
+    //}
+    //class ClassA
+    //{
+    //    public ClassA()
+    //    {
+    //        Global.ct++;
+    //    }
+    //}
+    //class ClassB
+    //{
+    //    public ClassB()
+    //    {
+    //        Global.ct++;
+    //    }
+    //}
+    //class Program
+    //{    
+    //    class Tiger
+    //    {
+    //        public Tiger()
+    //        {
+    //            Console.WriteLine("생성자 호출");
+    //        }
+    //
+    //        public Tiger(int a, int b)
+    //        {
+    //            this.a = a; // 객체.a = 인수 a
+    //            this.b = b; // 객체.b = 인수 b
+    //        }
+    //
+    //        public int a,b;
+    //    
+    //        public Tiger f1()
+    //        {
+    //            Console.WriteLine(a + " " + b);
+    //            Console.WriteLine("f1"); ;
+    //            return this;
+    //        }
+    //
+    //        public Tiger f2()
+    //        {
+    //            Console.WriteLine("f2");
+    //            //새롭게 객체 생성
+    //            Tiger t = new Tiger();
+    //            t.a = this.a;
+    //            t.b = this.b;
+    //            // 새로운 객체 반환
+    //            return t;
+    //        }
+    //    }
+    //
+    //    static void Main(string[] args)
+    //    {
+    //        //Tiger t1 = new Tiger();
+    //        //Tiger t2 = new Tiger();
+    //        ////t1, t2 객체의 메소드는 서로 공유된다.
+    //        //t1.f1();
+    //        //t2.f1();
+    //        //-------
+    //        //new ClassA();
+    //        //new ClassB();
+    //        //new ClassB();
+    //        //Console.WriteLine(Global.ct++);
+    //        //--------
+    //        Tiger t1 = new Tiger();
+    //        t1.a = 10;
+    //        t1.b = 20;
+    //        
+    //        // 값을 복사하려고 한 것인데, 메모리 공유가 되어 버렸다.(Shallow Copy가 일어났다)
+    //        // C#에서는 C++과 달리 Deep Copy를 할 수 있는 복사 생성자가 없다.
+    //        Tiger t2 = t1;
+    //        t1.a = 30;
+    //        t1.b = 40;
+    //        Console.WriteLine(t1.a + " " + t1.b);
+    //        Console.WriteLine(t2.a + " " + t2.b);
+    //
+    //        // deep copy를 원한다면 직접 만들어줘야한다.
+    //        Tiger t3 = t1.f2();
+    //        t3.a = 50;
+    //        t3.b = 60;
+    //
+    //        Console.WriteLine(t1.a + " " + t1.b);
+    //        Console.WriteLine(t3.a + " " + t3.b);
+    //
+    //        Tiger t = new Tiger();
+    //        t.f1().f2();
+    //    }
+    //}
+    //------------------------------------------------------------
+    //class classA
+    //{
+    //    public void f1()
+    //    {
+    //        Console.WriteLine(1);
+    //        classB bb = new classB();
+    //        bb.f2(this); // >> 다른 객체에게 자신의 객체의 주소를 보낸다.
+    //    }
+    //    public void f3()
+    //    {
+    //        Console.WriteLine(3);
+    //    }
+    //}
+    //
+    //class classB
+    //{
+    //    public void f2(classA @object)
+    //    {
+    //        Console.WriteLine(2);
+    //        @object.f3();
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        classA t = new classA();
+    //        t.f1();
+    //    }
+    //}
+    //------------------------------------
+    //class Tiger
+    //{
+    //    public int a, b;
+    //
+    //    public Tiger()
+    //    {
+    //        Console.WriteLine(0);
+    //    }
+    //
+    //    public Tiger(int a) : this()// this()는 생성자를 콜 시킨다.
+    //    {
+    //        Console.WriteLine(1);
+    //        this.a = a;
+    //    }
+    //    public Tiger(int a, int b) : this(a)
+    //    {
+    //        Console.WriteLine(2);
+    //        //this.a = a;
+    //        this.b = b;
+    //    }
+    //    public void output()
+    //    {
+    //        Console.WriteLine(a + "," + b);
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Tiger t1 = new Tiger(10);
+    //        t1.output();
+    //        Console.WriteLine("=========");
+    //        Tiger t2 = new Tiger(10, 20);
+    //        t2.output();
+    //    }
+    //}
+    //----------------상속
+    // 객체지향의 3대 특성 : 상속, 다형성, 데이터은닉
+    //class Apple // 기반 클래스
+    //{
+    //    public void f1()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //    public void f3()
+    //    {
+    //        Console.WriteLine("부 f3");
+    //    }
+    //}
+    //class Banana : Apple // 파생클래스
+    //{
+    //    public void f2()
+    //    {
+    //        Console.WriteLine(2);
+    //    }
+    //    public void f3()
+    //    {
+    //        Console.WriteLine("자 f3");
+    //    }
+    //    public void f4()
+    //    {
+    //        base.f3();
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Banana b = new Banana();
+    //        b.f1();
+    //        b.f2();
+    //        b.f3();
+    //        b.f4();
+    //        //b.Apple::f3() <- c++에서 부모 함수를 사용할 수 있다.
+    //    }
+    //}
+    //-----------------------------------
+    //class Apple // 기반 클래스
+    //{
+    //    public Apple()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //    public Apple(int a)
+    //    {
+    //        Console.WriteLine(2);
+    //    }
+    //}
+    //class Banana : Apple // 파생클래스
+    //{
+    //    public Banana()
+    //    {
+    //        Console.WriteLine(3);
+    //    }
+    //    public Banana(int a): base()        
+    //    {
+    //        
+    //        Console.WriteLine(4);
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Banana b = new Banana(100);
+    //    }
+    //}
+    //--------------------------------
+    //class A { public void f1() { Console.WriteLine(1); } }
+    //class B: A { public void f2() { Console.WriteLine(2); } }    
+    //class C: A { public void f3() { Console.WriteLine(3); } }
+    //
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        A a = new B(); //부자 >> 업캐스팅
+    //        //is 확인용도 
+    //        if (a is B)
+    //        {
+    //            //방법1
+    //            ((B)a).f2();
+    //
+    //            //방법2
+    //            B b = (B)a; // 자 = 부(다운 캐스팅)
+    //            b.f2();
+    //
+    //            Console.WriteLine(4);
+    //        }
+    //
+    //
+    //        A a1 = new C(); // 부자 >> 업캐스팅
+    //        //제대로 사용한 경우
+    //        C c = a1 as C; // C타입이 맞으면 C타입으로 반환
+    //        if(c != null)
+    //        {
+    //            c.f3();
+    //            Console.WriteLine("not null");
+    //        }
+    //        
+    //        // 잘못 사용하고 있는 경우
+    //        B d = a1 as B; // B타입이 아니라면 NULL 반환
+    //        if(d == null)
+    //        {
+    //            Console.WriteLine("null");
+    //        }
+    //
+    //        // 예외 상황이 발생한다.
+    //        // B e = (B)a1;
+    //        // is는 true/false // as는 null
+    //        
+    //    }
+    //}
+    //-----------------------------------
+    /*class Apple
     {
-        static int a = 10;
-        static ref int f1() 
+        public void f1()
         {
-            return ref a;
+            Console.WriteLine(1); ;
         }
-        static void f6 ( ref int x, ref int y )
+        public virtual void f2()
         {
-            int t = x;
-            x = y;
-            y = t;
+            Console.WriteLine(2);
         }
-        // 참조형은 null값을 받을 수 없기 때문에 자동 방어적 프로그램으로써 작동
-        // 주소상수로 사용되기 때문에 주소가 중간에 변할 염려가 없다.
-
+    }
+    class Banana:Apple
+    {
+        public void f1()
+        {
+            Console.WriteLine(3); 
+        }
+        public override void f2()
+        {
+            Console.WriteLine(4);
+        }
+    }
+    class Program
+    {
         static void Main(string[] args)
         {
-            //int a = 3, b = 4;
-            //f6(ref a, ref b);
-            //Console.WriteLine(a + " " + b);
-            int b = f1(); // 값이 리턴된다.(참조와 아무 관련이 없음)
-            b = 20;
-            Console.WriteLine(a + " " + b);
+            Banana t1 = new Banana();
+            t1.f1();
+            t1.f2();
 
-            ref int c = ref f1(); // 공유가 일어 난다.
-            c = 20;
-            Console.WriteLine(a + " " + c);
-
-            Tiger t = new Tiger();
-            int d = t.f1();
-            d = 30;
-            Console.WriteLine(t.a + " " + d);
-
-            ref int e = ref t.f1();
-            e = 40;
-            Console.WriteLine(t.a + " " + e);
+            Apple t2 = new Banana();
+            t2.f1();
+            t2.f2();
         }
-    }
-
-    class Tiger
+    }*/
+    //----------------------------------
+    //class Apple
+    //{
+    //    public void f1()
+    //    {
+    //        Console.WriteLine(1); 
+    //    }
+    //    public virtual void f2()
+    //    {
+    //
+    //    }
+    //}
+    //class Banana : Apple
+    //{
+    //    public override void f2()
+    //    {
+    //        Console.WriteLine("banana");
+    //    }
+    //}
+    //class Orange : Apple
+    //{
+    //    public override void f2()
+    //    {
+    //        Console.WriteLine("orange");
+    //    }
+    //}
+    //class Program
+    //{
+    //    //static void f1(Apple a)
+    //    //{
+    //    //    a.f2();
+    //    //}
+    //    //static void Main(string[] args)
+    //    //{
+    //    //    //오버라이드 된것 선택적으로 함수 호출
+    //    //    f1(new Banana());
+    //    //    f1(new Orange());
+    //    //
+    //    //    Apple[] ar = new Apple[] { new Banana(), new Orange() };
+    //    //    //rnd
+    //    //    Random rand = new Random();
+    //    //    int num = rand.Next(2);
+    //    //    ar[num].f2();
+    //    //}
+    //}
+    //------------------------------
+    class A
     {
-        public int a = 10;
-        public ref int f1()
+        public virtual void f1()
         {
-            return ref a;
+            Console.WriteLine(1); 
+        }
+        
+    }
+    class B : A
+    {
+        public override void f1()
+        {
+            Console.WriteLine(2);
         }
     }
-    #endregion
-    #region MyRegion
-
+    class C : B
+    {
+        public override void f1()
+        {
+            Console.WriteLine(3);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            A a = new C();
+            a.f1();
+        }
+    }
     #endregion
 }
