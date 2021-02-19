@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace CSharp_21_02_15
 {
@@ -1081,35 +1083,619 @@ namespace CSharp_21_02_15
     //    //}
     //}
     //------------------------------
-    class A
-    {
-        public virtual void f1()
-        {
-            Console.WriteLine(1); 
-        }
-        
-    }
-    class B : A
-    {
-        public override void f1()
-        {
-            Console.WriteLine(2);
-        }
-    }
-    class C : B
-    {
-        public override void f1()
-        {
-            Console.WriteLine(3);
-        }
-    }
+    //class A
+    //{
+    //    public virtual void f1()
+    //    {
+    //        Console.WriteLine(1); 
+    //    }
+    //    
+    //}
+    //class B : A
+    //{
+    //    public override void f1()
+    //    {
+    //        Console.WriteLine(2);
+    //    }
+    //}
+    //class C : B
+    //{
+    //    public override void f1()
+    //    {
+    //        Console.WriteLine(3);
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        A a = new C();
+    //        a.f1();
+    //    }
+    //}
+    //---------------------------------------------
+    //class Aaa
+    //{
+    //    // List<int> li = new List<int>();
+    //    List<Bbb> li = new List<Bbb>();
+    //    public void f1(string s1, string s2)
+    //    {
+    //        Bbb t = new Bbb();
+    //        t.f2(this, s1, s2);
+    //    }
+    //    public void showData()
+    //    {
+    //        foreach (var data in li)
+    //        {
+    //            Console.WriteLine(data.getItem() + " " + data.getValue());
+    //        }
+    //    }
+    //    public void showData(string item)
+    //    {
+    //        foreach (var data in li)
+    //        {
+    //            if (data.getItem() == item)
+    //            {
+    //                Console.WriteLine(data.getValue());
+    //            }
+    //        }
+    //    }
+    //    class Bbb
+    //    {
+    //        private string item;
+    //        public string getItem() { return item; }
+    //        private string value;
+    //        public string getValue() { return value; }
+    //
+    //        //flag변수를 쓰면 스파게티 코드가 생성되므로\
+    //        // 함수로 만든 케이스
+    //        private void find(Aaa thiscf, string ite)
+    //        {
+    //            for (int i = 0; i < thiscf.li.Count; i++)
+    //            {
+    //                if (thiscf.li[i].item == item)
+    //                {
+    //                    thiscf.li[i] = this;
+    //                    //found = true;
+    //                    return;
+    //                }
+    //                thiscf.li.Add(this);
+    //            }
+    //        }
+    //        public void f2(Aaa thiscf, string item, string value)
+    //        {
+    //            this.item = item;
+    //            this.value = value;
+    //            Console.WriteLine(thiscf.li.Count);
+    //
+    //            find(thiscf, item);
+    //
+    //            //bool found = false; // flag변수는 스파게티 코드의 원인
+    //            
+    //            /*if (found == false)
+    //            {
+    //                thiscf.li.Add(this);
+    //            }*/
+    //        }
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Aaa aaa = new Aaa();
+    //        aaa.f1("Version", "5.0");
+    //        aaa.f1("Size", "5000");
+    //        aaa.f1("Price", "400000");
+    //        aaa.f1("Date", "12월20일");
+    //        //
+    //        aaa.f1("Size", "8000");
+    //        aaa.f1("Version", "7.0");
+    //        aaa.showData();
+    //        aaa.showData("Size");
+    //    }
+    //}
+    //-------------------------------------
+    //---setter,getter
+    //class Tiger
+    //{
+    //    private string name;
+    //    private int age;
+    //    public void setName(string name){ this.name = name; }
+    //    public void setAge(int age) { this.age = age; }
+    //    public string getName(){ return name; }
+    //    public int getAge(){ return age; }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Tiger t = new Tiger();
+    //        t.setAge(100);
+    //        Console.WriteLine(t.getAge());
+    //    }
+    //}
+    //------------------------
+    ////- setter, getter 진화버젼
+    //class Tiger
+    //{
+    //    private string name;
+    //    public string Name { // Property
+    //        get { return name; }
+    //        set { name = value; }
+    //    }
+    //    public int Age { set; get; }
+    //    
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Tiger t = new Tiger();
+    //        t.Name = "tiger";
+    //        Console.WriteLine(t.Name);
+    //    }
+    //}
+    //-------------------------------
+    //partial class Tiger
+    //{
+    //    public void f1()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //}
+    //partial class Tiger
+    //{
+    //    public void f2()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //    }
+    //}
+    //-------------------------------
+    ////확장 메소드
+    //public static class A
+    //{
+    //    public static void f1(this int a, int b)
+    //    {
+    //        Console.WriteLine(a + " " + b);
+    //    }
+    //    public static void power(this int a, int b)
+    //    {
+    //        int result = 1;
+    //        for(int i = 0; i < b; i++)
+    //        {
+    //            result *= a;
+    //        }
+    //        Console.WriteLine(result);
+    //    }
+    //}
+    //
+    //public static class B
+    //{
+    //    public static void f2(this string a)
+    //    {
+    //        Console.WriteLine(a);
+    //    }
+    //    
+    //}
+    //class Program
+    //{   
+    //    static void Main(string[] args)
+    //    {
+    //        3.f1(100);
+    //        int num = 200;
+    //        // 추가 메소드를 만들어서 사용하는 것이 목적
+    //        num.f1(300);
+    //
+    //        // 표준 멤버 함수는 익혀서 사용
+    //        //num안에 들어 있는 나의 함수를 만들어 보자
+    //        string s = num.ToString();
+    //        Console.WriteLine(s);
+    //
+    //        int a = 3;
+    //        a.power(4);
+    //
+    //        "test".f2();
+    //        string s1 = "Hello World";
+    //        s1.f2();
+    //    }
+    //}
+    //---------------------------------------------
+    ////c#의 구조체
+    //struct STRU // 함수 안쓰고 데이터만 넣는 경우에만 사용
+    //{
+    //    public int a;
+    //    public int b;
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        // new 키워드가 필요 없다.
+    //        STRU s1;
+    //        s1.a = 10;
+    //        s1.b = 10;
+    //
+    //        // tuple
+    //        int a = 10;
+    //        var b = (10, 20, 30, 40);
+    //        // 참고 : tuple = (), list(배열) = [], 딕셔너리 = {}
+    //        Console.WriteLine(b.Item1 + " " + b.Item4);
+    //
+    //        var c = ("호랑이", 100);
+    //        Console.WriteLine(c);
+    //
+    //        var d = (name : "호랑이", age : 100);
+    //        Console.WriteLine(d);
+    //        Console.WriteLine(d.Item1 + " " + d.Item2);
+    //        Console.WriteLine(d.name + " " + d.age);
+    //
+    //        var e = d;
+    //        Console.WriteLine(e);
+    //
+    //        // 중요하다.
+    //        var (n, t) = d; // 데이터 분해
+    //        Console.WriteLine(n + " " + t);
+    //    }
+    //}
+    #endregion
+    #region 8장 인터페이스
+    //class Program
+    //{
+    //    interface ILogger
+    //    {
+    //        void WriteLog(string message);
+    //    }
+    //    class ConsoleLogger : ILogger
+    //    {
+    //        public void WriteLog(string message)
+    //        {
+    //            Console.WriteLine(message);
+    //        }
+    //    }
+    //    class FileLogger : ILogger
+    //    {
+    //        private StreamWriter writer;
+    //        //생성자를 통해 .txt 저장할 경로 설정
+    //        public FileLogger(string path)
+    //        {
+    //            // File *fpt = fopen(" sample.txt",  "rb");
+    //            writer = File.CreateText(path);
+    //            writer.AutoFlush = true; //남아있는 쓰래기를 지워달라는 코드
+    //        }
+    //
+    //        public void WriteLog(string message)
+    //        {
+    //            writer.WriteLine("{0}, {1}",DateTime.Now.ToShortDateString(), message);
+    //        }
+    //    }
+    //    //class PrintLogger : iLogger
+    //    class ClimateMonitor
+    //    {
+    //        private ILogger logger;
+    //        public ClimateMonitor(ILogger logger)
+    //        {
+    //            this.logger = logger;
+    //        }
+    //        public void start()
+    //        {
+    //            while(true)
+    //            {
+    //                Console.WriteLine("온도를 입력해 주세요.");
+    //                string temperature = Console.ReadLine();
+    //                if (temperature == "")
+    //                    break;
+    //
+    //                logger.WriteLog("현재온도 : " + temperature);
+    //            }
+    //        }
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        //ClimateMonitor climateMonitor = new ClimateMonitor(new FileLogger("test01.txt"));
+    //        //climateMonitor.start();
+    //        ClimateMonitor climateMonitor = new ClimateMonitor(new ConsoleLogger());
+    //        climateMonitor.start();
+    //    }
+    //}
+    //-------------------------------------
+    //interface ILoggerA
+    //{
+    //    void f1();
+    //}
+    //interface ILoggerB:ILoggerA
+    //{
+    //    void f2();
+    //}
+    //class Tiger : ILoggerB
+    //{
+    //    public void f1()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //
+    //    public void f2()
+    //    {
+    //        Console.WriteLine(2);
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Tiger t = new Tiger();
+    //        t.f1();
+    //        t.f2();
+    //    }
+    //}
+    //-------------------------------------
+    //interface ILoggerA
+    //{
+    //    void fly();
+    //}
+    //interface ILoggerB
+    //{
+    //    void run();
+    //}
+    //class Tiger : ILoggerA, ILoggerB
+    //{
+    //    public void fly()
+    //    {
+    //        Console.WriteLine("1");
+    //    }
+    //
+    //    public void run()
+    //    {
+    //        Console.WriteLine("2");
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Tiger t = new Tiger();
+    //        t.fly();
+    //        t.run();
+    //
+    //        ILoggerA r1 = t as ILoggerA;
+    //        r1.fly();
+    //
+    //        ILoggerB r2 = t as ILoggerB;
+    //        r2.run();
+    //    }
+    //}
+    //---------------------------------------
+    //Tiger를 이용해서 객체를 생성시킬 수 있는가? 
+    //->안된다. f2 구현이 아직 안되어있기 때문이다.(즉,상속 용도로만 사용 가능하다.)
+    //abstract class Tiger
+    //{
+    //    public void f1()
+    //    {
+    //        Console.WriteLine(1);
+    //    }
+    //    public abstract void f2();
+    //}
+    //class Lion : Tiger
+    //{
+    //    public override void f2()
+    //    {
+    //        Console.WriteLine(2);
+    //    }
+    //}
+    //
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Tiger lion = new Lion();
+    //        lion.f1();
+    //        lion.f2();
+    //
+    //    }
+    //}
+    #endregion
+    #region 9장
+    //class BirthdayInfo
+    //{
+    //    private string name;
+    //    public string Name
+    //    {
+    //        get{return name;}
+    //        set{this.name = value;}
+    //    }
+    //
+    //    private DateTime birthday;
+    //    public DateTime Birthday
+    //    {
+    //        get { return birthday; }
+    //        set { this.birthday = value; }
+    //    }
+    //    
+    //    public int Age
+    //    {
+    //        get
+    //        {
+    //            Console.WriteLine("----------------------");
+    //            Console.WriteLine(DateTime.Now);
+    //            Console.WriteLine(DateTime.Now.Subtract(birthday));
+    //            Console.WriteLine(DateTime.Now.Subtract(birthday).Ticks);
+    //            return new DateTime(DateTime.Now.Subtract(birthday).Ticks).Year;
+    //        }
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        BirthdayInfo birth = new BirthdayInfo();
+    //        birth.Name = "홍길동";
+    //        birth.Birthday = new DateTime(1991, 6, 28);
+    //        Console.WriteLine(birth.Name);
+    //        Console.WriteLine(birth.Birthday);
+    //        Console.WriteLine(birth.Age);
+    //    }
+    //}
+    //-------------------------------------
+    //class Tiger
+    //{
+    //    private int a;
+    //    public int A
+    //    {
+    //        get { return a; }
+    //        set { a = value; }
+    //    }
+    //    private int b;
+    //    public int B
+    //    {
+    //        get { return b; }
+    //        set { b = value; }
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        // 원래 public문법일 때 사용 가능하던 것을 private로 바꾸면서 Property를 이용하게 되었다.
+    //        Tiger t = new Tiger() { A = 10, B = 20 };
+    //        Console.WriteLine(t.A + " " + t.B);
+    //
+    //        //익명 클래스 혹은 무명 클래스
+    //        var obj = new { Name = "홍길동", Age = 30 };
+    //        Console.WriteLine(obj.Name);
+    //        Console.WriteLine(obj.Age);
+    //        //변수가 상수화 된다.
+    //        //obj.Age = 100;<<----------불가능
+    //
+    //        
+    //        var b = new { Subject = "수학", Scores = new int[] { 1, 2, 3, 4 } };
+    //        Console.WriteLine(b.Subject);
+    //        
+    //        foreach (var item in b.Scores)
+    //        {
+    //            Console.Write(item + " ");
+    //        }Console.WriteLine();
+    //        // 인터페이스 안의 필드로 프라퍼티 설정 할 수 있다.
+    //    }
+    //}
+    //-------------------------------------------------
+    //interface ITiger
+    //{
+    //    // 이 변수는 무조건 상속 받아서 정의 하세요.
+    //    int Num
+    //    {
+    //        get;
+    //        set;
+    //    }
+    //}
+    //class ILion : ITiger
+    //{
+    //    private int num;
+    //    public int Num {
+    //        get { return num; }
+    //        set { num = value; } 
+    //    }
+    //}
+    //
+    //abstract class Cat
+    //{
+    //    abstract public int Num
+    //    {
+    //        get;
+    //        set;
+    //    }
+    //}
+    //
+    //class Dog : Cat
+    //{
+    //    public override int Num { get ; set ; }
+    //}
+    //
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    { 
+    //    }
+    //}
+    #endregion
+    #region 10장 배열 및 컬렉션
     class Program
     {
         static void Main(string[] args)
         {
-            A a = new C();
-            a.f1();
+            
+            ////3.
+            //int[] cr = { 1, 2, 3 };
+            //
+            //foreach(var item in cr)
+            //{
+            //    Console.WriteLine(item + " ");
+            //}Console.WriteLine();
+            //
+            ////4.
+            //string[] dr = new string[] { "호랑", "코끼", "독수" };
+            //------------------------------------------------------------
+            //-----------------------------------
+            int[] scores = new int[] { 80, 74, 81, 90, 34 };
+            foreach (var item in scores)
+            {
+                Console.Write(item + " ");
+            }Console.WriteLine();
+
+            //Array.Sort(scores);
+            //foreach (var item in scores) { Console.Write(item + " "); }
+            //Console.WriteLine();
+            //
+            Console.WriteLine("===================1");
+            //// 이진 검색 : 못찾으면 -1 리턴
+            //// 정렬이 되어있다는 가정하에 검색해야 한다.
+            //int a = Array.BinarySearch<int>(scores, 34);
+            //Console.WriteLine(a);
+
+            //검색을 처음부터 찾는것
+            //정렬 비용이 없고 검색이 느리다.
+            Console.WriteLine(Array.IndexOf(scores, 34));
+
+
+            Console.WriteLine("===================2");
+            // 조건을 줄테니 모두 참인지 확인하라
+            Console.WriteLine(Array.TrueForAll<int>(scores, f1));
+
+            // 조건을 줄테니 조건을 만족하는 첫번째 수의 인덱스를 출력하라
+            Console.WriteLine(Array.FindIndex<int>(scores, f2));
+            //Console.WriteLine(Array.FindIndex<int>(scores, 
+            //    delegate(int n) 
+            //    {
+            //        return (n < 75) ? true : false;
+            //    }
+            //));
+
+            Console.WriteLine("===================3");
+            Array.Resize<int>(ref scores, 10);
+            Console.WriteLine(scores.Length);
+
+            foreach (var item in scores) { Console.Write(item + " "); }
+            Console.WriteLine();
+
+            // 1번째 원소 ~ 3번째 원소까지 0으로 초기화 해라
+            Array.Clear(scores, 1, 3);
+            foreach (var item in scores) { Console.Write(item + " "); }
+        }
+
+        public static bool f1(int n)
+        {
+            return (n > 33) ? true : false;
+        }
+        public static bool f2(int n)
+        {
+            return (n < 80) ? true : false;
         }
     }
     #endregion
+
 }
