@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 namespace CSharp_21_02_15
 {
@@ -3051,76 +3054,399 @@ namespace CSharp_21_02_15
     //    }
     //}
     //-----------------------------------------
+    //class Program
+    //{
+    //    delegate int Test01();
+    //    delegate int Test02(int a);
+    //    delegate int Test03(int a, int b);
+    //
+    //    static void Main(string[] args)
+    //    {
+    //        Test01 t1 = () =>
+    //        {
+    //            return 10;
+    //        };
+    //        Test02 t2 = (a) =>
+    //        {
+    //            return a;
+    //        };
+    //        Test03 t3 = (a, b) =>
+    //        {
+    //            return a + b;
+    //        };
+    //
+    //        // 리턴이 int 임을 알린다.
+    //        // Func delegate
+    //        Func<int> f1 = () =>
+    //        {
+    //            return 20;
+    //        };
+    //        Console.WriteLine( f1());
+    //
+    //        Func<string> f2 = () =>
+    //        {
+    //            return "tiger";
+    //        };
+    //        Console.WriteLine(f2());
+    //
+    //        Func<string> f3 = () =>
+    //        {
+    //            Console.WriteLine("호랑이");
+    //            return "tiger";
+    //        };
+    //
+    //        Func<string> f4 = () => "tiger";
+    //
+    //        Func<int, string> f5 = (a) =>
+    //        {
+    //            Console.WriteLine(a);
+    //            return "tiger";
+    //        };
+    //        Console.WriteLine(f5(10));
+    //
+    //        Func<string, string, int> f6 = (a, b) =>
+    //        {
+    //            Console.WriteLine(a + b);
+    //            return 100;
+    //        };
+    //        Console.WriteLine(f6("호랑이", "독수리"));
+    //
+    //        Func<string, string, int> f7 = (a, b) => 100;
+    //        Console.WriteLine(f7("호랑이", "독수리"));
+    //        // 인수 전달은 총 16개까지 가능
+    //
+    //        // 리턴이 없는 델리게이트는 Action 델리게이트
+    //        // 에러 이유. (return가 생략된것이기 때문에 에레
+    //        //Action<> f8 = () => 100;
+    //        Action f8 = () => {Console.WriteLine("호랑이");};
+    //        Action<int, int, string> f9 = (a, b, c) =>
+    //        {
+    //            Console.WriteLine(a + b + c);
+    //        };
+    //        f9(10, 20, " test");
+    //    }
+    //}
+    //---------------------------------------------------
+    //class Program
+    //{
+    //    //// 1. using System.Linq 
+    //    //// 2. 결과값은 var 타입으로 받는다.
+    //    //// 3. 기본형은 from select
+    //    //static void Main(string[] args)
+    //    //{
+    //    //    int[] ar = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    //    //
+    //    //    var result = from n in ar   // n은 변수가 아니다. 명령어 형식이다.
+    //    //                 select n;
+    //    //    foreach (var item in result)
+    //    //        Console.Write( item + " ");
+    //    //    Console.WriteLine();
+    //    //
+    //    //    result = from n in ar   // n은 변수가 아니다. 명령어 형식이다.
+    //    //                 where n % 2 == 0
+    //    //                 select n;
+    //    //
+    //    //    foreach (var item in result)
+    //    //        Console.Write(item + " ");
+    //    //    Console.WriteLine();
+    //    //
+    //    //    result = from n in ar   // n은 변수가 아니다. 명령어 형식이다.
+    //    //             where n % 2 == 0
+    //    //             orderby n descending
+    //    //             select n;
+    //    //
+    //    //    foreach (var item in result)
+    //    //        Console.Write(item + " ");
+    //    //}
+    //    //------------------------------------------
+    //    //class Info
+    //    //{
+    //    //    public string Name { get; set; } // 약식
+    //    //    public int Height { get; set; }
+    //    //}
+    //    //static void Main(string[] args)
+    //    //{
+    //    //    Info[] infos = new Info[5]
+    //    //    {
+    //    //        new Info(){ Name = "호랑이1", Height = 186},
+    //    //        new Info(){ Name = "호랑이2", Height = 158},
+    //    //        new Info(){ Name = "호랑이3", Height = 172},
+    //    //        new Info(){ Name = "호랑이4", Height = 178},
+    //    //        new Info(){ Name = "호랑이5", Height = 171}
+    //    //    };
+    //    //    //info[0] = new Info();
+    //    //    //info[0].Name = "호랑이";
+    //    //    //info[0].Height = 100;
+    //    //
+    //    //    var result1 = from obj in infos
+    //    //                 where obj.Height < 175
+    //    //                 // orderby obj.Height descending
+    //    //                 select obj;
+    //    //    foreach (var item in result1)
+    //    //    {
+    //    //        Console.WriteLine(item.Name + " " + item.Height);
+    //    //    }Console.WriteLine();
+    //    //
+    //    //    // 데이터 추가하는 것과 관련됨
+    //    //    var result2 = from obj in infos
+    //    //                  where obj.Height < 175
+    //    //                  // orderby obj.Height descending
+    //    //                  select new
+    //    //                  {
+    //    //                      n = obj.Name,
+    //    //                      h = obj.Height
+    //    //                  };
+    //    //    foreach (var item in result2)
+    //    //    {
+    //    //        Console.WriteLine(item.n + " " + item.h);
+    //    //        //Console.WriteLine(item.Name + " " + item.Height);
+    //    //    }
+    //    //    Console.WriteLine();
+    //    //}
+    //    //----------------------------------------------------
+    //    //class Class
+    //    //{
+    //    //    public string Name { get; set; } // 약식
+    //    //    public int[] Score { get; set; }
+    //    //}
+    //    //static void Main(string[] args)
+    //    //{
+    //    //    Class[] arrClass =
+    //    //    {
+    //    //        new Class(){ Name = "호랑이1", Score = new int[]{99, 80, 70, 24} },
+    //    //        new Class(){ Name = "호랑이2", Score = new int[]{60, 45, 87, 72} },
+    //    //        new Class(){ Name = "호랑이3", Score = new int[]{92, 30, 85, 94} },
+    //    //        new Class(){ Name = "호랑이4", Score = new int[]{90, 88, 0, 17} }
+    //    //    };
+    //    //
+    //    //    var result = from c in arrClass
+    //    //                 from s in c.Score
+    //    //                 where s < 60
+    //    //                 select new
+    //    //                 {
+    //    //                     Name = c.Name,
+    //    //                     Lowest = s
+    //    //                 };
+    //    //    foreach (var item in result)
+    //    //    {
+    //    //        Console.WriteLine(item.Name + " " + item.Lowest);
+    //    //    }
+    //    //} 
+    //}
+    #endregion
+    #region 16장
+    //class Program
+    //{
+    //    // dynamic은 어떤 경우에 사용하는가?
+    //    // 1. 덕타이핑 할 때 dynamic을 사용한다.
+    //    // 2. COM 컴포넌트 프로그램을 작성할 때
+    //    // 3. 언어의 호환.
+    //    class Test 
+    //    {
+    //        public void f1() { }
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        //컴파일할때 타입이 확정 되는 것이 아니고
+    //        //프로그램 실행될 때 타입이 확정된다.(런타임)
+    //        Test t1 = new Test();
+    //        t1.f1();
+    //        t1.f2();
+    //        // t1,f2();
+    //        // 꼭 필요하면 사용해야 되지만, 조심해야 한다.
+    //        dynamic t2 = new Test();
+    //        t2.f1();
+    //        t2.f2(); // 에러가 뜨지 않는다.(실행시 에러가 뜬다.)
+    //
+    //        // 오리 타이핑(덕 타이핑)
+    //        dynamic[] ar = { new Duck(), new Apple(), new Mallard() };
+    //        ar[0].quack();
+    //        ar[1].quack();
+    //        ar[2].quack();
+    //    }
+    //    // 오리 클래스이다.
+    //    class Duck
+    //    {
+    //        public void quack() { }
+    //    }
+    //    class Apple
+    //    {
+    //        public void quack() { }
+    //    }
+    //    class Mallard
+    //    {
+    //        public void quack() { }
+    //    }
+    //
+    //}
+    #endregion
+    #region 18장 파일 입출력
+    // 직렬화임을 알린다.
+    // 프리프로세스, 어노테이션
+    //[Serializable]
+    //class NameCard
+    //{
+    //    public string name;
+    //    public string phone;
+    //    public int age;
+    //}
+    //class Program
+    //{
+    //    //텍스트 파일만 전문적으로 입출력 하겠다.
+    //    //StreamReader, StreamWriter
+    //
+    //    // 직렬화 (serialization)
+    //    // 일반타입 말고, 구조체 혹은 클래스멤버 형식으로 파일 입출력 하는것.
+    //    static void Main(string[] args)
+    //    {
+    //        Stream ws = new FileStream("d.txt", FileMode.Create);
+    //        BinaryFormatter s = new BinaryFormatter();
+    //
+    //        NameCard nc = new NameCard();
+    //        nc.name = "tiger";
+    //        nc.phone = "010-1234-5678";
+    //        nc.age = 100;
+    //        s.Serialize(ws, nc);
+    //
+    //        ws.Close();
+    //
+    //        Stream rs = new FileStream("d.txt", FileMode.Open);
+    //        BinaryFormatter d = new BinaryFormatter();
+    //
+    //        NameCard nc2;
+    //        nc2 = (NameCard)d.Deserialize(rs);
+    //        Console.WriteLine(nc2.name);
+    //        Console.WriteLine(nc2.phone);
+    //        Console.WriteLine(nc2.age);
+    //        rs.Close();
+    //    }
+    //}
+    //-----------리스트 + 직렬화
+    //[Serializable]
+    //class NameCard
+    //{
+    //    public string name;
+    //    public string phone;
+    //    public int age;
+    //    public NameCard(string name, string phone, int age)
+    //    {
+    //        this.name = name;
+    //        this.phone = phone;
+    //        this.age = age;
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args) 
+    //    {
+    //        Stream ws = new FileStream("e.txt", FileMode.Create);
+    //        BinaryFormatter s = new BinaryFormatter();
+    //        List<NameCard> li = new List<NameCard>();
+    //        li.Add(new NameCard("호랑이1", "12324", 10));
+    //        li.Add(new NameCard("호랑이2", "12324", 20));
+    //        li.Add(new NameCard("호랑이3", "12324", 30));
+    //        s.Serialize(ws, li);
+    //        ws.Close();
+    //
+    //        Stream rs = new FileStream("e.txt", FileMode.Open);
+    //        BinaryFormatter d = new BinaryFormatter();
+    //        List<NameCard> li2;
+    //        li2 = (List<NameCard>)d.Deserialize(rs);
+    //        rs.Close();
+    //
+    //        foreach (var item in li2)
+    //        {
+    //            Console.WriteLine(item.name + " " + 
+    //                item.age + " " + item.phone);
+    //        }
+    //    }
+    //}
+    #endregion
+    #region 19장 스레드
+    //// 응용 프로그램이 2개 돌고 있다.(프로세스가 2개 돌고 있다.)
+    //// 1개의 응용 프로그램 안에서 3개의 스레드가 돌고 있다.
+    //class Program
+    //{
+    //    static void f1()
+    //    {
+    //        for (int i = 0; i < 7; i++)
+    //        {
+    //            Console.WriteLine("Thread1:" + i);
+    //            Thread.Sleep(1000);
+    //        }
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        // Thread t1 = new Thread();
+    //        Thread t1 = new Thread(new ThreadStart(f1));
+    //        t1.Start();
+    //        for(int i = 0; i < 5; i++)
+    //        {
+    //            Console.WriteLine("Main:"+ i);
+    //            Thread.Sleep(1000);
+    //        }
+    //        // 블록킹
+    //        t1.Join();
+    //        Console.WriteLine("프로그램 종료");
+    //    }
+    //}
+    //----------------------------------------------------
+    class MyClass
+    {
+        // 1.다중 스레드에서 공통으로 사용하는 변수는
+        // 무조건 크리티컬 섹션 처리 필수
+        // 2. 크리티컬 섹션에서 시간을 최대한 빨리 처리하는 코드로 구성해야한다.
+        // ->다른 스레드가 사용을 못하기 때문
+        // 3. 최대한 스레드에서는 공용변수를 줄인다.
+        public int count = 0;
+        private readonly object cs = new object();
+        public void Inc()
+        {
+            // 문제 해결을 위해서 나온 것이 크리티컬 섹션.
+            for (int i = 0; i < 10000; i++)
+            {
+                // lock로 블록(스코프) 잡혀 있는 코드는 
+                // 블록을 탈출하기 전까지는 다른 쓰레드가 진입불가
+                //lock(cs)
+                //{
+                //    count += 1;
+                //    count += 1;
+                //}
+                // 아래와 같이 변경해야 더 좋은 코드
+                lock (cs)
+                {
+                    count += 1;
+                }
+                lock (cs)
+                {
+                    count += 1;
+                }
+            }
+        }
+    }
     class Program
     {
-        delegate int Test01();
-        delegate int Test02(int a);
-        delegate int Test03(int a, int b);
-
         static void Main(string[] args)
         {
-            Test01 t1 = () =>
-            {
-                return 10;
-            };
-            Test02 t2 = (a) =>
-            {
-                return a;
-            };
-            Test03 t3 = (a, b) =>
-            {
-                return a + b;
-            };
+            MyClass obj = new MyClass();
+            Thread t1 = new Thread(new ThreadStart(obj.Inc));
+            Thread t2 = new Thread(new ThreadStart(obj.Inc));
+            Thread t3 = new Thread(new ThreadStart(obj.Inc));
+            Thread t4 = new Thread(new ThreadStart(obj.Inc));
+            Thread t5 = new Thread(new ThreadStart(obj.Inc));
+            t1.Start();
+            t2.Start();
+            t3.Start();
+            t4.Start();
+            t5.Start();
 
-            // 리턴이 int 임을 알린다.
-            // Func delegate
-            Func<int> f1 = () =>
-            {
-                return 20;
-            };
-            Console.WriteLine( f1());
+            t1.Join();
+            t2.Join();
+            t3.Join();
+            t4.Join();
+            t5.Join();
 
-            Func<string> f2 = () =>
-            {
-                return "tiger";
-            };
-            Console.WriteLine(f2());
-
-            Func<string> f3 = () =>
-            {
-                Console.WriteLine("호랑이");
-                return "tiger";
-            };
-
-            Func<string> f4 = () => "tiger";
-
-            Func<int, string> f5 = (a) =>
-            {
-                Console.WriteLine(a);
-                return "tiger";
-            };
-            Console.WriteLine(f5(10));
-
-            Func<string, string, int> f6 = (a, b) =>
-            {
-                Console.WriteLine(a + b);
-                return 100;
-            };
-            Console.WriteLine(f6("호랑이", "독수리"));
-
-            Func<string, string, int> f7 = (a, b) => 100;
-            Console.WriteLine(f7("호랑이", "독수리"));
-            // 인수 전달은 총 16개까지 가능
-
-            // 리턴이 없는 델리게이트는 Action 델리게이트
-            // 에러 이유. (return가 생략된것이기 때문에 에레
-            //Action<> f8 = () => 100;
-            Action f8 = () => {Console.WriteLine("호랑이");};
-            Action<int, int, string> f9 = (a, b, c) =>
-            {
-                Console.WriteLine(a + b + c);
-            };
-            f9(10, 20, " test");
+            Console.WriteLine(obj.count);
         }
     }
     #endregion
