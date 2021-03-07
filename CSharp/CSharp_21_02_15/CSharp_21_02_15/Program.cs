@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CSharp_21_02_15
 {
@@ -1504,7 +1505,7 @@ namespace CSharp_21_02_15
     //    }
     //}
     #endregion
-    #region 9장
+    #region 9장 프로퍼티
     //class BirthdayInfo
     //{
     //    private string name;
@@ -3391,63 +3392,234 @@ namespace CSharp_21_02_15
     //    }
     //}
     //----------------------------------------------------
-    class MyClass
+    //class MyClass
+    //{
+    //    // 1.다중 스레드에서 공통으로 사용하는 변수는
+    //    // 무조건 크리티컬 섹션 처리 필수
+    //    // 2. 크리티컬 섹션에서 시간을 최대한 빨리 처리하는 코드로 구성해야한다.
+    //    // ->다른 스레드가 사용을 못하기 때문
+    //    // 3. 최대한 스레드에서는 공용변수를 줄인다.
+    //    public int count = 0;
+    //    private readonly object cs = new object();
+    //    public void Inc()
+    //    {
+    //        // 문제 해결을 위해서 나온 것이 크리티컬 섹션.
+    //        for (int i = 0; i < 10000; i++)
+    //        {
+    //            // lock로 블록(스코프) 잡혀 있는 코드는 
+    //            // 블록을 탈출하기 전까지는 다른 쓰레드가 진입불가
+    //            //lock(cs)
+    //            //{
+    //            //    count += 1;
+    //            //    count += 1;
+    //            //}
+    //            // 아래와 같이 변경해야 더 좋은 코드
+    //            lock (cs)
+    //            {
+    //                count += 1;
+    //            }
+    //            lock (cs)
+    //            {
+    //                count += 1;
+    //            }
+    //        }
+    //    }
+    //}
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        MyClass obj = new MyClass();
+    //        Thread t1 = new Thread(new ThreadStart(obj.Inc));
+    //        Thread t2 = new Thread(new ThreadStart(obj.Inc));
+    //        Thread t3 = new Thread(new ThreadStart(obj.Inc));
+    //        Thread t4 = new Thread(new ThreadStart(obj.Inc));
+    //        Thread t5 = new Thread(new ThreadStart(obj.Inc));
+    //        t1.Start();
+    //        t2.Start();
+    //        t3.Start();
+    //        t4.Start();
+    //        t5.Start();
+    //
+    //        t1.Join();
+    //        t2.Join();
+    //        t3.Join();
+    //        t4.Join();
+    //        t5.Join();
+    //
+    //        Console.WriteLine(obj.count);
+    //    }
+    //}
+    //---------------------------
+    //class Program
+    //{
+    //    //public static void f1()
+    //    //{
+    //    //    Thread.Sleep(2000);
+    //    //    Console.WriteLine(1);
+    //    //}
+    //    static void Main(string[] args)
+    //    {
+    //        // 병렬처리
+    //        var task = Task.Run(() =>
+    //        {
+    //            Thread.Sleep(2000);
+    //            Console.WriteLine("1");
+    //        });
+    //
+    //        Console.WriteLine(2);
+    //        task.Wait();
+    //        Console.WriteLine(3);
+    //
+    //    }
+    //}
+    //------------------------------------
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        // cpu가 듀얼코어 이상에서 효과를 볼 수 있는 예제
+    //        // Task<리턴 타입 설정>
+    //        // List<int>가 리턴 된다.
+    //        var task1 = Task<List<int>>.Run(() =>
+    //        {
+    //            Thread.Sleep(2000);
+    //            List<int> list = new List<int>();
+    //            list.Add(4);
+    //            list.Add(5);
+    //            list.Add(6);
+    //            return list;
+    //        });
+    //        var task2 = Task<List<int>>.Run(() =>
+    //        {
+    //            Thread.Sleep(1000);
+    //            List<int> list = new List<int>();
+    //            list.Add(7);
+    //            list.Add(8);
+    //            list.Add(9);
+    //            return list;
+    //        });
+    //        List<int> list = new List<int>();
+    //        list.Add(1);
+    //        list.Add(2);
+    //        list.Add(3);
+    //
+    //        task1.Wait();
+    //        task2.Wait();
+    //        list.AddRange(task1.Result.ToArray());
+    //        list.AddRange(task2.Result.ToArray());
+    //        foreach (var item in list)
+    //        {
+    //            Console.WriteLine(item);
+    //        }
+    //    }
+    //}
+    //--------------------------------------------------
+    // 소수 판단 프로그램이다.
+    class Program
     {
-        // 1.다중 스레드에서 공통으로 사용하는 변수는
-        // 무조건 크리티컬 섹션 처리 필수
-        // 2. 크리티컬 섹션에서 시간을 최대한 빨리 처리하는 코드로 구성해야한다.
-        // ->다른 스레드가 사용을 못하기 때문
-        // 3. 최대한 스레드에서는 공용변수를 줄인다.
-        public int count = 0;
-        private readonly object cs = new object();
-        public void Inc()
+        public static bool IsPrime(long num)
         {
-            // 문제 해결을 위해서 나온 것이 크리티컬 섹션.
-            for (int i = 0; i < 10000; i++)
+            if (num < 2) { return false; }
+            if (num % 2 == 0 && num != 2)
             {
-                // lock로 블록(스코프) 잡혀 있는 코드는 
-                // 블록을 탈출하기 전까지는 다른 쓰레드가 진입불가
-                //lock(cs)
+                return false;
+            }
+            for (int i = 2; i < num; i++)
+            {
+                if (num % i == 0)
+                { return false; }
+            }
+            return true;
+        }
+        static void Main(string[] args)
+        {
+            for (int ct = 1; ct <= 16; ct++)
+            {
+                long from = 0;
+                long to = 20000;
+                int taskCount = ct * 2;
+                Func<object, List<long>> FindPrimeFunc = (objRange) =>
+                {
+                    long[] range = (long[])objRange;
+                    List<long> found = new List<long>();
+                    for (long i = range[0]; i < range[1]; i++)
+                    {
+                        if (IsPrime(i))
+                            found.Add(i);
+                    }
+                    return found;
+                };
+    
+                Task<List<long>>[] tasks = new Task<List<long>>[taskCount];
+                long currentFrom = from;
+                long currentTo = to / tasks.Length;
+                for (int i = 0; i < tasks.Length; i++)
+                {
+                    tasks[i] = new Task<List<long>>(
+                        FindPrimeFunc,
+                        new long[] { currentFrom, currentTo }
+                        );
+                    //WriteLine("{0} {1}", currentFrom, currentTo);
+                    currentFrom = currentTo + 1;
+                    if (i == tasks.Length - 2)
+                        currentTo = to;
+                    else
+                        currentTo = currentTo + (to / tasks.Length);
+                }
+                // Ready Go !!!!
+                //ReadLine(); // 블로킹
+                //WriteLine("Start !!!");
+                DateTime startTime = DateTime.Now;
                 //{
-                //    count += 1;
-                //    count += 1;
+                //WriteLine(startTime);
+                foreach (Task<List<long>> task in tasks)
+                    task.Start();
+                List<long> total = new List<long>();
+                foreach (Task<List<long>> task in tasks)
+                {
+                    task.Wait();
+                    total.AddRange(task.Result.ToArray());
+                }
                 //}
-                // 아래와 같이 변경해야 더 좋은 코드
-                lock (cs)
-                {
-                    count += 1;
-                }
-                lock (cs)
-                {
-                    count += 1;
-                }
+                DateTime endTime = DateTime.Now;
+                TimeSpan ellaped = endTime - startTime;
+                Console.WriteLine("{0} {1} {2}", ct, ellaped, total.Count);
+                //WriteLine();
             }
         }
     }
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            MyClass obj = new MyClass();
-            Thread t1 = new Thread(new ThreadStart(obj.Inc));
-            Thread t2 = new Thread(new ThreadStart(obj.Inc));
-            Thread t3 = new Thread(new ThreadStart(obj.Inc));
-            Thread t4 = new Thread(new ThreadStart(obj.Inc));
-            Thread t5 = new Thread(new ThreadStart(obj.Inc));
-            t1.Start();
-            t2.Start();
-            t3.Start();
-            t4.Start();
-            t5.Start();
-
-            t1.Join();
-            t2.Join();
-            t3.Join();
-            t4.Join();
-            t5.Join();
-
-            Console.WriteLine(obj.count);
-        }
-    }
+    //----------------------------------------
+    //class Program
+    //{
+    //    // 함수이름 앞에 async 있으면 코드 안에 await가 있다.
+    //    async static void f1()
+    //    {
+    //        
+    //        Console.WriteLine(2);
+    //        var task = Task.Run(() =>
+    //        {
+    //            for (int i = 0; i < 3; i++)
+    //            {
+    //                Thread.Sleep(1000);
+    //                Console.WriteLine( i * 10 + 10);
+    //            }
+    //        });
+    //        Console.WriteLine(3);
+    //        Thread.Sleep(500); // 테스트 용이다.
+    //        Console.WriteLine("======================");
+    //        // await를 만나면 호출한 측에 제어권을 main에 돌려준다.
+    //        // 돌려줌과 동시에 블로킹 된다.( task.run 작업이 끝나면 블로킹이 풀린다.)
+    //        await task; // 제어권이 돌아 간다.
+    //        Console.WriteLine(4);
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        Console.WriteLine(1);
+    //        f1();
+    //        Console.WriteLine(5);
+    //        Console.ReadLine();
+    //    }
+    //}
     #endregion
 }

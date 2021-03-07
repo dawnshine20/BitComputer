@@ -1,0 +1,258 @@
+﻿<Window x:Class="MyFirstWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyFirstWpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <!--Title="MainWindow" Height="450" Width="800" MouseMove="Window_MouseMove"-->
+    <!--Grid-->
+    <!--<Button x:Name="Button" Content="호랑이" 
+                Height="94" 
+                Margin="97,31,0,0" 
+                Width="179" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Click="f1"/>
+        <Button x:Name="Button1" Content="독수리" 
+                Height="94" 
+                Margin="97,151,0,0" 
+                Width="179" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Click="f1"/>
+        <Button x:Name="Button2" Content="감자" 
+                Height="94" 
+                Margin="97,276,0,0" 
+                Width="179" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Click="f2"/>-->
+    <!---->
+
+    <!--<Button x:Name="Button1" 
+                Content="호랑이" 
+                HorizontalAlignment="Left" 
+                Margin="361,140,0,0" 
+                VerticalAlignment="Top" 
+                Width="75"/>-->
+    <!--<Button> 호랑이 </Button>-->
+    <!--<Button Content="호랑이"
+                Margin="161,178,300,148"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="200"
+                Height="150"
+                />-->
+    <!--/Grid-->
+    <!---->
+    <!--<Grid>
+        <TextBlock 
+            x:Name="textBlock"
+            HorizontalAlignment="Left" 
+            Margin="46,34,0,0" 
+            TextWrapping="Wrap" 
+            Text="인스톨을 사용하기 위하여 라이센스에 동의를 해주시고 확인 버튼을 눌러주세요." 
+            VerticalAlignment="Top" 
+            Width="194" Height="68" 
+            MouseLeftButtonUp="textBlock_MouseLeftButtonUp" Background="#FFDDEE11"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="67,124,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <ListBox HorizontalAlignment="Left" Height="100" Margin="90,184,0,0" VerticalAlignment="Top" Width="100">
+            <ListBoxItem Content="호랑이" Selected="ListBoxItem_Selected"/>
+            <ListBoxItem Content="코끼리" Selected="ListBoxItem_Selected"/>
+            <ListBoxItem Content="독수리" Selected="ListBoxItem_Selected"/>
+        </ListBox>
+    </Grid>-->
+    <!---->
+    <!--<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Label 
+            Name="nameLabel" 
+            Margin="2"
+            Grid.Row="0" Grid.Column="0"
+            >_Name:</Label>
+        <TextBox
+            x:Name="nameText"
+            Margin="2"
+            Grid.Row="0" Grid.Column="1"
+            Text="{Binding Name,Mode=TwoWay}"/>
+
+        <Label 
+            Name="ageLabel" 
+            Margin="2" 
+            Grid.Row="1" Grid.Column="0">
+            _Age:</Label>
+        <TextBox
+            x:Name="ageText"
+            Grid.Row="1" Grid.Column="1"
+            Margin="2"
+            Text="{Binding Age,Mode=TwoWay}"/>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+            --><!--ColumnSpan : 글자병합--><!--
+            <Button Content="클릭" Click="f1"/>
+        </StackPanel>    
+        
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+            <Button Content="클릭" Click="f2" Margin="0,0,0.4,0"/>
+        </StackPanel>
+    </Grid>-->
+    <!---->
+    <!--<Grid Background="#ff123456">
+        <StackPanel Width="100" Background="#ffff3456" HorizontalAlignment="Left">
+            <Button x:Name="button" Content="Button"/>
+            <Button x:Name="button1" Content="Button"/>
+        </StackPanel>
+
+        <StackPanel Background="#ff00ff56" HorizontalAlignment="Right" RenderTransformOrigin="-1.167,0.478" Margin="0,0,9.6,0" Width="150">
+            <Button x:Name="button2" Content="Button"/>
+            <Button x:Name="button3" Content="Button"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical">
+            <Button Content="호랑이1" Margin="10" Width="100" Height="30" />
+            <Button Content="호랑이2" Margin="10" Width="100" Height="30" />
+            <Button Content="호랑이3" Margin="10" Width="100" Height="30" />
+            <TextBlock x:Name="textBlock" Text="TextBlock" 
+                       Margin="5"
+                       Width="100" Height="30"
+                       Background="#ffff00"/>
+        </StackPanel>
+    </Grid>-->
+    <!--<Grid Background="#ff00ff00">
+        <WrapPanel Orientation="Vertical" Background="#ff00ffff">
+            <TextBlock Text="Fist Name" Width="60" Height="20" Margin="5"/>
+            <TextBox Width="200" Height="20" Margin="5"/>
+            <TextBlock Text="Last Name" Width="60" Height="20" Margin="5"/>
+            <TextBox Width="200" Height="20" Margin="5"/>
+            <TextBlock Text="Age" Width="60" Height="20" Margin="5"/>
+            <TextBox Width="60" Height="20" Margin="5"/>
+            <TextBlock Text="Title" Width="60" Height="20" Margin="5"/>
+            <TextBox Width="200" Height="20" Margin="5"/>
+        </WrapPanel>
+    </Grid>-->
+    <!--<DockPanel LastChildFill="False">
+        <Button Content="버튼 1" DockPanel.Dock="Left"/>
+        <Button Content="버튼 2" DockPanel.Dock="Top"/>
+        <Button Content="버튼 3" DockPanel.Dock="Right"/>
+        <Button Content="버튼 4" DockPanel.Dock="Bottom"/>
+        <Button Content="버튼 5" DockPanel.Dock="Left"/>
+        <Button Content="버튼 6" DockPanel.Dock="Right"/>
+        <Button Content="버튼 7" DockPanel.Dock="Top"/>
+    </DockPanel>-->
+    <!--<Grid Background="#ff00ff00">
+        <Canvas Width="580" Height="360">
+            <Ellipse Canvas.Left="30" Canvas.Top="30"
+                     Fill="Gray" Width="200" Height="120"/>
+            <Ellipse Canvas.Left="30" Canvas.Bottom="30"
+                     Fill="Gainsboro" Width="100" Height="100"/>
+            <Rectangle Fill="LightBlue"
+                       Canvas.Left="300"
+                       Canvas.Top="237"
+                       Width="50" Height="50" />
+            <Line X1="5" Y1="5" X2="195" Y2="95"
+                  Stroke="black"/>
+            <Ellipse Height="100" Width="100" Stroke="Blue" 
+                     StrokeThickness="2" Canvas.Left="140"
+                     Canvas.Top="5"/>
+            <Label Canvas.Left="80" Canvas.Top="5" Content="호랑이"/>
+
+            <Rectangle Canvas.Left="100" Canvas.Top="110"
+                       Height="200" Width="200"
+                       Stroke="Black" StrokeThickness="10"
+                       Fill="Green" />
+        </Canvas>
+    </Grid>-->
+    <!--<Grid x:Name="FormLayoutGrid" Background="Green">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name"
+                   Margin="10" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Width="100" />
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="10"/>
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="ID"
+                   Margin="10" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Width="100" />
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="10"/>
+        
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Age"
+                   Margin="10" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Width="100" />
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="10"/>
+    </Grid>-->
+    <!--<Grid Background="AntiqueWhite">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Employee Info"
+            FontSize="15" FontWeight="Bold"
+            Grid.Column="0" Grid.Row="0"/>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+            <Label Content="Name" VerticalAlignment="Center" Width="70"/>
+            <TextBox Name="txtName" Text="Muhammad Ali"
+                VerticalAlignment="Center" Width="200"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+            <Label Content="ID" VerticalAlignment="Center" Width="70"/>
+            <TextBox Name="txtCity" Text="421"
+                     VerticalAlignment="Center" Width="50"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
+            <Label Content="Age" VerticalAlignment="Center" Width="70"/>
+            <TextBox Name="txtState" Text="32"
+                     VerticalAlignment="Center" Width="50"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Horizontal">
+            <Label Content="Title" VerticalAlignment="Center" Width="70"/>
+            <TextBox Name="txtCountry" Text="Programmer"
+                VerticalAlignment="Center" Width="200"></TextBox>
+        </StackPanel>
+    </Grid>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBox
+            x:Name="nameText" Width="100"
+            Grid.Row="0" Grid.Column="0"
+            Text="{Binding Name, Mode=OneWay}"/>
+        <Button Grid.Row="1" Grid.Column="0"
+                Click="Button_Click1" Content="클릭1" />
+        <Button Grid.Row="2" Grid.Column="0"
+                Click="Button_Click2" Content="클릭2" />
+    </Grid>
+</Window>
