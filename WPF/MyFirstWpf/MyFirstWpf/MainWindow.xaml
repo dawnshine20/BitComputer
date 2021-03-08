@@ -101,7 +101,9 @@
             Text="{Binding Age,Mode=TwoWay}"/>
 
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-            --><!--ColumnSpan : 글자병합--><!--
+            -->
+    <!--ColumnSpan : 글자병합-->
+    <!--
             <Button Content="클릭" Click="f1"/>
         </StackPanel>    
         
@@ -237,7 +239,7 @@
                 VerticalAlignment="Center" Width="200"></TextBox>
         </StackPanel>
     </Grid>-->
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -254,5 +256,62 @@
                 Click="Button_Click1" Content="클릭1" />
         <Button Grid.Row="2" Grid.Column="0"
                 Click="Button_Click2" Content="클릭2" />
+    </Grid>-->
+    
+    <!--마우스관련 이벤트-->
+    <!--<StackPanel>
+        <Rectangle 
+            x:Name="rect01"
+            Fill = "Green" 
+            Height=" 100" Stroke="Black"
+            MouseEnter="OnMouseEnter"
+            MouseLeave="OnMouseLeave"
+            MouseMove="OnMouseMove"
+            MouseDown="OnMouseDown"
+            Margin="40">
+        </Rectangle>
+        <TextBlock x:Name="textBlock" TextWrapping="Wrap" Height="40" Text="1"/>
+        <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Height="40" Text="2"/>
+        <TextBlock x:Name="textBlock2" TextWrapping="Wrap" Height="40" Text="3"/>
+    </StackPanel>-->
+    <!--키보드 관련 이벤트-->
+    <!--<Grid>
+        <StackPanel 
+            Orientation="Horizontal"
+            KeyDown="OnTextInputKeyDown">
+            
+            <TextBox Width="400" Height="30" 
+                     Margin="10"/>
+            <Button Click="OnTextInputButtonClick" 
+                    Content="Open" Margin="10" 
+                    Width="50" Height="30"/>
+        </StackPanel>
+    </Grid>-->
+    <Grid>
+        <StackPanel x:Name="stack" Background="Transparent">
+            <!--<StackPanel.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="New" Command="New" />
+                    <MenuItem Header="Open" Command="Open" />
+                    <MenuItem Header="Save" Command="Save" />
+                </ContextMenu>
+            </StackPanel.ContextMenu>-->
+            <Menu x:Name="menu" >
+                <MenuItem Header="MenuItem1">
+                    <MenuItem Header="MenuItem1"/>
+                    <Separator/>
+                    <MenuItem Header="MenuItem2"/>
+                    <MenuItem Header="MenuItem3"/>
+                </MenuItem>
+
+                <MenuItem Header="MenuItem2">
+                    <MenuItem Header="MenuItem4"/>
+                    <MenuItem Header="MenuItem5"/>
+                    <MenuItem Header="MenuItem6"/>
+                </MenuItem>
+            </Menu>
+            
+        </StackPanel>
     </Grid>
 </Window>
+ 
