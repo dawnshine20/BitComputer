@@ -24,7 +24,7 @@ namespace MyFirstWpf
     //{
     //    //private string nameValue;
     //    //public string Name 
-    //    //{ 
+    //    //{
     //    //    get { return nameValue; }
     //    //    set { nameValue = value; }
     //    //}
@@ -108,7 +108,6 @@ namespace MyFirstWpf
     //    #region 버튼 이벤트 예제
     //    //private void f1(object sender, RoutedEventArgs e)
     //    //{
-    //    //    
     //    //    Button btn = sender as Button;
     //    //    this.Title = btn.Content.ToString();
     //    //
@@ -189,43 +188,164 @@ namespace MyFirstWpf
     //    }
     //}
     #endregion
-    class Person : INotifyPropertyChanged
-    {
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; OnPropertyChanged("Name"); }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+    #region BackUp2
+    // 관리자가 추가, 수정, 삭제 될때마다 변동된 데이터를 바로 전체 프로그램에 반영 시키고 싶을 경우
+    //class Person : INotifyPropertyChanged
+    //{
+    //    private string name;
+    //    public string Name
+    //    {
+    //        get { return name; }
+    //        set
+    //        {
+    //            name = value;
+    //            OnPropertyChanged("Name");
+    //        }
+    //    }
+    //
+    //    private int age;
+    //    public int Age
+    //    {
+    //        get { return age; }
+    //        set
+    //        {
+    //            age = value;
+    //            OnPropertyChanged("Age");
+    //        }
+    //    }
+    //
+    //    public event PropertyChangedEventHandler PropertyChanged; // 이벤트(델리게이트(함수) 등록)
+    //    // OnPropertyChanged에서 특정 이벤트란 프로퍼티가 갖는 데이터에 변화가 생길 때를 뜻함
+    //    protected virtual void OnPropertyChanged(string propertyName)
+    //    {
+    //        // 연결된 에디터 박스에 값 변경 실행
+    //        // Invoke : 스레드로부터 안전한 방식으로 Windows Forms 컨트롤을 호출
+    //        // 다른 스레드에서 이 윈도우에 접근하려 할 경우 에러가 생기는데 그것을 막아주는 역할을 시도한다.
+    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //        // ?. <-- null이 반환될 경우 실행되지 않음
+    //        // 바인딩 된 데이터가 반환된 경우 바인딩 된 에디터 박스에 프로퍼티 데이터로 갱신화 진행
+    //    }
+    //}
+    //public partial class MainWindow : Window
+    //{
+    //    Person person = new Person { Name = "고양이", Age = 20 };
+    //
+    //    public MainWindow()
+    //    {
+    //        InitializeComponent();
+    //        this.DataContext = person; // 에디터 박스와 클래스 데이터를 연결(바인딩)
+    //    }
+    //
+    //    private void Button_Click1(object sender, RoutedEventArgs e)
+    //    {
+    //        MessageBox.Show(person.Name + " " + person.Age);
+    //    }
+    //    //                      view   객체(person)
+    //    // TwoWay                   <-->
+    //    // OneWay                   <--
+    //    // OneWayTwoSource           -->
+    //
+    //    // TwoWay 사용할 경우 view 데이터 변경시 바로 객체에 적용된다.
+    //    // OneWay 사용할 경우 객체 내부 데이터를 직접적으로 변경해 주어야 적용된다.
+    //
+    //    private void Button_Click2(object sender, RoutedEventArgs e)
+    //    {
+    //        person.Name = "독수리";
+    //        person.Age = 999;
+    //    }
+    //}
+    #endregion
+    #region BackUp3(mouse,keboard)
+    //public partial class MainWindow : Window
+    //{
+    //    public MainWindow()
+    //    {
+    //        InitializeComponent();
+    //    }
+    //
+    //    private void OnMouseEnter(object sender, MouseEventArgs e)
+    //    {
+    //        Rectangle rect = e.Source as Rectangle;
+    //        if(rect != null)
+    //        {
+    //            rect.Fill = Brushes.Blue;
+    //        }
+    //        textBlock.Text = "MouseEnter";
+    //    }
+    //
+    //    private void OnMouseLeave(object sender, MouseEventArgs e)
+    //    {
+    //        Rectangle rect = e.Source as Rectangle;
+    //        if (rect != null)
+    //        {
+    //            rect.Fill = Brushes.Green;
+    //        }
+    //        textBlock.Text = "MouseLeave";
+    //        textBlock1.Text = "";
+    //    }
+    //
+    //    private void OnMouseMove(object sender, MouseEventArgs e)
+    //    {
+    //        Point pt = e.GetPosition(rect01);
+    //        textBlock1.Text = "Mouse Move : " + pt.ToString();
+    //    }
+    //
+    //    private void OnMouseDown(object sender, MouseButtonEventArgs e)
+    //    {
+    //        Rectangle rect = e.Source as Rectangle;
+    //        Point pt = e.GetPosition(rect01);
+    //        textBlock2.Text = "Mouse Down : " + pt.ToString();
+    //        if (rect != null)
+    //        {
+    //            rect.Fill = Brushes.Red;
+    //        }
+    //    }
+    //}
+    //---------------------------------------------------------------
+    //public partial class MainWindow : Window
+    //{
+    //    public MainWindow()
+    //    {
+    //        InitializeComponent();
+    //    }
+    //    
+    //    private void OnTextInputKeyDown(object sender, KeyEventArgs e)
+    //    {
+    //        if (e.Key == Key.A)
+    //        {
+    //            MessageBox.Show("KeyDown");
+    //        }
+    //    }
+    //
+    //    private void OnTextInputButtonClick(object sender, RoutedEventArgs e)
+    //    {
+    //        MessageBox.Show("TextInputButtonClick");
+    //    }
+    //}
+    #endregion
     public partial class MainWindow : Window
     {
-        Person person = new Person { Name = "호랑이" };
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = person;
+            CommandBindings.Add(new CommandBinding(
+                ApplicationCommands.New, NewExecuted, null));
+            CommandBindings.Add(new CommandBinding(
+                ApplicationCommands.New, OpenExecuted, null));
         }
-        private void Button_Click1(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(person.Name);
-        }
-        //                      view   객체(person)
-        // TwoWay                   <-->
-        // OneWay                   <--
-        // OneWayTwoSource           -->
-        
-        // TwoWay 사용할 경우 view 데이터 변경시 바로 객체에 적용된다.
-        // OneWay 사용할 경우 객체 내부 데이터를 직접적으로 변경해 주어야 적용된다.
 
-        private void Button_Click2(object sender, RoutedEventArgs e)
+        private void NewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            person.Name = "독수리";
+            MessageBox.Show("NewExecuted");
+        }
+        private void OpenExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("OpenExecuted");
+        }
+        private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("SaveExecuted");
         }
     }
+
 }
