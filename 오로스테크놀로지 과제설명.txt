@@ -1,0 +1,25 @@
+1. Layer Master - calculate module
+  1차 과제에서 확장됩니다.
+  추가되는 조건은 CPU 혹은 GPU 점유율 제한입니다.
+  Calculate module 은 상황에 따라서 main PC나 calculate PC에서 동작합니다.
+  main PC에서 동작할 때는 GUI에 영향을 주지 않도록 CPU/GPU 점유율을 낮게
+  calculate PC에서 동작한다면 최대 성능으로 동작해야 합니다.
+   결과를 나타내기 위한 UI는 중요하지 않습니다.
+2. PR
+  Load한 image에서 일정 영역을 teach를 한 후 FOV center(3D)에서
+  벗어난 픽셀 수를 보여주면 됩니다.
+  2가지 방법으로 진행합니다.
+  공통: image는 흑백변환 후 사용합니다.
+  PR 방법은 line matching, geometric 등 어떤 방법을 사용해도 무방합니다.
+  2-1. MIL lite를 사용하여 구현합니다. (되도록 많은 filter를 적용)
+  2-2. 2-1에서 구현한 방법으로 library없이 구현합니다.
+  2-3. 2-1과 2-2의 속도와 정확도 비교합니다.
+  중간 점검 때 2-1 완료와 2-2의 진행 여부를 확인하고
+  2-2의 진행이 미비하다면 open source library를 사용하도록 합니다.
+3. Layer Master UI
+  강 박사님께서 작성한 Layer Master UI 초안으로 UI를 제작합니다.
+  3-1. Random dummy data를 기반으로 2D/3D/real time graph를 나타냅니다.
+  3-2. Dummy data는 DB에서 가져오며, DB는 local 또는 타 PC의 DB 입니다.
+  3-3. 1번 과제인 "Layer Master - calculate module" 진행 결과에 따라서 1번 과제의 결과를 graph로 보여줍니다.
+  프로젝트 결과물을 입사 후에도 사용할 예정이기 때문에
+  설계와 class 구조를 확인할 예정입니다.
